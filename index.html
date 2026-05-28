@@ -3510,7 +3510,7 @@ if(diaryBtn){
 
   function triggerJumpscare(){
     jump.classList.remove('show');
-    void jump.offsetWidth;
+    void jump.offsetWidth; // Reflow tetikleyici
     jump.classList.add('show');
     if(jumpAudio){
       jumpAudio.pause();
@@ -3520,10 +3520,11 @@ if(diaryBtn){
     setTimeout(()=>jump.classList.remove('show'), 1000);
   }
 
+  // Kontrol süresi 1000ms'den 500ms'e (yarım saniyeye) düşürüldü
   setInterval(()=>{
-    const number = Math.floor(Math.random() * 500) + 1;
+    const number = Math.floor(Math.random() * 500) + 1; // 1-500 arası RNG havuzu
     if(number === 1) triggerJumpscare();
-  }, 1000);
+  }, 500); 
 })();
 </script>
 <script>
