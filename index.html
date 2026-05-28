@@ -1612,30 +1612,6 @@ body::before {
 #radio-player.minimized #radio-body { display: none; }
 #radio-player.minimized { border-radius: 50px; }
 
-  position:fixed;
-  left:18px;
-  bottom:20px;
-  background:var(--paper);
-  border:1px solid var(--line);
-  padding:10px 14px;
-  border-radius:16px;
-  z-index:5000;
-  box-shadow:0 4px 18px var(--shadow);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:.8em;
-}
-
-#cassette-btn{
-  border:none;
-  background:var(--red);
-  color:white;
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  cursor:pointer;
-}
 
 
 /* ===== KANKA EKLEMELERI: LOGO / KASET / SES / JUMPSCARE ===== */
@@ -1912,6 +1888,508 @@ body::after{
   52%{transform:translate3d(-32px,54vh,0) rotate(-110deg) scale(1.06);}
   100%{transform:translate3d(26px,118vh,0) rotate(-240deg) scale(.95);opacity:0;}
 }
+
+/* ===== MÜREKKEp LEKESİ EFEKTİ ===== */
+.ink-splash {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9500;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(26,20,16,.55) 0%, rgba(26,20,16,.18) 40%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: inkSpread .65s cubic-bezier(.2,.8,.2,1) forwards;
+  filter: blur(.5px);
+}
+[data-theme="dark"] .ink-splash {
+  background: radial-gradient(circle, rgba(232,224,208,.45) 0%, rgba(232,224,208,.14) 40%, transparent 70%);
+}
+@keyframes inkSpread {
+  0%   { transform: translate(-50%,-50%) scale(0);   opacity: .9; }
+  60%  { transform: translate(-50%,-50%) scale(1);   opacity: .55; }
+  100% { transform: translate(-50%,-50%) scale(1.3); opacity: 0; }
+}
+
+/* ===== SAYFA ÇEVİRME GEÇİŞ EFEKTİ ===== */
+.page-turn-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 7999;
+  pointer-events: none;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: linear-gradient(
+    90deg,
+    var(--cream) 0%,
+    var(--paper) 45%,
+    rgba(201,168,76,.12) 50%,
+    var(--paper) 55%,
+    var(--cream) 100%
+  );
+  box-shadow: inset -8px 0 24px rgba(0,0,0,.08), inset 8px 0 24px rgba(0,0,0,.06);
+  opacity: 0;
+}
+.page-turn-overlay.turning {
+  animation: pageTurn .55s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes pageTurn {
+  0%   { transform: scaleX(0); opacity: .9; transform-origin: left center; }
+  45%  { transform: scaleX(1); opacity: 1; }
+  55%  { transform: scaleX(1); opacity: 1; transform-origin: right center; }
+  100% { transform: scaleX(0); opacity: 0; transform-origin: right center; }
+}
+
+/* ===== POYRAZ FOTOĞRAF EASTER EGG ===== */
+#poyraz-photo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9800;
+  background: rgba(10,6,4,.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .45s ease;
+  backdrop-filter: blur(4px);
+}
+#poyraz-photo-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+#poyraz-photo-overlay img {
+  max-width: min(82vw, 520px);
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(201,168,76,.28), 0 30px 80px rgba(0,0,0,.7);
+  animation: poyrazReveal .55s cubic-bezier(.2,.8,.2,1) forwards;
+  filter: sepia(.22) contrast(1.08);
+}
+@keyframes poyrazReveal {
+  from { transform: scale(.88) rotate(-1.5deg); opacity: 0; filter: blur(6px) sepia(.22); }
+  to   { transform: scale(1)   rotate(0deg);    opacity: 1; filter: blur(0)   sepia(.22) contrast(1.08); }
+}
+#poyraz-photo-overlay .photo-caption {
+  position: absolute;
+  bottom: 12vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: .88em;
+  color: rgba(245,240,232,.72);
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.5);
+  white-space: nowrap;
+  animation: fadeDown .7s ease forwards .3s;
+  opacity: 0;
+}
+.poyraz-name.easter-hint {
+  color: var(--red) !important;
+  text-shadow: 0 0 8px rgba(139,38,53,.4);
+  transition: color .2s, text-shadow .2s;
+}
+
+/* ===== CURSOR İZİ ===== */
+.cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9600;
+  font-size: 14px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+  animation: cursorFade 0.9s ease-out forwards;
+  user-select: none;
+}
+@keyframes cursorFade {
+  0%   { opacity: .9; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0;  transform: translate(-50%,-60%) scale(0.3); }
+}
+
+/* ===== POYRAZ'I YAKALA OYUNU ===== */
+#catch-game {
+  position: fixed;
+  inset: 0;
+  z-index: 11500;
+  background: rgba(8,4,2,.96);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 40px;
+}
+#catch-game.show { display: flex; }
+#catch-arena {
+  position: relative;
+  width: min(92vw, 600px);
+  height: 55vh;
+  border: 1px solid rgba(201,168,76,.2);
+  border-radius: 16px;
+  background: rgba(255,255,255,.02);
+  overflow: hidden;
+  margin-top: 16px;
+}
+.catch-target {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--red-soft);
+  cursor: pointer;
+  font-size: 1.05em;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(139,38,53,.15);
+  border: 1px solid rgba(139,38,53,.35);
+  transition: transform .08s;
+  user-select: none;
+  animation: targetAppear .2s ease forwards;
+}
+.catch-target:hover { transform: scale(1.1); }
+@keyframes targetAppear {
+  from { transform: scale(0) rotate(-8deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg);  opacity: 1; }
+}
+.catch-target.miss {
+  animation: targetMiss .3s ease forwards;
+  pointer-events: none;
+}
+@keyframes targetMiss {
+  to { transform: scale(1.4); opacity: 0; }
+}
+#catch-hud {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+#catch-score-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1em;
+  color: #f0c85a;
+  letter-spacing: 2px;
+}
+#catch-timer-display {
+  font-family: 'Lora', serif;
+  font-size: .9em;
+  color: rgba(246,234,216,.6);
+  letter-spacing: 1px;
+}
+#catch-lives { font-size: 1.1em; letter-spacing: 4px; }
+#catch-result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+#catch-result.show { display: flex; }
+#catch-result-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25em;
+  color: #f0c85a;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.game-close-btn {
+  background: none;
+  border: 1px solid rgba(201,168,76,.3);
+  border-radius: 20px;
+  padding: 8px 24px;
+  color: rgba(246,234,216,.6);
+  cursor: pointer;
+  font-family: 'Lora', serif;
+  font-size: .8em;
+  transition: .2s;
+}
+.game-close-btn:hover { color: #fff; border-color: var(--red-soft); }
+.game-title {
+  font-family: 'Playfair Display', serif;
+  color: #f0c85a;
+  font-size: 1.1em;
+  letter-spacing: 2px;
+}
+
+/* ===== KALP KIRMA OYUNU ===== */
+#heart-game {
+  position: fixed;
+  inset: 0;
+  z-index: 11500;
+  background: radial-gradient(circle at 50% 40%, #1a0508, #08020a);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 36px;
+  overflow: hidden;
+}
+#heart-game.show { display: flex; }
+#heart-arena {
+  position: relative;
+  width: min(92vw, 500px);
+  height: 52vh;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.falling-heart {
+  position: absolute;
+  top: -60px;
+  font-size: 2em;
+  cursor: pointer;
+  animation: heartFall linear forwards;
+  user-select: none;
+  filter: drop-shadow(0 0 6px rgba(192,80,106,.5));
+  transition: transform .08s;
+}
+.falling-heart:hover { transform: scale(1.2); }
+.falling-heart.broken { content: '💔'; filter: drop-shadow(0 0 10px rgba(255,0,0,.6)); }
+@keyframes heartFall {
+  from { transform: translateY(0) rotate(-8deg); opacity: 1; }
+  to   { transform: translateY(65vh) rotate(8deg); opacity: .3; }
+}
+.heart-caught-fx {
+  position: absolute;
+  font-size: 1.4em;
+  pointer-events: none;
+  animation: heartCaughtFx .5s ease forwards;
+}
+@keyframes heartCaughtFx {
+  from { transform: scale(1.4); opacity: 1; }
+  to   { transform: scale(2.2) translateY(-30px); opacity: 0; }
+}
+#heart-hud {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+#heart-lives-display { font-size: 1.3em; letter-spacing: 3px; }
+#heart-score-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1em;
+  color: #c0506a;
+  letter-spacing: 2px;
+}
+#heart-result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  text-align: center;
+}
+#heart-result.show { display: flex; }
+#heart-result-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2em;
+  color: #c0506a;
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+/* ===== SAHTE BİLDİRİM ===== */
+#fake-notif {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120px);
+  z-index: 12000;
+  background: #1c1c1e;
+  border-radius: 16px;
+  padding: 12px 18px;
+  width: min(88vw, 340px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  cursor: pointer;
+}
+#fake-notif.show {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+}
+.notif-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #8b2635, #c0506a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+.notif-body { flex: 1; min-width: 0; }
+.notif-sender {
+  font-size: .72em;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 2px;
+  letter-spacing: .5px;
+}
+.notif-msg {
+  font-size: .85em;
+  color: rgba(255,255,255,.9);
+  font-family: 'Lora', serif;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notif-time {
+  font-size: .65em;
+  color: rgba(255,255,255,.3);
+  flex-shrink: 0;
+}
+#notif-expand {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-220px);
+  z-index: 11999;
+  background: #1c1c1e;
+  border-radius: 20px;
+  padding: 20px 22px;
+  width: min(88vw, 340px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.7);
+  transition: transform .4s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+}
+#notif-expand.show {
+  transform: translateX(-50%) translateY(80px);
+  pointer-events: all;
+}
+.notif-expand-sender {
+  font-size: .78em;
+  color: #c0506a;
+  font-weight: bold;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.notif-expand-text {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: rgba(255,255,255,.85);
+  font-size: .9em;
+  line-height: 1.7;
+}
+.notif-expand-close {
+  margin-top: 14px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.3);
+  font-size: .72em;
+  cursor: pointer;
+  font-family: 'Lora', serif;
+  transition: color .2s;
+}
+.notif-expand-close:hover { color: var(--red-soft); }
+
+/* ===== KALP BUTONU + 🍆 YAĞMURU ===== */
+#heart-corner-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 82px;
+  z-index: 4999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  font-size: 1.55em;
+  cursor: pointer;
+  opacity: .45;
+  transition: opacity .2s, transform .2s;
+  filter: drop-shadow(0 2px 8px rgba(139,38,53,.3));
+  user-select: none;
+}
+#heart-corner-btn:hover { opacity: 1; transform: scale(1.18); }
+#heart-corner-btn.combo { animation: heartCombo .25s ease; }
+@keyframes heartCombo {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.5) rotate(-8deg); }
+  100% { transform: scale(1); }
+}
+
+/* 🍆 yağmur parçacıkları */
+.aubergine-drop {
+  position: fixed;
+  top: -80px;
+  z-index: 13000;
+  font-size: clamp(28px, 4vw, 52px);
+  pointer-events: none;
+  animation: aubergineFall linear forwards;
+  user-select: none;
+}
+@keyframes aubergineFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(115vh) rotate(360deg); opacity: 0; }
+}
+@keyframes aubergineFallLeft {
+  0%   { transform: translateY(0) rotate(0deg) scaleX(-1); opacity: 1; }
+  30%  { transform: translateY(35vh) translateX(-60px) rotate(-180deg) scaleX(-1); }
+  70%  { transform: translateY(75vh) translateX(-110px) rotate(-300deg) scaleX(-1); }
+  85%  { opacity: 1; }
+  100% { transform: translateY(115vh) translateX(-140px) rotate(-420deg) scaleX(-1); opacity: 0; }
+}
+@keyframes aubergineFallRight {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  30%  { transform: translateY(32vh) translateX(55px) rotate(200deg); }
+  70%  { transform: translateY(72vh) translateX(100px) rotate(340deg); }
+  85%  { opacity: 1; }
+  100% { transform: translateY(115vh) translateX(130px) rotate(480deg); opacity: 0; }
+}
+@keyframes aubergineSpin {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  25%  { transform: translateY(28vh) rotate(540deg) scale(1.3); }
+  50%  { transform: translateY(55vh) rotate(900deg) scale(0.8); }
+  85%  { opacity: 1; }
+  100% { transform: translateY(115vh) rotate(1440deg) scale(1.1); opacity: 0; }
+}
+@keyframes aubergineWobble {
+  0%   { transform: translateY(0) rotate(-15deg) translateX(0); opacity: 1; }
+  20%  { transform: translateY(22vh) rotate(15deg) translateX(40px); }
+  40%  { transform: translateY(44vh) rotate(-20deg) translateX(-30px); }
+  60%  { transform: translateY(66vh) rotate(25deg) translateX(50px); }
+  85%  { opacity: 1; }
+  100% { transform: translateY(115vh) rotate(-10deg) translateX(-20px); opacity: 0; }
+}
+
+/* Poyraz mesajı — combo toast */
+#aubergine-msg {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  z-index: 13500;
+  background: #1c1c1e;
+  border-radius: 16px;
+  padding: 14px 18px;
+  width: min(80vw, 300px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.6);
+  transform: translateY(30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease;
+}
+#aubergine-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#aubergine-msg .am-sender {
+  font-size: .7em;
+  color: #c0506a;
+  font-weight: bold;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+#aubergine-msg .am-text {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: rgba(255,255,255,.85);
+  font-size: .88em;
+  line-height: 1.65;
+  white-space: pre-line;
+}
 </style>
 </head>
 <body>
@@ -2000,6 +2478,77 @@ body::after{
   <source src="typewriter.mp3" type="audio/mpeg">
 </audio>
 
+
+<!-- Mürekkep lekesi ve sayfa çevirme overlay -->
+<div class="page-turn-overlay" id="page-turn-overlay"></div>
+
+<!-- Poyraz Fotoğraf Easter Egg -->
+<div id="poyraz-photo-overlay">
+  <img src="poyraz.png" alt="Poyraz" id="poyraz-photo-img">
+  <div class="photo-caption">... poyraz.</div>
+  <div id="poyraz-game-menu" style="position:absolute;bottom:9vh;left:50%;transform:translateX(-50%);display:flex;gap:14px;z-index:2;">
+    <button id="pm-catch" style="background:rgba(139,38,53,.72);border:1px solid rgba(201,168,76,.4);border-radius:14px;padding:12px 20px;color:#f6ead8;cursor:pointer;font-family:'Lora',serif;font-size:.82em;display:flex;flex-direction:column;align-items:center;gap:6px;transition:.2s;">
+      <span style="font-size:1.5em;">🎯</span>Poyraz'ı Yakala
+    </button>
+    <button id="pm-heart" style="background:rgba(139,38,53,.72);border:1px solid rgba(201,168,76,.4);border-radius:14px;padding:12px 20px;color:#f6ead8;cursor:pointer;font-family:'Lora',serif;font-size:.82em;display:flex;flex-direction:column;align-items:center;gap:6px;transition:.2s;">
+      <span style="font-size:1.5em;">💔</span>Kalp Kırma
+    </button>
+  </div>
+</div>
+
+<!-- ===== POYRAZ'I YAKALA ===== -->
+<div id="catch-game">
+  <div class="game-title">🎯 POYRAZ'I YAKALA</div>
+  <div id="catch-hud">
+    <div id="catch-score-display">0 puan</div>
+    <div id="catch-timer-display">30s</div>
+    <div id="catch-lives">❤️❤️❤️</div>
+  </div>
+  <div id="catch-arena"></div>
+  <div id="catch-result">
+    <div id="catch-result-text"></div>
+    <button class="game-close-btn" id="catch-restart">Tekrar Oyna</button>
+    <button class="game-close-btn" id="catch-close">Kapat</button>
+  </div>
+</div>
+
+<!-- ===== KALP KIRMA ===== -->
+<div id="heart-game">
+  <div class="game-title">💔 KALP KIRMA</div>
+  <div id="heart-hud">
+    <div id="heart-lives-display">❤️❤️❤️</div>
+    <div id="heart-score-display">0</div>
+  </div>
+  <div id="heart-arena"></div>
+  <div id="heart-result">
+    <div id="heart-result-text"></div>
+    <button class="game-close-btn" id="heart-restart">Tekrar</button>
+    <button class="game-close-btn" id="heart-close">Kapat</button>
+  </div>
+</div>
+
+<!-- ===== SAHTE BİLDİRİM ===== -->
+<div id="fake-notif">
+  <div class="notif-icon">💬</div>
+  <div class="notif-body">
+    <div class="notif-sender">Poyraz Artun • Mesajlar</div>
+    <div class="notif-msg" id="notif-short-msg">...</div>
+  </div>
+  <div class="notif-time">şimdi</div>
+</div>
+<div id="notif-expand">
+  <div class="notif-expand-sender">💬 Poyraz Artun</div>
+  <div class="notif-expand-text" id="notif-full-msg"></div>
+  <button class="notif-expand-close" id="notif-close-btn">kapat</button>
+</div>
+
+
+<!-- ===== KALP BUTONU ===== -->
+<button id="heart-corner-btn" title="">❤️</button>
+<div id="aubergine-msg">
+  <div class="am-sender">💬 Poyraz Artun</div>
+  <div class="am-text" id="aubergine-msg-text"></div>
+</div>
 <div id="haziran-overlay"></div>
 <div id="heartbreak-overlay"></div>
 <div id="fade-white"></div>
@@ -3522,7 +4071,7 @@ if(diaryBtn){
 
   // Kontrol süresi 1000ms'den 500ms'e (yarım saniyeye) düşürüldü
   setInterval(()=>{
-    const number = Math.floor(Math.random() * 250) + 1; // 1-250 arası RNG havuzu
+    const number = Math.floor(Math.random() * 500) + 1; // 1-500 arası RNG havuzu
     if(number === 1) triggerJumpscare();
   }, 500); 
 })();
@@ -3547,6 +4096,434 @@ if(diaryBtn){
     link.href = item.href;
   });
 })();
+
+// ===== MÜREKKEp LEKESİ =====
+document.addEventListener('click', (e) => {
+  // Butonlar, linkler, inputlar hariç
+  const skip = ['BUTTON','A','INPUT','TEXTAREA','SELECT'];
+  if (skip.includes(e.target.tagName)) return;
+  const splash = document.createElement('div');
+  splash.className = 'ink-splash';
+  const size = 60 + Math.random() * 80;
+  splash.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:${size}px;height:${size}px;`;
+  document.body.appendChild(splash);
+  setTimeout(() => splash.remove(), 700);
+});
+
+// ===== SAYFA ÇEVİRME (bölümler arası nav tıklamada) =====
+(()=>{
+  const overlay = document.getElementById('page-turn-overlay');
+  if (!overlay) return;
+  document.querySelectorAll('.month-nav a, .tl-dot').forEach(link => {
+    link.addEventListener('click', () => {
+      overlay.classList.remove('turning');
+      void overlay.offsetWidth;
+      overlay.classList.add('turning');
+      setTimeout(() => overlay.classList.remove('turning'), 560);
+    });
+  });
+})();
+
+// ===== POYRAZ 3X TIKLAMA EASTER EGG =====
+(()=>{
+  const overlay = document.getElementById('poyraz-photo-overlay');
+  if (!overlay) return;
+  let clickMap = {};
+
+  document.querySelectorAll('.poyraz-name').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = 'global'; // hepsi sayılsın
+      clickMap[id] = (clickMap[id] || 0) + 1;
+
+      // 1. tıklama — hafif titreşim
+      if (clickMap[id] === 1) {
+        el.style.animation = 'none';
+        el.offsetWidth;
+        el.style.animation = '';
+      }
+      // 2. tıklama — hint rengi
+      if (clickMap[id] === 2) {
+        document.querySelectorAll('.poyraz-name').forEach(n => n.classList.add('easter-hint'));
+        setTimeout(() => {
+          document.querySelectorAll('.poyraz-name').forEach(n => n.classList.remove('easter-hint'));
+        }, 800);
+      }
+      // 3. tıklama — fotoğraf göster
+      if (clickMap[id] >= 3) {
+        clickMap[id] = 0;
+        overlay.classList.add('show');
+      }
+    });
+  });
+
+  // Tıklayınca kapat
+  overlay.addEventListener('click', () => {
+    overlay.classList.remove('show');
+  });
+
+  // ESC ile kapat
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') overlay.classList.remove('show');
+  });
+})();
+
+
+// ===== OYUNLAR + CURSOR + BİLDİRİM =====
+(()=>{
+'use strict';
+
+// ── Poyraz 3x tık → oyun menüsü ──────────────────────────────
+// Artık poyraz-photo-overlay yerine oyun seçim menüsü açılıyor
+// Mevcut overlay'i oyun menüsüne dönüştür
+const photoOverlay = document.getElementById('poyraz-photo-overlay');
+if(photoOverlay){
+  // Overlay'e tıklanınca kapansın (boş alana)
+  photoOverlay.addEventListener('click', e=>{
+    if(e.target === photoOverlay) photoOverlay.classList.remove('show');
+  });
+}
+
+// Menü butonları
+document.getElementById('pm-catch').addEventListener('click', ()=>{
+  if(photoOverlay) photoOverlay.classList.remove('show');
+  catchGame.classList.add('show');
+  startCatch();
+});
+document.getElementById('pm-heart').addEventListener('click', ()=>{
+  if(photoOverlay) photoOverlay.classList.remove('show');
+  heartGame.classList.add('show');
+  startHeart();
+});
+
+// ── Cursor İzi — 1/250 şans ───────────────────────────────────
+const CURSOR_EMOJIS = ['💔','🌬️','✦','🥀','💧','🌸','•','❤️'];
+
+document.addEventListener('mousemove', e => {
+  if(Math.floor(Math.random() * 250) !== 0) return;
+  const el = document.createElement('span');
+  el.className = 'cursor-trail';
+  el.textContent = CURSOR_EMOJIS[Math.floor(Math.random()*CURSOR_EMOJIS.length)];
+  el.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 900);
+});
+
+// ── Sahte Bildirim — her 3 saniyede 1/250 şans ────────────────
+const NOTIF_MSGS = [
+  { short:'naber',         full:'naber\nbu gece buluşabilir miyiz\nbir şey var konuşmam lazım' },
+  { short:'haha',          full:'haha\nkendine iyi bak\nher neyse' },
+  { short:'gördüm',        full:'gördüm\nzaten hep böyle\nneyse tamam' },
+  { short:'...',           full:'...\n\n(görüldü)' },
+  { short:'yarın olmaz',   full:'yarın olmaz\nsonra bakarız\nbelki' },
+  { short:'iyi geceler',   full:'iyi geceler\numurumda değil deme\nbiliyorum' },
+  { short:'🌬️',           full:'🌬️\n\n(mesaj silindi)' },
+  { short:'unuttum zaten', full:'unuttum zaten\n\nkendine iyi bak şenol' },
+];
+const fakeNotif     = document.getElementById('fake-notif');
+const notifExpand   = document.getElementById('notif-expand');
+const notifShort    = document.getElementById('notif-short-msg');
+const notifFull     = document.getElementById('notif-full-msg');
+const notifCloseBtn = document.getElementById('notif-close-btn');
+let notifTimer = null;
+let notifVisible = false;
+
+function showNotif(){
+  if(notifVisible) return;
+  const msg = NOTIF_MSGS[Math.floor(Math.random()*NOTIF_MSGS.length)];
+  notifShort.textContent = msg.short;
+  notifFull.textContent  = msg.full;
+  notifVisible = true;
+  fakeNotif.classList.add('show');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(hideNotif, 5000);
+}
+function hideNotif(){
+  fakeNotif.classList.remove('show');
+  notifExpand.classList.remove('show');
+  notifVisible = false;
+}
+fakeNotif.addEventListener('click', ()=>{
+  clearTimeout(notifTimer);
+  fakeNotif.classList.remove('show');
+  notifExpand.classList.add('show');
+});
+notifCloseBtn.addEventListener('click', ()=>{
+  notifExpand.classList.remove('show');
+  notifVisible = false;
+});
+
+// Ayrı RNG döngüsü: her 3 saniyede bir 1/250 zar
+setInterval(()=>{
+  if(Math.floor(Math.random()*250) === 0) showNotif();
+}, 3000);
+
+// ── Poyraz'ı Yakala ───────────────────────────────────────────
+const catchGame    = document.getElementById('catch-game');
+const catchArena   = document.getElementById('catch-arena');
+const catchScore   = document.getElementById('catch-score-display');
+const catchTimer   = document.getElementById('catch-timer-display');
+const catchLives   = document.getElementById('catch-lives');
+const catchResult  = document.getElementById('catch-result');
+const catchResText = document.getElementById('catch-result-text');
+let catchState = { score:0, lives:3, time:30, interval:null, spawnInterval:null, running:false };
+
+function catchReset(){
+  Object.assign(catchState, { score:0, lives:3, time:30, running:false });
+  catchArena.innerHTML = '';
+  catchResult.classList.remove('show');
+  updateCatchHud();
+}
+function updateCatchHud(){
+  catchScore.textContent = catchState.score + ' puan';
+  catchTimer.textContent = catchState.time + 's';
+  catchLives.textContent = '❤️'.repeat(Math.max(0,catchState.lives));
+}
+function spawnTarget(){
+  if(!catchState.running) return;
+  const el = document.createElement('div');
+  el.className = 'catch-target';
+  el.textContent = 'Poyraz';
+  const aw = catchArena.offsetWidth - 110;
+  const ah = catchArena.offsetHeight - 44;
+  el.style.left = (10 + Math.random()*aw) + 'px';
+  el.style.top  = (10 + Math.random()*ah) + 'px';
+  catchArena.appendChild(el);
+  const missTimer = setTimeout(()=>{
+    if(!el.parentNode) return;
+    el.classList.add('miss');
+    catchState.lives = Math.max(0, catchState.lives-1);
+    updateCatchHud();
+    setTimeout(()=>el.remove(), 300);
+    if(catchState.lives === 0) endCatch();
+  }, 1400 + Math.random()*900);
+  el.addEventListener('click', ()=>{
+    clearTimeout(missTimer);
+    catchState.score += 10;
+    updateCatchHud();
+    const fx = document.createElement('div');
+    fx.style.cssText = `position:absolute;left:${el.offsetLeft}px;top:${el.offsetTop}px;font-size:1.1em;pointer-events:none;animation:targetMiss .35s ease forwards;color:#f0c85a;font-family:'Playfair Display',serif;font-style:italic;`;
+    fx.textContent = '+10';
+    catchArena.appendChild(fx);
+    setTimeout(()=>fx.remove(), 400);
+    el.remove();
+  });
+}
+function startCatch(){
+  catchReset();
+  catchState.running = true;
+  catchState.interval = setInterval(()=>{
+    catchState.time--;
+    updateCatchHud();
+    if(catchState.time <= 0) endCatch();
+  }, 1000);
+  catchState.spawnInterval = setInterval(spawnTarget, 750);
+  spawnTarget();
+}
+function endCatch(){
+  catchState.running = false;
+  clearInterval(catchState.interval);
+  clearInterval(catchState.spawnInterval);
+  catchArena.innerHTML = '';
+  const msgs = [
+    [0,  'Bir kez bile tutamadın... Poyraz gibi kayıp.'],
+    [30, 'Birkaçını yakaladın. Ama gideni tutamadın.'],
+    [80, 'Fena değil. Ama yetmez.'],
+    [150,'Ustaydın bugün. Keşke gerçekte de böyle olsaydı.'],
+  ];
+  const msg = [...msgs].reverse().find(([min])=>catchState.score>=min);
+  catchResText.textContent = `${catchState.score} puan — "${msg[1]}"`;
+  catchResult.classList.add('show');
+}
+document.getElementById('catch-restart').addEventListener('click', startCatch);
+document.getElementById('catch-close').addEventListener('click', ()=>{
+  catchGame.classList.remove('show');
+  clearInterval(catchState.interval);
+  clearInterval(catchState.spawnInterval);
+  catchState.running = false;
+});
+
+// ── Kalp Kırma ────────────────────────────────────────────────
+const heartGame    = document.getElementById('heart-game');
+const heartArena   = document.getElementById('heart-arena');
+const heartLives   = document.getElementById('heart-lives-display');
+const heartScore   = document.getElementById('heart-score-display');
+const heartResult  = document.getElementById('heart-result');
+const heartResText = document.getElementById('heart-result-text');
+let heartState = { score:0, lives:3, interval:null, running:false };
+
+function heartReset(){
+  Object.assign(heartState, { score:0, lives:3, running:false });
+  heartArena.innerHTML = '';
+  heartResult.classList.remove('show');
+  updateHeartHud();
+}
+function updateHeartHud(){
+  heartLives.textContent = '❤️'.repeat(Math.max(0,heartState.lives));
+  heartScore.textContent = heartState.score;
+}
+function spawnHeart(){
+  if(!heartState.running) return;
+  const el = document.createElement('div');
+  el.className = 'falling-heart';
+  const isBroken = Math.random() < 0.28;
+  el.textContent = isBroken ? '💔' : '❤️';
+  el.style.left = (5 + Math.random()*85) + '%';
+  const dur = 2200 + Math.random()*1800;
+  el.style.animationDuration = dur + 'ms';
+  heartArena.appendChild(el);
+  el.addEventListener('click', ()=>{
+    if(!heartState.running) return;
+    const fx = document.createElement('div');
+    fx.className = 'heart-caught-fx';
+    fx.style.cssText = `left:${el.style.left};top:${el.offsetTop}px;`;
+    if(isBroken){
+      el.remove(); fx.textContent = '💔'; heartArena.appendChild(fx);
+      setTimeout(()=>fx.remove(), 500);
+      heartState.lives--;
+      updateHeartHud();
+      heartGame.style.animation = 'none';
+      heartGame.offsetWidth;
+      heartGame.style.animation = 'siteReturnFix .4s ease both';
+      if(heartState.lives <= 0) endHeart(true);
+    } else {
+      el.remove(); heartState.score++; fx.textContent = '✨';
+      heartArena.appendChild(fx);
+      setTimeout(()=>fx.remove(), 500);
+      updateHeartHud();
+    }
+  });
+  setTimeout(()=>{ if(el.parentNode) el.remove(); }, dur + 100);
+}
+function startHeart(){
+  heartReset();
+  heartState.running = true;
+  heartState.interval = setInterval(()=>{
+    if(!heartState.running) return;
+    spawnHeart();
+    if(heartState.score > 0 && heartState.score % 5 === 0) spawnHeart();
+  }, 850);
+  spawnHeart(); spawnHeart();
+}
+function endHeart(broke){
+  heartState.running = false;
+  clearInterval(heartState.interval);
+  setTimeout(()=>heartArena.innerHTML='', 600);
+  const msgs = broke
+    ? ['Hepsi kırık çıktı. Tıpkı o gibi.','Kaçınılmazdı. Zaten hepsi kırıktı.','Dikkat etsen bile olmazdı.']
+    : ['Hiç tutamadın — bıraktın geçtiler.','Hepsi gitti. Elinden kaydı.','İzledin sadece.'];
+  heartResText.textContent = `${heartState.score} ❤️ — "${msgs[Math.floor(Math.random()*msgs.length)]}"`;
+  heartResult.classList.add('show');
+}
+document.getElementById('heart-restart').addEventListener('click', startHeart);
+document.getElementById('heart-close').addEventListener('click', ()=>{
+  heartGame.classList.remove('show');
+  clearInterval(heartState.interval);
+  heartState.running = false;
+});
+
+// ESC her şeyi kapatır
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Escape') return;
+  catchGame.classList.remove('show');
+  heartGame.classList.remove('show');
+  clearInterval(catchState.interval); clearInterval(catchState.spawnInterval); catchState.running=false;
+  clearInterval(heartState.interval); heartState.running=false;
+  if(photoOverlay) photoOverlay.classList.remove('show');
+});
+
+})();
+
+// ===== KALP BUTONU + 🍆 YAĞMURU =====
+(()=>{
+  const btn     = document.getElementById('heart-corner-btn');
+  const msgBox  = document.getElementById('aubergine-msg');
+  const msgText = document.getElementById('aubergine-msg-text');
+  if(!btn) return;
+
+  const POYRAZ_MSGS = [
+    'naber\nbu gece buluşabilir miyiz\nbir şey var konuşmam lazım',
+    'haha\nkendine iyi bak\nher neyse',
+    'gördüm\nzaten hep böyle\nneyse tamam',
+    '...\n\n(görüldü)',
+    'yarın olmaz\nsonra bakarız\nbelki',
+    'iyi geceler\numurumda değil deme\nbiliyorum',
+    '🌬️\n\n(mesaj silindi)',
+    'unuttum zaten\n\nkendine iyi bak şenol',
+  ];
+
+  let pressCount  = 0;
+  let comboTimer  = null;
+  let raining     = false;
+  let msgTimer    = null;
+
+  function spawnRain() {
+    if(raining) return;
+    raining = true;
+    const count = 1200;
+    const duration = 7000;
+    for(let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const el = document.createElement('span');
+        el.className = 'aubergine-drop';
+        el.textContent = '🍆';
+        const fallDur = 1600 + Math.random() * 2400;
+        // Boyut: çoğu normal, bazıları DEV
+        const sizePick = Math.random();
+        let fontSize;
+        if(sizePick > 0.92)      fontSize = (90  + Math.random() * 80)  + 'px'; // %8 DEV
+        else if(sizePick > 0.75) fontSize = (50  + Math.random() * 30)  + 'px'; // %17 büyük
+        else                     fontSize = (22  + Math.random() * 24)  + 'px'; // %75 normal
+        el.style.fontSize = fontSize;
+        el.style.left  = (Math.random() * 102) + 'vw';
+        // Rastgele animasyon tipi
+        const animPick = Math.random();
+        let animName;
+        if(animPick < 0.30)      animName = 'aubergineFall';
+        else if(animPick < 0.50) animName = 'aubergineFallLeft';
+        else if(animPick < 0.70) animName = 'aubergineFallRight';
+        else if(animPick < 0.85) animName = 'aubergineWobble';
+        else                     animName = 'aubergineSpin';
+        el.style.animationName     = animName;
+        el.style.animationDuration = fallDur + 'ms';
+        el.style.animationDelay    = '0ms';
+        el.style.animationFillMode = 'forwards';
+        el.style.animationTimingFunction = 'linear';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), fallDur + 100);
+      }, i * (duration / count));
+    }
+    setTimeout(() => { raining = false; }, duration + 800);
+  }
+
+  function showComboMsg() {
+    const msg = POYRAZ_MSGS[Math.floor(Math.random() * POYRAZ_MSGS.length)];
+    msgText.textContent = msg;
+    msgBox.classList.add('show');
+    clearTimeout(msgTimer);
+    msgTimer = setTimeout(() => msgBox.classList.remove('show'), 5000);
+  }
+
+  btn.addEventListener('click', () => {
+    pressCount++;
+    btn.classList.remove('combo');
+    void btn.offsetWidth;
+    btn.classList.add('combo');
+
+    // 3. basışta mesaj göster, sonra sıfırla
+    if(pressCount >= 3) {
+      showComboMsg();
+      pressCount = 0;
+      clearTimeout(comboTimer);
+    } else {
+      // 2 saniye içinde 3. basış gelmezse sayacı sıfırla
+      clearTimeout(comboTimer);
+      comboTimer = setTimeout(() => { pressCount = 0; }, 2000);
+    }
+
+    spawnRain();
+  });
+})();
+
 </script>
 </body>
 </html>
