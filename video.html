@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gizli Kayıt</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 15%, rgba(139,38,53,.28), transparent 32%),
+    radial-gradient(circle at 50% 92%, rgba(201,168,76,.12), transparent 28%),
+    #080605;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#f8ead9;
+  font-family:Georgia,serif;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background:repeating-linear-gradient(to bottom, rgba(255,255,255,.12) 0 1px, transparent 1px 4px);
+  animation:vhs 180ms steps(2) infinite;
+}
+.secret-wrap{
+  width:min(94vw,520px);
+  height:min(94vh,920px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:18px;
+}
+h1{
+  margin:0;
+  font-size:clamp(1.1rem,4vw,1.8rem);
+  letter-spacing:4px;
+  text-align:center;
+  color:#f6d7cb;
+  text-shadow:0 0 20px rgba(139,38,53,.55);
+}
+.video-frame{
+  width:min(88vw,430px);
+  aspect-ratio:9/16;
+  max-height:78vh;
+  border:1px solid rgba(201,168,76,.32);
+  border-radius:18px;
+  padding:10px;
+  background:linear-gradient(145deg, rgba(34,19,22,.95), rgba(8,6,5,.92));
+  box-shadow:0 24px 70px rgba(0,0,0,.58),0 0 38px rgba(139,38,53,.28),inset 0 0 0 1px rgba(255,255,255,.05);
+}
+video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+  background:#000;
+  border-radius:12px;
+}
+.back-link{
+  color:rgba(248,234,217,.7);
+  text-decoration:none;
+  font-size:.9rem;
+  font-style:italic;
+  transition:color .2s, transform .2s;
+}
+.back-link:hover{color:#fff;transform:translateY(-1px)}
+@keyframes vhs{to{transform:translateY(2px)}}
+@media(max-height:680px){
+  .secret-wrap{gap:10px;padding:10px}
+  .video-frame{max-height:72vh;width:min(80vw,360px)}
+}
+</style>
+</head>
+<body>
+  <main class="secret-wrap">
+    <h1>GİZLİ KAYIT AÇILDI</h1>
+    <div class="video-frame">
+      <video controls autoplay playsinline>
+        <source src="video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <a class="back-link" href="index.html">← günlüğe geri dön</a>
+  </main>
+</body>
+</html>

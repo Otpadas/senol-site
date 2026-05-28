@@ -1,0 +1,3551 @@
+﻿<!DOCTYPE html>
+<html lang="tr" data-theme="light" data-season="summer">
+<head>
+<link rel="icon" href="favicon.ico?v=12" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png?v=12">
+<link rel="shortcut icon" href="favicon.ico?v=12">
+<link rel="apple-touch-icon" href="logo.png?v=12">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Şenol Demiral'ın Günlüğü</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#f5f0e8;--paper:#faf7f2;--ink:#1a1410;--ink-faded:#5a4f45;
+  --red:#8b2635;--red-soft:#c0506a;--gold:#c9a84c;--line:#e0d8cc;
+  --shadow:rgba(50,30,20,.08);--nav-bg:rgba(245,240,232,.95);--break-bg:#fff9f7;
+}
+[data-theme="dark"]{
+  --cream:#1a1610;--paper:#221e18;--ink:#e8e0d0;--ink-faded:#9a9080;
+  --red:#c0506a;--red-soft:#d4758a;--gold:#d4a84c;--line:#3a3228;
+  --shadow:rgba(0,0,0,.3);--nav-bg:rgba(26,22,16,.95);--break-bg:#2a1a1a;
+}
+
+/* MEVSİMSEL GEÇİŞ RENKLERİ (Açık Tema İçin Dinamik Değişimler) */
+html[data-theme="light"][data-season="autumn"] {
+  --cream: #eddcc9; --paper: #f5eae0; --ink: #2b1f14; --red: #9e3d23;
+}
+html[data-theme="light"][data-season="winter"] {
+  --cream: #e3ebf0; --paper: #edf3f7; --ink: #1a2630; --red: #4a6fa5;
+}
+html[data-theme="light"][data-season="spring"] {
+  --cream: #edf2eb; --paper: #f4f7f2; --ink: #1b2e1a; --red: #a34863;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Lora',Georgia,serif;background:var(--cream);color:var(--ink);line-height:1.85;overflow-x:hidden;transition:background 1s ease,color 1s ease}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.025;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+background-size:200px}
+
+/* ===== COVER ===== */
+#cover{position:fixed;inset:0;z-index:8000;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;transition:opacity .8s ease,transform .8s ease;cursor:pointer}
+#cover.hidden{opacity:0;transform:scale(1.04);pointer-events:none}
+.cover-book{width:180px;height:240px;background:var(--red);border-radius:4px 12px 12px 4px;box-shadow:-6px 6px 0 #5a1520,0 20px 60px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;position:relative;transition:transform .3s}
+#cover:hover .cover-book{transform:rotate(-2deg) scale(1.04)}
+.cover-book::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:6px;background:rgba(0,0,0,.2);border-radius:0}
+.cover-title{font-family:'Playfair Display',serif;font-size:1em;color:rgba(255,255,255,.9);text-align:center;padding:0 20px;letter-spacing:2px;line-height:1.5}
+.cover-ornament{color:var(--gold);font-size:1.4em;letter-spacing:6px}
+.cover-hint{font-size:.8em;color:var(--ink-faded);font-style:italic;letter-spacing:1px;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+
+/* ===== GELISMIS KAPAK EKRANI ===== */
+#cover{
+  position:fixed;
+  inset:0;
+  z-index:8000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:24px;
+  cursor:pointer;
+  overflow:hidden;
+  background:#17120d;
+  transition:opacity .9s ease, transform .9s ease, filter .9s ease;
+}
+
+#cover::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 43%, rgba(201,168,76,.14), transparent 24%),
+    radial-gradient(circle at 50% 58%, rgba(139,38,53,.18), transparent 30%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.025) 0 1px, transparent 1px 42px),
+    linear-gradient(180deg, #0d0b08, #1d160f 50%, #0f0c09);
+}
+
+#cover::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle, transparent 34%, rgba(0,0,0,.58) 100%);
+}
+
+#cover.hidden{
+  opacity:0;
+  transform:scale(1.08);
+  filter:blur(8px) brightness(1.15);
+  pointer-events:none;
+}
+
+#cover.opening .cover-book{
+  animation:bookOpen .9s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.cover-backdrop{
+  position:absolute;
+  width:min(58vw,720px);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(201,168,76,.16), rgba(139,38,53,.08) 42%, transparent 70%);
+  filter:blur(8px);
+  animation:coverGlow 4s ease-in-out infinite alternate;
+}
+
+.cover-stage{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  transform:translateY(6px);
+}
+
+.cover-book{
+  width:220px;
+  height:292px;
+  border-radius:8px 18px 18px 8px;
+  background:
+    linear-gradient(90deg, rgba(70,11,24,.45) 0 10%, transparent 10% 100%),
+    linear-gradient(135deg, #a72f4f, #d45d7e 54%, #8b2635);
+  box-shadow:
+    -10px 10px 0 rgba(70,13,25,.85),
+    -18px 18px 34px rgba(0,0,0,.45),
+    inset 0 0 0 1px rgba(255,255,255,.12),
+    inset -18px 0 35px rgba(80,10,20,.24);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+  transform:perspective(800px) rotateY(-10deg) rotateZ(-1deg);
+  transform-origin:left center;
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+
+#cover:hover .cover-book{
+  transform:perspective(800px) rotateY(-17deg) rotateZ(-2deg) translateY(-8px) scale(1.04);
+  box-shadow:
+    -14px 14px 0 rgba(70,13,25,.85),
+    -26px 30px 48px rgba(0,0,0,.55),
+    0 0 38px rgba(201,168,76,.16),
+    inset 0 0 0 1px rgba(255,255,255,.14);
+}
+
+.cover-book::before{
+  content:'';
+  position:absolute;
+  inset:14px 12px;
+  border:1px solid rgba(255,238,210,.34);
+  border-radius:7px 15px 15px 7px;
+  pointer-events:none;
+}
+
+.cover-book::after{
+  content:'';
+  position:absolute;
+  right:-7px;
+  top:13px;
+  width:9px;
+  height:266px;
+  border-radius:0 12px 12px 0;
+  background:linear-gradient(90deg, rgba(255,246,224,.8), rgba(178,141,105,.45));
+  box-shadow:inset -3px 0 6px rgba(80,50,25,.28);
+}
+
+.cover-pages{
+  position:absolute;
+  right:-12px;
+  top:19px;
+  width:12px;
+  height:254px;
+  border-radius:0 12px 12px 0;
+  background:repeating-linear-gradient(to bottom, #f6ead8 0 3px, #d7bea0 3px 4px);
+  opacity:.84;
+}
+
+.cover-spine{
+  position:absolute;
+  left:22px;
+  top:0;
+  bottom:0;
+  width:10px;
+  background:linear-gradient(180deg, rgba(255,255,255,.13), rgba(50,4,12,.24));
+  box-shadow:8px 0 14px rgba(50,4,12,.18);
+}
+
+.cover-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.18em;
+  color:#fff3e8;
+  text-align:center;
+  padding:0 28px;
+  letter-spacing:2.5px;
+  line-height:1.42;
+  text-shadow:0 2px 12px rgba(0,0,0,.26);
+}
+
+.cover-subtitle{
+  font-size:.68em;
+  color:rgba(255,240,220,.72);
+  font-style:italic;
+  letter-spacing:1.6px;
+}
+
+.cover-seal{
+  color:#f0c85a;
+  font-size:1.35em;
+  line-height:1;
+  filter:drop-shadow(0 0 10px rgba(240,200,90,.35));
+}
+
+.cover-seal.bottom{margin-top:6px;}
+.cover-ornament{display:none;}
+
+.cover-hint{
+  position:relative;
+  font-size:.86em;
+  color:rgba(238,223,202,.72);
+  font-style:italic;
+  letter-spacing:1.4px;
+  text-shadow:0 3px 16px rgba(0,0,0,.35);
+  animation:pulse 2s ease infinite;
+}
+
+.cover-sparkles{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+.cover-sparkles span{
+  position:absolute;
+  color:#d8b156;
+  opacity:.42;
+  animation:coverFloat 6s ease-in-out infinite;
+}
+
+.cover-sparkles span:nth-child(1){left:35%;top:31%;font-size:18px;animation-delay:-1s;}
+.cover-sparkles span:nth-child(2){left:62%;top:28%;font-size:15px;animation-delay:-3s;}
+.cover-sparkles span:nth-child(3){left:28%;top:63%;font-size:20px;animation-delay:-2s;}
+.cover-sparkles span:nth-child(4){left:69%;top:61%;font-size:18px;animation-delay:-4s;}
+.cover-sparkles span:nth-child(5){left:45%;top:71%;font-size:13px;animation-delay:-.5s;}
+.cover-sparkles span:nth-child(6){left:57%;top:68%;font-size:17px;animation-delay:-5s;}
+
+@keyframes coverGlow{
+  from{transform:scale(.92);opacity:.55;}
+  to{transform:scale(1.06);opacity:.9;}
+}
+
+@keyframes coverFloat{
+  0%,100%{transform:translateY(0) rotate(0deg);opacity:.25;}
+  50%{transform:translateY(-18px) rotate(12deg);opacity:.58;}
+}
+
+@keyframes bookOpen{
+  0%{transform:perspective(800px) rotateY(-10deg) rotateZ(-1deg) scale(1);}
+  55%{transform:perspective(800px) rotateY(-42deg) rotateZ(-3deg) scale(1.08);}
+  100%{transform:perspective(800px) rotateY(-70deg) rotateZ(-6deg) scale(1.16);opacity:.25;}
+}
+
+@media(max-width:700px){
+  .cover-book{width:180px;height:240px;}
+  .cover-book::after{height:214px;}
+  .cover-pages{height:204px;}
+  .cover-title{font-size:1em;}
+}
+/* ===== PROGRESS ===== */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));z-index:10000;width:0%;transition:width .1s linear}
+
+/* ===== CONTROLS ===== */
+.controls{position:fixed;top:16px;right:16px;z-index:5000;display:flex;gap:8px}
+.ctrl-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink-faded);cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px var(--shadow);transition:background .3s,color .3s,transform .2s}
+.ctrl-btn:hover{background:var(--red);color:white;transform:scale(1.1)}
+
+
+#volume-slider{
+width:90px;
+accent-color:var(--red);
+cursor:pointer;
+border-radius:12px;
+}
+
+/* ===== TIMELINE ===== */
+
+#timeline{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;opacity:.7}
+.tl-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--red);background:transparent;cursor:pointer;transition:background .3s,transform .3s;position:relative}
+.tl-dot.active{background:var(--red);transform:scale(1.4)}
+.tl-dot:hover::after{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);background:var(--paper);border:1px solid var(--line);color:var(--ink);font-size:.65em;white-space:nowrap;padding:3px 8px;border-radius:10px;font-family:'Lora',serif;box-shadow:0 2px 8px var(--shadow)}
+@media(max-width:700px){#timeline{display:none}}
+
+/* ===== HAZIRAN OVERLAY ===== */
+#haziran-overlay{position:fixed;inset:0;background:rgba(139,38,53,0);pointer-events:none;z-index:998;transition:background 1.5s ease}
+#haziran-overlay.active{background:rgba(139,38,53,.07)}
+#fade-white{position:fixed;inset:0;background:white;opacity:0;pointer-events:none;z-index:9990;transition:opacity 2s ease}
+[data-theme="dark"] #fade-white{background:#1a1610}
+#fade-white.flash{opacity:.65}
+
+/* ===== HEADER ===== */
+header{position:relative;text-align:center;padding:100px 20px 80px;background:var(--paper);overflow:hidden;transition:background .6s}
+header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--red),var(--gold),var(--red),transparent)}
+header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+.header-ornament{font-size:1.4em;color:var(--red);letter-spacing:8px;margin-bottom:18px;opacity:0;animation:fadeDown .8s ease forwards .2s}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(2em,5vw,3.4em);font-weight:700;color:var(--ink);letter-spacing:4px;line-height:1.2;margin-bottom:20px;opacity:0;animation:fadeDown .8s ease forwards .4s;transition:color .6s}
+.header-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:16px auto 20px;opacity:0;animation:fadeDown .8s ease forwards .6s}
+.header-divider span{display:block;width:60px;height:1px;background:var(--red);opacity:.5}
+.header-divider i{font-style:normal;color:var(--red);font-size:.9em}
+header>p{font-style:italic;color:var(--ink-faded);font-size:1.1em;max-width:480px;margin:0 auto;opacity:0;animation:fadeDown .8s ease forwards .8s}
+.reading-time{display:inline-flex;align-items:center;gap:6px;font-size:.78em;color:var(--ink-faded);letter-spacing:1px;margin-top:18px;opacity:0;animation:fadeDown .8s ease forwards 1s}
+
+/* ===== MONTH NAV ===== */
+.month-nav{position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100;padding:10px 0;overflow-x:auto;scrollbar-width:none;transition:background .6s,border-color .6s}
+.month-nav::-webkit-scrollbar{display:none}
+.month-nav-inner{display:flex;gap:4px;justify-content:center;padding:0 20px;min-width:max-content;margin:0 auto}
+.month-nav a{font-family:'Lora',serif;font-size:.72em;color:var(--ink-faded);text-decoration:none;padding:5px 11px;border-radius:20px;letter-spacing:.5px;transition:background .2s,color .2s;white-space:nowrap}
+.month-nav a:hover,.month-nav a.active{background:var(--red);color:white}
+
+/* ===== CONTAINER ===== */
+.container{max-width:720px;margin:0 auto;padding:0 24px 80px}
+
+/* ===== AUTHOR BOX ===== */
+.author-box{text-align:center;background:var(--paper);padding:40px 35px;border-radius:2px;box-shadow:0 4px 30px var(--shadow),0 1px 0 var(--line);margin:50px 0 60px;position:relative;opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s,background .6s}
+.author-box.visible{opacity:1;transform:translateY(0)}
+.author-box::before,.author-box::after{content:'';position:absolute;width:40px;height:40px;border-color:var(--gold);border-style:solid;opacity:.4}
+.author-box::before{top:12px;left:12px;border-width:1px 0 0 1px}
+.author-box::after{bottom:12px;right:12px;border-width:0 1px 1px 0}
+.profile-img{width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid var(--paper);outline:1px solid var(--line);margin-bottom:18px;box-shadow:0 6px 24px var(--shadow);transition:transform .4s,box-shadow .4s}
+.profile-img:hover{transform:scale(1.04);box-shadow:0 10px 36px rgba(50,30,20,.15)}
+.author-box h3{font-family:'Playfair Display',serif;font-size:1.4em;color:var(--ink);margin-bottom:10px;transition:color .6s}
+.author-box p{font-style:italic;color:var(--ink-faded);font-size:.95em;line-height:1.7;transition:color .6s}
+
+/* ===== SEASON TRANSITION ===== */
+.season-transition{text-align:center;padding:30px 0;font-size:1.8em;opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s;user-select:none;letter-spacing:8px}
+.season-transition.visible{opacity:1;transform:translateY(0)}
+
+/* ===== MONTH SECTION ===== */
+.month-section{margin-top:70px}
+.month-title{font-family:'Playfair Display',serif;font-size:1.6em;color:var(--red);letter-spacing:2px;margin-bottom:35px;position:relative;padding-bottom:12px;display:flex;align-items:center;gap:16px;transition:color .6s}
+.month-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--red),transparent);opacity:.4}
+
+/* ===== DIARY ENTRY ===== */
+.diary-entry{background:var(--paper);padding:36px 40px;margin-bottom:28px;border-radius:2px;box-shadow:0 2px 20px var(--shadow),0 1px 0 var(--line);position:relative;opacity:0;transform:translateY(40px);transition:opacity .65s,transform .65s,box-shadow .3s,background .6s}
+.diary-entry::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;border-radius:2px 0 0 2px;transition:background .3s}
+.diary-entry:hover::before{background:var(--gold)}
+.diary-entry:hover{box-shadow:0 6px 36px rgba(50,30,20,.12),0 1px 0 var(--line)}
+.diary-entry.visible{opacity:1;transform:translateY(0)}
+.diary-entry.breaking{border-left:3px solid var(--red)}
+.diary-entry.breaking-final{background:var(--break-bg);border-left:4px solid var(--red)}
+
+/* ===== KALP KIRILMASI EFEKTLERİ ===== */
+@keyframes heartCrack {
+  0%   { transform: translateY(0) scale(1); filter: brightness(1); }
+  10%  { transform: translateY(-4px) scale(1.02); filter: brightness(1.2); }
+  20%  { transform: translateY(0) scale(0.98) rotate(-1deg); }
+  30%  { transform: translateY(-2px) scale(1.01) rotate(1deg); filter: brightness(1.15); }
+  40%  { transform: translateY(0) scale(1); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes glitchLine {
+  0%   { clip-path: inset(0 0 95% 0); transform: translateX(0); }
+  20%  { clip-path: inset(30% 0 50% 0); transform: translateX(-6px); }
+  40%  { clip-path: inset(60% 0 20% 0); transform: translateX(4px); }
+  60%  { clip-path: inset(10% 0 80% 0); transform: translateX(-3px); }
+  80%  { clip-path: inset(80% 0 5% 0);  transform: translateX(5px); }
+  100% { clip-path: inset(0 0 95% 0); transform: translateX(0); }
+}
+@keyframes floatHeart {
+  0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-120px) scale(1.2) rotate(20deg); }
+}
+@keyframes redVignette {
+  0%, 100% { box-shadow: inset 0 0 0px rgba(139,38,53,0); }
+  50%       { box-shadow: inset 0 0 80px rgba(139,38,53,0.22); }
+}
+
+#heartbreak-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 997;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+#heartbreak-overlay.active {
+  opacity: 1;
+  animation: redVignette 3s ease infinite;
+}
+.heartbreak-particle {
+  position: absolute;
+  font-size: 1.4em;
+  animation: floatHeart 3s ease-out forwards;
+  pointer-events: none;
+}
+.glitch-layer {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  opacity: 0;
+}
+#final-entry.heartbreak-active {
+  animation: heartCrack 0.9s ease forwards;
+  border-left: 4px solid var(--red) !important;
+  box-shadow: 0 0 40px rgba(139,38,53,.25), 0 2px 20px var(--shadow) !important;
+}
+#final-entry.heartbreak-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(139,38,53,.06) 100%);
+  border-radius: 2px;
+  animation: glitchLine 0.4s steps(1) 3;
+  pointer-events: none;
+}
+
+
+/* ===== ENTRY DATE ===== */
+.entry-date{font-size:.78em;color:var(--red);font-weight:500;margin-bottom:14px;text-transform:uppercase;letter-spacing:2px;font-family:'Lora',serif;display:flex;align-items:center;gap:10px;transition:color .6s}
+.entry-date::before{content:'';display:inline-block;width:16px;height:1px;background:var(--red);opacity:.5}
+.weather-icon{font-size:1.1em;margin-left:auto;opacity:.7;cursor:default}
+
+/* MOOD */
+.entry-mood{position:absolute;top:14px;right:16px;font-size:1.2em;opacity:.6;cursor:default;transition:transform .2s,opacity .2s}
+.entry-mood:hover{transform:scale(1.4);opacity:1}
+
+/* ===== CONTENT ===== */
+.entry-content p{margin-bottom:14px;text-align:justify;white-space:pre-line;font-size:.98em;color:var(--ink);transition:color .6s}
+.entry-content p:last-child{margin-bottom:0}
+.entry-content p strong{font-family:'Playfair Display',serif;font-size:1.05em}
+
+/* POYRAZ HOVER & CLICK (MOBİL UYUMLU) */
+.poyraz-name{position:relative;cursor:default;font-style:italic;transition:color .2s;display:inline-block}
+.poyraz-name::after{content:'🌬️';position:absolute;top:-22px;left:50%;transform:translateX(-50%) scale(0);font-size:.9em;transition:transform .2s,opacity .2s;opacity:0;pointer-events:none}
+.poyraz-name:hover{color:var(--red)}
+.poyraz-name:hover::after, .poyraz-name.wind-active::after{transform:translateX(-50%) scale(1);opacity:1}
+
+/* ===== POST IMAGES ===== */
+.post-img-wrap{position:relative;margin:40px -12px;opacity:0;transform:scale(.97);transition:opacity .7s,transform .7s}
+.post-img-wrap.visible{opacity:1;transform:scale(1)}
+.post-img{width:100%;max-height:420px;object-fit:cover;border-radius:2px;display:block;box-shadow:0 8px 40px var(--shadow)}
+
+/* ===== BOOKMARK ===== */
+.bookmark-btn{position:absolute;top:10px;right:44px;background:none;border:none;cursor:pointer;font-size:1.2em;opacity:.35;transition:opacity .2s,transform .2s;padding:2px}
+.bookmark-btn:hover{opacity:.8;transform:scale(1.2)}
+.bookmark-btn.bookmarked{opacity:1;filter:drop-shadow(0 0 4px var(--gold))}
+
+/* ===== NOTE AREA ===== */
+.note-toggle{background:none;border:none;cursor:pointer;font-size:.72em;color:var(--ink-faded);font-family:'Lora',serif;padding:8px 0 0;display:flex;align-items:center;gap:6px;transition:color .2s;letter-spacing:.5px}
+.note-toggle:hover{color:var(--red)}
+.note-area{display:none;margin-top:12px}
+.note-area.open{display:block}
+.note-input{width:100%;background:transparent;border:none;border-bottom:1px dashed var(--line);padding:6px 0;font-family:'Lora',serif;font-size:.88em;color:var(--ink);resize:none;outline:none;transition:border-color .2s;min-height:40px}
+.note-input:focus{border-bottom-color:var(--gold)}
+.note-input::placeholder{color:var(--ink-faded);font-style:italic}
+
+/* ===== OTOBÜS ILLUSTRASYON ===== */
+#bus-scene{display:none;text-align:center;padding:40px 20px 20px;opacity:0;transition:opacity 1.5s ease}
+#bus-scene.show{display:block}
+#bus-scene.visible{opacity:1}
+
+/* ===== EASTER EGG: POYRAZ'IN VEDA NOTU ===== */
+#poyraz-letter-wrapper {
+  display: none;
+  justify-content: center;
+  margin-top: 60px;
+  perspective: 1000px;
+}
+#poyraz-letter-wrapper.show { display: flex; }
+.letter-envelope {
+  width: 100%;
+  max-width: 500px;
+  background: #e6dfd3;
+  border: 1px solid #c4b9a6;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.letter-envelope::before {
+  content: '✉️ Poyraz\'dan kalan eski bir kâğıt parçası... (açmak için tıkla)';
+  font-style: italic;
+  font-size: 0.85em;
+  color: #7a6e5d;
+  display: block;
+  text-align: center;
+}
+.letter-envelope.open::before { content: '🪶 Poyraz\'ın Karalaması'; font-weight: bold; }
+.letter-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s cubic-bezier(0, 1, 0, 1);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.05em;
+  color: #382c21;
+  line-height: 1.8;
+  border-top: 1px dashed transparent;
+  margin-top: 0;
+  padding-top: 0;
+}
+.letter-envelope.open .letter-content {
+  max-height: 1000px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed #c4b9a6;
+  transition: max-height 1s ease-in-out;
+}
+
+
+
+/* ===== ARKA PLAN PARTIKUL VE DESENLER ===== */
+.bg-patterns{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.75;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(201,168,76,.10), transparent 18%),
+    radial-gradient(circle at 86% 28%, rgba(139,38,53,.12), transparent 20%),
+    radial-gradient(circle at 42% 82%, rgba(255,255,255,.055), transparent 16%),
+    repeating-linear-gradient(45deg, rgba(201,168,76,.045) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(135deg, rgba(139,38,53,.035) 0 1px, transparent 1px 54px);
+  animation:bgDrift 22s ease-in-out infinite alternate;
+}
+
+.bg-patterns::before,
+.bg-patterns::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.16) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(201,168,76,.12) 0 1px, transparent 2px);
+  background-size:110px 110px, 170px 170px;
+  background-position:12px 20px, 70px 90px;
+  opacity:.42;
+}
+
+.bg-patterns::after{
+  opacity:.18;
+  filter:blur(.4px);
+  transform:rotate(2deg) scale(1.04);
+}
+
+.emoji-particles{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.emoji-particles span{
+  position:absolute;
+  bottom:-60px;
+  font-size:clamp(18px,2vw,30px);
+  opacity:.34;
+  filter:drop-shadow(0 0 10px rgba(201,168,76,.16));
+  animation:emojiFloat linear infinite;
+}
+
+.emoji-particles span:nth-child(2n){font-size:clamp(15px,1.7vw,24px);opacity:.28;}
+.emoji-particles span:nth-child(3n){animation-name:emojiFloatSide;opacity:.22;}
+.emoji-particles span:nth-child(4n){filter:blur(.2px) drop-shadow(0 0 12px rgba(139,38,53,.22));}
+
+@keyframes emojiFloat{
+  0%{transform:translate3d(0,0,0) rotate(0deg); opacity:0;}
+  12%{opacity:.34;}
+  100%{transform:translate3d(28px,-115vh,0) rotate(280deg); opacity:0;}
+}
+
+@keyframes emojiFloatSide{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(.9); opacity:0;}
+  15%{opacity:.3;}
+  55%{transform:translate3d(-40px,-58vh,0) rotate(-130deg) scale(1.08);}
+  100%{transform:translate3d(34px,-115vh,0) rotate(-260deg) scale(.94); opacity:0;}
+}
+
+@keyframes bgDrift{
+  from{background-position:0 0, 0 0, 0 0, 0 0, 0 0;}
+  to{background-position:35px -28px, -28px 22px, 18px 38px, 42px 42px, -54px 54px;}
+}
+
+[data-theme="light"] .bg-patterns{opacity:.55;}
+[data-theme="light"] .emoji-particles span{opacity:.24;}
+
+@media(max-width:700px){
+  .emoji-particles span{font-size:20px;}
+  .bg-patterns{opacity:.45;}
+}
+/* ===== FINAL KARTI TIKLA AC ===== */
+#final-entry.final-locked{
+  min-height:380px;
+  padding:36px 40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  overflow:hidden;
+  background:radial-gradient(circle at 50% 35%, rgba(139,38,53,.22), transparent 48%), var(--break-bg);
+}
+
+#final-entry.final-locked > :not(.final-unlock){
+  display:none !important;
+}
+
+.final-unlock{
+  border:1px solid rgba(201,168,76,.55);
+  border-radius:18px;
+  background:linear-gradient(135deg, rgba(26,20,16,.92), rgba(139,38,53,.86));
+  color:#fff7ea;
+  width:min(82%,420px);
+  max-width:420px;
+  margin:auto;
+  min-height:150px;
+  padding:28px;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6em,4vw,2.4em);
+  letter-spacing:3px;
+  cursor:pointer;
+  box-shadow:0 18px 55px rgba(0,0,0,.34), inset 0 0 22px rgba(255,255,255,.08);
+  position:relative;
+  overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+
+.final-unlock::before{
+  content:'';
+  position:absolute;
+  inset:-80%;
+  background:conic-gradient(from 90deg, transparent, rgba(255,255,255,.2), transparent 30%);
+  animation:finalButtonSweep 3.2s linear infinite;
+}
+
+.final-unlock span{
+  position:relative;
+  z-index:1;
+  display:block;
+}
+
+.final-unlock small{
+  position:relative;
+  z-index:1;
+  display:block;
+  margin-top:10px;
+  font-family:'Lora',serif;
+  font-size:.36em;
+  font-style:italic;
+  letter-spacing:1px;
+  color:rgba(255,247,234,.72);
+}
+
+.final-unlock:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 24px 70px rgba(0,0,0,.42),0 0 34px rgba(201,168,76,.16);
+}
+
+#final-entry:not(.final-locked) .final-unlock{display:none;}
+#final-entry.final-opened > :not(.final-unlock){animation:finalTextReveal .9s ease both;}
+
+@keyframes finalButtonSweep{to{transform:rotate(360deg);}}
+@keyframes finalTextReveal{
+  from{opacity:0;transform:translateY(22px);filter:blur(3px);}
+  to{opacity:1;transform:translateY(0);filter:none;}
+}
+/* ===== YORUMLAR BÖLÜMÜ ===== */
+#comments-section {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: 60px 0 40px;
+  margin-top: 0;
+  transition: background .6s, border-color .6s;
+}
+.comments-header {
+  margin-bottom: 32px;
+}
+.comments-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5em;
+  color: var(--ink);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.comments-sub {
+  font-style: italic;
+  color: var(--ink-faded);
+  font-size: .88em;
+}
+.comment-form-box {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background .6s, border-color .6s;
+}
+.comment-form-box input,
+.comment-form-box textarea {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: 'Lora', serif;
+  font-size: .9em;
+  color: var(--ink);
+  outline: none;
+  resize: none;
+  transition: border-color .2s, background .6s, color .6s;
+}
+.comment-form-box input:focus,
+.comment-form-box textarea:focus {
+  border-color: var(--gold);
+}
+#comment-submit {
+  align-self: flex-end;
+  padding: 8px 20px;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Lora', serif;
+  font-size: .85em;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+#comment-submit:hover { background: var(--red-soft); transform: scale(1.04); }
+
+/* Tek yorum kartı */
+.comment-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  transition: background .6s, border-color .6s;
+  position: relative;
+}
+.comment-card.reply-card {
+  margin-left: 36px;
+  border-left: 3px solid var(--gold);
+  background: var(--paper);
+}
+.comment-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.comment-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--red);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: .95em;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.comment-author {
+  font-family: 'Playfair Display', serif;
+  font-size: .9em;
+  color: var(--ink);
+  font-weight: 600;
+}
+.comment-date {
+  font-size: .72em;
+  color: var(--ink-faded);
+  margin-left: auto;
+}
+.comment-text {
+  font-size: .88em;
+  color: var(--ink);
+  line-height: 1.7;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+}
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.vote-btn {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: .75em;
+  cursor: pointer;
+  color: var(--ink-faded);
+  transition: background .2s, color .2s, border-color .2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.vote-btn:hover { border-color: var(--red); color: var(--red); }
+.vote-btn.liked { background: var(--red); color: white; border-color: var(--red); }
+.vote-btn.disliked { background: var(--ink-faded); color: white; border-color: var(--ink-faded); }
+.reply-toggle-btn {
+  background: none;
+  border: none;
+  font-size: .75em;
+  color: var(--ink-faded);
+  cursor: pointer;
+  font-family: 'Lora', serif;
+  padding: 3px 6px;
+  transition: color .2s;
+}
+.reply-toggle-btn:hover { color: var(--red); }
+
+/* Reply form */
+.reply-form {
+  display: none;
+  margin-top: 12px;
+  gap: 8px;
+  flex-direction: column;
+}
+.reply-form.open { display: flex; }
+.reply-form input,
+.reply-form textarea {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Lora', serif;
+  font-size: .85em;
+  color: var(--ink);
+  outline: none;
+  resize: none;
+  transition: border-color .2s;
+}
+.reply-form input:focus, .reply-form textarea:focus { border-color: var(--gold); }
+.reply-submit-btn {
+  align-self: flex-end;
+  padding: 6px 16px;
+  background: var(--ink-faded);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Lora', serif;
+  font-size: .8em;
+  cursor: pointer;
+  transition: background .2s;
+}
+.reply-submit-btn:hover { background: var(--red); }
+.no-comments {
+  text-align: center;
+  color: var(--ink-faded);
+  font-style: italic;
+  padding: 30px 0;
+  font-size: .9em;
+}
+
+
+/* ===== MEVSIME GORE ATMOSFER + ZIYARETCI DEFTERI ===== */
+html[data-season="summer"] .bg-patterns{
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255,202,83,.16), transparent 18%),
+    radial-gradient(circle at 84% 30%, rgba(139,38,53,.12), transparent 22%),
+    repeating-linear-gradient(45deg, rgba(255,215,120,.045) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(135deg, rgba(139,38,53,.035) 0 1px, transparent 1px 54px);
+}
+html[data-season="autumn"] .bg-patterns{
+  background:
+    radial-gradient(circle at 18% 24%, rgba(177,90,33,.18), transparent 20%),
+    radial-gradient(circle at 78% 42%, rgba(139,38,53,.15), transparent 25%),
+    repeating-linear-gradient(30deg, rgba(201,119,44,.07) 0 1px, transparent 1px 38px),
+    repeating-linear-gradient(120deg, rgba(112,57,27,.055) 0 1px, transparent 1px 58px);
+}
+html[data-season="winter"] .bg-patterns{
+  background:
+    radial-gradient(circle at 20% 18%, rgba(180,220,255,.14), transparent 20%),
+    radial-gradient(circle at 78% 35%, rgba(255,255,255,.12), transparent 24%),
+    repeating-linear-gradient(45deg, rgba(210,235,255,.06) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(135deg, rgba(120,160,190,.055) 0 1px, transparent 1px 56px);
+}
+html[data-season="spring"] .bg-patterns{
+  background:
+    radial-gradient(circle at 16% 20%, rgba(160,210,142,.16), transparent 20%),
+    radial-gradient(circle at 82% 36%, rgba(210,95,130,.13), transparent 24%),
+    repeating-linear-gradient(38deg, rgba(120,190,120,.055) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(128deg, rgba(210,95,130,.045) 0 1px, transparent 1px 58px);
+}
+
+.season-atmosphere{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+.season-atmosphere span{
+  position:absolute;
+  bottom:-70px;
+  font-size:clamp(18px,2vw,30px);
+  opacity:.28;
+  animation:seasonRise linear infinite;
+  filter:drop-shadow(0 0 12px rgba(201,168,76,.16));
+}
+.season-atmosphere span:nth-child(2n){animation-name:seasonSway;opacity:.22;}
+.season-atmosphere span:nth-child(3n){font-size:clamp(14px,1.5vw,22px);opacity:.18;}
+
+@keyframes seasonRise{
+  0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0;}
+  12%{opacity:.3;}
+  100%{transform:translate3d(28px,-116vh,0) rotate(280deg);opacity:0;}
+}
+@keyframes seasonSway{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(.95);opacity:0;}
+  18%{opacity:.26;}
+  55%{transform:translate3d(-46px,-58vh,0) rotate(-120deg) scale(1.08);}
+  100%{transform:translate3d(38px,-116vh,0) rotate(-270deg) scale(.94);opacity:0;}
+}
+
+footer{text-align:center;padding:60px 20px;font-size:.9em;color:var(--ink-faded);border-top:1px solid var(--line);background:var(--paper);margin-top:80px;transition:background .6s,border-color .6s,color .6s}
+.footer-inner{display:flex;align-items:center;justify-content:center;gap:14px}
+.footer-img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.footer-text{font-style:italic}
+
+/* ===== SCROLL TOP ===== */
+#scroll-top{position:fixed;bottom:30px;right:30px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2em;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(139,38,53,.4);opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s,background .2s;z-index:1000}
+#scroll-top.show{opacity:1;transform:translateY(0)}
+#scroll-top:hover{background:var(--red-soft)}
+
+/* ===== BOOKMARKS PANEL ===== */
+#bm-panel{position:fixed;left:-280px;top:0;bottom:0;width:280px;background:var(--paper);border-right:1px solid var(--line);z-index:3000;transition:left .4s ease;box-shadow:4px 0 24px var(--shadow);padding:24px 20px;overflow-y:auto}
+#bm-panel.open{left:0}
+#bm-panel h3{font-family:'Playfair Display',serif;font-size:1.1em;color:var(--ink);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+#bm-list{display:flex;flex-direction:column;gap:10px}
+.bm-item{font-size:.8em;color:var(--ink-faded);font-style:italic;cursor:pointer;padding:6px 8px;border-radius:4px;transition:background .2s,color .2s;border-left:2px solid var(--gold)}
+.bm-item:hover{background:var(--cream);color:var(--ink)}
+.bm-empty{font-size:.8em;color:var(--ink-faded);font-style:italic;opacity:.6}
+#bm-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--ink-faded);font-size:1.1em;transition:color .2s}
+#bm-close:hover{color:var(--red)}
+#bm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:2999;display:none}
+#bm-overlay.show{display:block}
+
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){header{padding:70px 20px 60px}.diary-entry{padding:24px 22px}.post-img-wrap{margin:30px 0}}
+
+/* ===== UPGRADE PACK ===== */
+
+
+
+/* TYPEWRITER */
+.typewriter p {
+  overflow:hidden;
+  border-right:2px solid var(--gold);
+  white-space:nowrap;
+  animation: typing 5s steps(60,end), blink .7s infinite;
+}
+
+@keyframes typing {
+  from { width:0 }
+  to { width:100% }
+}
+
+@keyframes blink {
+  50% { border-color:transparent }
+}
+
+
+/* CINEMATIC INTRO */
+
+/* ATMOSPHERIC INTRO */
+
+.diary-title{
+  font-size:42px;
+  color:#f5deb3;
+  letter-spacing:2px;
+  text-shadow:
+    0 0 10px rgba(255,215,0,.15),
+    0 0 20px rgba(255,215,0,.08);
+  animation:titleFlicker 3s infinite alternate;
+}
+
+@keyframes titleFlicker{
+  0%{
+    opacity:.92;
+    transform:translateY(0px);
+  }
+  50%{
+    opacity:1;
+    transform:translateY(-1px);
+  }
+  100%{
+    opacity:.96;
+    transform:translateY(1px);
+  }
+}
+
+.intro-warning{
+  font-size:20px;
+  font-style:italic;
+  color:#d6b98c;
+  text-shadow:0 0 10px rgba(255,255,255,.06);
+}
+
+.intro-teaser{
+  max-width:600px;
+  text-align:center;
+  line-height:1.8;
+  color:#c8b28f;
+  opacity:.88;
+  font-size:17px;
+}
+
+.locked-diary{
+  padding:10px 20px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:rgba(255,255,255,.03);
+  color:#d8c3a5;
+  backdrop-filter:blur(4px);
+  box-shadow:0 0 20px rgba(0,0,0,.25);
+  animation:lockPulse 2s infinite;
+}
+
+@keyframes lockPulse{
+  0%{
+    transform:scale(1);
+  }
+  50%{
+    transform:scale(1.03);
+  }
+  100%{
+    transform:scale(1);
+  }
+}
+
+.secret-stamp{
+  position:absolute;
+  top:20px;
+  right:20px;
+  padding:10px 18px;
+  border:2px solid rgba(180,0,0,.7);
+  color:rgba(180,0,0,.85);
+  font-weight:bold;
+  transform:rotate(12deg);
+  letter-spacing:2px;
+  box-shadow:0 0 18px rgba(180,0,0,.12);
+}
+
+.vhs-noise{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.05;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.08) 0px,
+      rgba(255,255,255,.08) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  animation:vhsMove .15s infinite;
+}
+
+@keyframes vhsMove{
+  from{
+    transform:translateY(0px);
+  }
+  to{
+    transform:translateY(2px);
+  }
+}
+
+
+body.opening{
+  animation: cinematicDark 4.5s forwards;
+}
+
+@keyframes cinematicDark{
+  0%{ filter:brightness(1); }
+  100%{ filter:brightness(.82); }
+}
+
+.intro-overlay{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  padding:30px 0;
+}
+
+.intro-quote{
+  font-size:20px;
+  font-style:italic;
+  color:#d6c3a5;
+  opacity:0;
+  animation:fadeQuote 2s forwards;
+  text-shadow:0 0 10px rgba(255,255,255,.08);
+}
+
+@keyframes fadeQuote{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.start-typewriter-btn{
+  padding:14px 28px;
+  border:1px solid rgba(212,175,55,.45);
+  border-radius:16px;
+  background:linear-gradient(to bottom,#2b1d0e,#1b1208);
+  color:#f5deb3;
+  font-size:18px;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:.35s;
+  box-shadow:
+    0 0 20px rgba(0,0,0,.45),
+    inset 0 0 12px rgba(255,215,0,.08);
+}
+
+.start-typewriter-btn:hover{
+  transform:scale(1.05);
+  box-shadow:
+    0 0 30px rgba(255,215,0,.18),
+    inset 0 0 16px rgba(255,215,0,.12);
+}
+
+.hidden-typewriter{
+  display:none;
+}
+
+.hidden-typewriter.playing{
+  display:block;
+  overflow:hidden;
+  border-right:2px solid var(--gold);
+  white-space:nowrap;
+  width:0;
+  text-shadow:0 0 8px rgba(255,255,255,.08);
+  animation: typing 4.5s steps(120,end) forwards, blink .7s infinite;
+}
+
+/* floating particles */
+
+.particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.particles span{
+  position:absolute;
+  display:block;
+  width:4px;
+  height:4px;
+  background:rgba(255,255,255,.15);
+  border-radius:50%;
+  animation:floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+  from{
+    transform:translateY(100vh);
+    opacity:0;
+  }
+  20%{
+    opacity:1;
+  }
+  to{
+    transform:translateY(-10vh);
+    opacity:0;
+  }
+}
+
+.hidden-typewriter{
+  display:none;
+}
+
+.hidden-typewriter.playing{
+  display:block;
+  overflow:hidden;
+  border-right:2px solid var(--gold);
+  white-space:nowrap;
+  width:0;
+  animation: typing 4.5s steps(120,end) forwards, blink .7s infinite;
+}
+
+.start-typewriter-btn{
+  margin-bottom:14px;
+  padding:10px 16px;
+  border:none;
+  border-radius:12px;
+  background:var(--red);
+  color:white;
+  cursor:pointer;
+  font-family:'Lora',serif;
+  transition:.25s;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+}
+
+.start-typewriter-btn:hover{
+  transform:scale(1.05);
+}
+
+
+/* POLAROID */
+.post-img-wrap {
+  background:white;
+  padding:12px 12px 36px;
+  transform:rotate(-1deg);
+  transition:transform .3s ease;
+}
+
+.post-img-wrap:nth-child(even){
+  transform:rotate(1deg);
+}
+
+.post-img-wrap:hover{
+  transform:scale(1.03) rotate(0deg);
+}
+
+/* ENTRY GLOW */
+.diary-entry:hover {
+  box-shadow:
+  0 0 20px rgba(201,168,76,.15),
+  0 8px 40px rgba(0,0,0,.12);
+}
+
+/* TIMELINE GLOW */
+.tl-dot.active {
+  box-shadow:0 0 12px var(--red);
+}
+
+/* GRAIN ANIMATION */
+body::before {
+  animation: grainMove 8s steps(10) infinite;
+}
+
+@keyframes grainMove {
+  0% { transform:translate(0,0) }
+  25% { transform:translate(-5px,5px) }
+  50% { transform:translate(5px,-5px) }
+  75% { transform:translate(-3px,3px) }
+  100% { transform:translate(0,0) }
+}
+
+
+/* ===== EXTRA CINEMATIC FEATURES ===== */
+
+/* FLOATING WEATHER */
+.weather-fx{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+
+.weather-fx span{
+  position:absolute;
+  color:white;
+  opacity:.08;
+  animation: floatSnow linear infinite;
+  font-size:14px;
+}
+
+@keyframes floatSnow{
+  from{
+    transform:translateY(-20px);
+  }
+  to{
+    transform:translateY(110vh);
+  }
+}
+
+/* CHAT BOX */
+.fake-chat{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+  margin:30px 0;
+  box-shadow:0 4px 18px var(--shadow);
+}
+
+.chat-msg{
+  max-width:75%;
+  padding:10px 14px;
+  border-radius:16px;
+  margin-bottom:10px;
+  font-size:.9em;
+}
+
+.chat-left{
+  background:var(--cream);
+}
+
+.chat-right{
+  background:var(--red);
+  color:white;
+  margin-left:auto;
+}
+
+/* DELETED ENTRY */
+.deleted-entry{
+  margin:35px 0;
+  padding:18px;
+  border-left:2px dashed var(--gold);
+  opacity:.7;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.deleted-entry:hover{
+  opacity:1;
+}
+
+.deleted-hidden{
+  display:none;
+  margin-top:14px;
+  font-style:italic;
+}
+
+/* QUOTE TRANSITION */
+.month-quote{
+  text-align:center;
+  font-style:italic;
+  color:var(--ink-faded);
+  margin:20px 0 40px;
+  opacity:.75;
+  letter-spacing:.5px;
+}
+
+/* ===== OKUMA SAYACI ANİMASYON ===== */
+#reading-timer-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78em;
+  color: var(--ink-faded);
+  letter-spacing: 1px;
+  margin-top: 18px;
+  opacity: 0;
+  animation: fadeDown .8s ease forwards 1s;
+}
+#total-reading-time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+  transition: color .3s;
+}
+#total-reading-time.tick {
+  color: var(--red);
+}
+
+/* ===== RADYO WIDGET ===== */
+#radio-player {
+  position: fixed;
+  left: 18px;
+  bottom: 20px;
+  width: 220px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  z-index: 5000;
+  box-shadow: 0 4px 24px var(--shadow);
+  overflow: hidden;
+  transition: background .3s, border-color .3s;
+}
+#radio-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--line);
+}
+#radio-icon {
+  font-size: 1.1em;
+}
+
+#radio-title {
+  font-family: 'Lora', serif;
+  font-size: .72em;
+  color: var(--ink-faded);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#radio-minimize {
+  font-size: .7em;
+  color: var(--ink-faded);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color .2s;
+}
+#radio-minimize:hover { color: var(--red); }
+#radio-body {
+  padding: 10px 14px 12px;
+}
+#radio-track-name {
+  font-size: .7em;
+  color: var(--ink-faded);
+  font-style: italic;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 1em;
+}
+.radio-waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 20px;
+  margin-bottom: 8px;
+}
+.radio-waveform span {
+  width: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  opacity: .5;
+  transition: height .1s;
+}
+.radio-waveform.playing span:nth-child(1) { animation: wave 1.1s ease-in-out infinite; }
+.radio-waveform.playing span:nth-child(2) { animation: wave 1.4s ease-in-out infinite .1s; }
+.radio-waveform.playing span:nth-child(3) { animation: wave 0.9s ease-in-out infinite .2s; }
+.radio-waveform.playing span:nth-child(4) { animation: wave 1.2s ease-in-out infinite .05s; }
+.radio-waveform.playing span:nth-child(5) { animation: wave 1.0s ease-in-out infinite .15s; }
+@keyframes wave {
+  0%, 100% { height: 4px; opacity: .4; }
+  50% { height: 18px; opacity: 1; }
+}
+#radio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#radio-play-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--red);
+  color: white;
+  cursor: pointer;
+  font-size: .8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s, transform .2s;
+}
+#radio-play-btn:hover { background: var(--red-soft); transform: scale(1.1); }
+#radio-volume {
+  flex: 1;
+  accent-color: var(--red);
+  cursor: pointer;
+  height: 4px;
+}
+#radio-file-input { display: none; }
+
+/* ===== RADYO TASARIM GUNCELLEME ===== */
+#radio-player{
+  width:260px;
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(201,168,76,.16), transparent 34%),
+    linear-gradient(145deg, rgba(34,28,22,.96), rgba(58,33,35,.96));
+  border:1px solid rgba(201,168,76,.28);
+  box-shadow:0 16px 48px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.05);
+  color:#f6ead8;
+}
+#radio-header{
+  padding:12px 14px 10px;
+  border-bottom:1px solid rgba(201,168,76,.18);
+  background:linear-gradient(90deg, rgba(139,38,53,.24), transparent);
+}
+#radio-icon{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+}
+#radio-icon.spinning{animation:radioPulse 1.2s ease-in-out infinite;}
+#radio-title{
+  color:#f3dfc2;
+  font-size:.78em;
+  letter-spacing:1px;
+  font-weight:700;
+}
+#radio-minimize{
+  color:rgba(246,234,216,.72);
+  width:24px;
+  height:24px;
+  border-radius:50%;
+}
+#radio-minimize:hover{background:rgba(255,255,255,.08);color:#fff;}
+#radio-body{padding:13px 14px 14px;}
+.radio-cassette{
+  height:54px;
+  border-radius:13px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.09), rgba(0,0,0,.12)),
+    rgba(139,38,53,.28);
+  border:1px solid rgba(201,168,76,.22);
+  box-shadow:inset 0 0 18px rgba(0,0,0,.18);
+  position:relative;
+}
+.radio-cassette::before{
+  content:'';
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:10px;
+  height:6px;
+  border-radius:999px;
+  background:rgba(0,0,0,.22);
+}
+.radio-cassette span{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:5px solid rgba(246,234,216,.72);
+  background:radial-gradient(circle, rgba(0,0,0,.38) 0 22%, transparent 24%);
+  box-shadow:0 0 0 1px rgba(0,0,0,.22);
+}
+.radio-cassette i{
+  width:54px;
+  height:16px;
+  border-radius:999px;
+  background:rgba(246,234,216,.18);
+  box-shadow:inset 0 0 0 1px rgba(246,234,216,.18);
+}
+#radio-player:not(.minimized) .radio-waveform.playing + #radio-controls ~ *{}
+#radio-player .radio-waveform.playing ~ #radio-controls{}
+#radio-player:has(.radio-waveform.playing) .radio-cassette span{animation:reelSpin 1.4s linear infinite;}
+#radio-track-name{
+  font-size:.76em;
+  color:rgba(246,234,216,.78);
+  text-align:center;
+  margin-bottom:10px;
+}
+.radio-waveform{
+  height:24px;
+  justify-content:center;
+  gap:4px;
+  margin-bottom:12px;
+}
+.radio-waveform span{
+  width:4px;
+  background:linear-gradient(180deg, #f0c85a, var(--red-soft));
+  opacity:.72;
+}
+#radio-controls{
+  gap:10px;
+}
+#radio-play-btn{
+  width:34px;
+  height:34px;
+  background:linear-gradient(135deg, var(--red), var(--red-soft));
+  box-shadow:0 8px 18px rgba(139,38,53,.32);
+}
+#radio-play-btn:hover{transform:translateY(-1px) scale(1.08);}
+#radio-volume{
+  height:6px;
+  accent-color:#f0c85a;
+}
+#radio-player.minimized{
+  width:220px;
+  border-radius:999px;
+}
+#radio-player.minimized #radio-header{border-bottom:0;}
+@keyframes reelSpin{to{transform:rotate(360deg);}}
+@keyframes radioPulse{50%{transform:scale(1.08);filter:drop-shadow(0 0 8px rgba(240,200,90,.45));}}
+@supports not selector(:has(*)){
+  .radio-cassette span{animation:none;}
+}
+#radio-player.minimized #radio-body { display: none; }
+#radio-player.minimized { border-radius: 50px; }
+
+  position:fixed;
+  left:18px;
+  bottom:20px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  padding:10px 14px;
+  border-radius:16px;
+  z-index:5000;
+  box-shadow:0 4px 18px var(--shadow);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:.8em;
+}
+
+#cassette-btn{
+  border:none;
+  background:var(--red);
+  color:white;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+
+/* ===== KANKA EKLEMELERI: LOGO / KASET / SES / JUMPSCARE ===== */
+.site-logo{
+  width:94px;
+  height:94px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 18px;
+  filter:drop-shadow(0 8px 18px var(--shadow));
+  opacity:0;
+  animation:fadeDown .8s ease forwards .1s;
+}
+
+.site-logo:hover{
+  transform:scale(1.06) rotate(-2deg);
+  transition:transform .25s ease;
+}
+
+.site-return-notice{
+  position:fixed;
+  left:50%;
+  top:18px;
+  z-index:10001;
+  transform:translate(-50%,-80px);
+  background:var(--paper);
+  color:var(--ink);
+  border:1px solid var(--line);
+  border-left:4px solid var(--red);
+  border-radius:12px;
+  box-shadow:0 10px 35px var(--shadow);
+  padding:10px 16px;
+  font-size:.82em;
+  font-style:italic;
+  pointer-events:none;
+  opacity:0;
+  transition:transform .35s ease, opacity .35s ease;
+}
+
+.site-return-notice.show{
+  transform:translate(-50%,0);
+  opacity:1;
+}
+
+body.site-returning{
+  animation:siteReturnFix .75s ease both;
+}
+
+@keyframes siteReturnFix{
+  0%{filter:blur(3px) brightness(.75); transform:translateY(8px);}
+  55%{filter:blur(1px) brightness(1.08); transform:translateY(-2px);}
+  100%{filter:none; transform:none;}
+}
+
+.videoBtn{
+  position:relative;
+  isolation:isolate;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-width:190px;
+  padding:13px 24px;
+  border:1px solid rgba(214,185,140,.45);
+  border-radius:999px;
+  background:linear-gradient(135deg,#2b1118,#8b2635 55%,#c9a84c);
+  color:#fff8ec;
+  font-family:'Lora',serif;
+  font-size:.95em;
+  font-weight:700;
+  letter-spacing:.7px;
+  cursor:pointer;
+  box-shadow:0 12px 34px rgba(0,0,0,.35), inset 0 0 18px rgba(255,255,255,.08);
+  overflow:hidden;
+  transition:transform .22s ease, box-shadow .22s ease, letter-spacing .22s ease;
+}
+
+.videoBtn::before{
+  content:'';
+  position:absolute;
+  inset:-45%;
+  z-index:-1;
+  background:conic-gradient(from 90deg, transparent, rgba(255,255,255,.32), transparent 35%);
+  animation:cassetteShine 3.4s linear infinite;
+}
+
+.videoBtn::after{
+  content:'';
+  position:absolute;
+  inset:2px;
+  z-index:-1;
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(15,7,9,.95),rgba(139,38,53,.82));
+}
+
+.videoBtn:hover{
+  transform:translateY(-3px) scale(1.035);
+  letter-spacing:1.1px;
+  box-shadow:0 16px 42px rgba(0,0,0,.42),0 0 28px rgba(201,168,76,.24);
+}
+
+.videoBtn:active{transform:translateY(0) scale(.98);}
+
+@keyframes cassetteShine{to{transform:rotate(360deg);}}
+
+#jumpscare-flash{
+  position:fixed;
+  inset:0;
+  z-index:12000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  opacity:0;
+  background:#050000;
+}
+
+#jumpscare-flash.show{
+  animation:jumpscareBlink 1s steps(1,end) forwards;
+}
+
+.jumpscare-face{
+  width:min(72vw,520px);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 45%, #fff 0 8%, #1b0000 9% 16%, transparent 17%),
+             radial-gradient(circle at 33% 38%, #fff 0 9%, #000 10% 18%, transparent 19%),
+             radial-gradient(circle at 67% 38%, #fff 0 9%, #000 10% 18%, transparent 19%),
+             radial-gradient(circle at 50% 66%, #070000 0 22%, transparent 23%),
+             radial-gradient(circle, #9b1022 0 35%, #230006 60%, #000 100%);
+  box-shadow:0 0 55px rgba(255,0,0,.7);
+  transform:scale(1.18) rotate(-2deg);
+  filter:contrast(1.6) saturate(1.4);
+}
+
+
+.jumpscare-img{
+  width:min(92vw,760px);
+  max-height:92vh;
+  object-fit:contain;
+  display:block;
+  transform:scale(1.08) rotate(-1deg);
+  filter:contrast(1.18) saturate(1.12) drop-shadow(0 0 55px rgba(255,0,0,.85));
+}
+@keyframes jumpscareBlink{
+  0%{opacity:0;}
+  1%,99%{opacity:1;}
+  100%{opacity:0;}
+}
+
+/* ===== ALT KENAR ISIK CIZGISI FIX ===== */
+html,body{
+  min-height:100%;
+  background:var(--cream);
+}
+.bg-patterns{
+  inset:-12px;
+}
+.bg-patterns::after{
+  inset:-12px;
+}
+body::after{
+  content:'';
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:34px;
+  pointer-events:none;
+  z-index:2;
+  background:linear-gradient(to bottom, transparent, var(--cream) 88%);
+}
+[data-theme="dark"] body::after{
+  background:linear-gradient(to bottom, transparent, var(--cream) 88%);
+}
+
+/* ===== ESKI MEVSIM GECIS EFEKTLERI GERI ===== */
+.bg-patterns,
+.emoji-particles,
+.season-atmosphere{
+  display:none !important;
+}
+
+.weather-fx{
+  position:fixed;
+  inset:-40px 0 0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+  opacity:.95;
+}
+
+.weather-fx span{
+  position:absolute;
+  top:-60px;
+  color:transparent;
+  opacity:.22;
+  font-size:clamp(18px,1.8vw,28px);
+  animation:seasonFall linear infinite;
+  filter:drop-shadow(0 0 10px rgba(201,168,76,.18));
+}
+
+.weather-fx span::before{
+  color:rgba(255,245,220,.62);
+  content:'✦';
+}
+
+.weather-fx span:nth-child(2n){animation-name:seasonDrift;opacity:.17;}
+.weather-fx span:nth-child(3n){font-size:clamp(13px,1.3vw,20px);opacity:.2;}
+
+html[data-season="summer"] .weather-fx span::before{content:'☀️';}
+html[data-season="summer"] .weather-fx span:nth-child(2n)::before{content:'✦';}
+html[data-season="summer"] .weather-fx span:nth-child(3n)::before{content:'•';}
+html[data-season="summer"] .weather-fx span{filter:drop-shadow(0 0 12px rgba(255,210,90,.25));}
+
+html[data-season="autumn"] .weather-fx span::before{content:'🍂';}
+html[data-season="autumn"] .weather-fx span:nth-child(2n)::before{content:'🍁';}
+html[data-season="autumn"] .weather-fx span:nth-child(3n)::before{content:'🥀';}
+html[data-season="autumn"] .weather-fx span{opacity:.28;filter:drop-shadow(0 0 10px rgba(180,90,45,.22));}
+
+html[data-season="winter"] .weather-fx span::before{content:'❄️';}
+html[data-season="winter"] .weather-fx span:nth-child(2n)::before{content:'·';}
+html[data-season="winter"] .weather-fx span:nth-child(3n)::before{content:'✧';}
+html[data-season="winter"] .weather-fx span{opacity:.3;filter:drop-shadow(0 0 10px rgba(190,225,255,.25));}
+
+html[data-season="spring"] .weather-fx span::before{content:'🌸';}
+html[data-season="spring"] .weather-fx span:nth-child(2n)::before{content:'🌿';}
+html[data-season="spring"] .weather-fx span:nth-child(3n)::before{content:'✦';}
+html[data-season="spring"] .weather-fx span{opacity:.26;filter:drop-shadow(0 0 10px rgba(160,210,150,.22));}
+
+@keyframes seasonFall{
+  0%{transform:translate3d(0,-10vh,0) rotate(0deg);opacity:0;}
+  12%{opacity:.24;}
+  100%{transform:translate3d(34px,118vh,0) rotate(260deg);opacity:0;}
+}
+
+@keyframes seasonDrift{
+  0%{transform:translate3d(0,-10vh,0) rotate(0deg) scale(.92);opacity:0;}
+  18%{opacity:.25;}
+  50%{transform:translate3d(-42px,52vh,0) rotate(-120deg) scale(1.05);}
+  100%{transform:translate3d(38px,118vh,0) rotate(-260deg) scale(.96);opacity:0;}
+}
+
+body::after{
+  display:none !important;
+}
+
+/* ===== MEVSIMDEN BAGIMSIZ NORMAL EMOJILER ===== */
+.ambient-emojis{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  overflow:hidden;
+}
+.ambient-emojis span{
+  position:absolute;
+  top:-70px;
+  font-size:clamp(13px,1.4vw,22px);
+  opacity:.13;
+  filter:drop-shadow(0 0 8px rgba(201,168,76,.16));
+  animation:ambientEmojiFall linear infinite;
+}
+.ambient-emojis span:nth-child(2n){opacity:.18;animation-name:ambientEmojiDrift;}
+.ambient-emojis span:nth-child(3n){font-size:clamp(11px,1.1vw,18px);opacity:.11;}
+@keyframes ambientEmojiFall{
+  0%{transform:translate3d(0,-12vh,0) rotate(0deg);opacity:0;}
+  14%{opacity:.15;}
+  100%{transform:translate3d(20px,118vh,0) rotate(220deg);opacity:0;}
+}
+@keyframes ambientEmojiDrift{
+  0%{transform:translate3d(0,-12vh,0) rotate(0deg) scale(.92);opacity:0;}
+  16%{opacity:.18;}
+  52%{transform:translate3d(-32px,54vh,0) rotate(-110deg) scale(1.06);}
+  100%{transform:translate3d(26px,118vh,0) rotate(-240deg) scale(.95);opacity:0;}
+}
+</style>
+</head>
+<body>
+<div class="bg-patterns" aria-hidden="true"></div>
+<div class="season-atmosphere" aria-hidden="true">
+  <span style="left:7%; animation-duration:22s; animation-delay:-3s;">☀️</span>
+  <span style="left:16%; animation-duration:27s; animation-delay:-12s;">🍂</span>
+  <span style="left:25%; animation-duration:20s; animation-delay:-8s;">🌸</span>
+  <span style="left:36%; animation-duration:30s; animation-delay:-18s;">❄️</span>
+  <span style="left:48%; animation-duration:24s; animation-delay:-6s;">🍁</span>
+  <span style="left:59%; animation-duration:28s; animation-delay:-15s;">🌿</span>
+  <span style="left:70%; animation-duration:21s; animation-delay:-5s;">⛅</span>
+  <span style="left:82%; animation-duration:26s; animation-delay:-11s;">🥀</span>
+  <span style="left:92%; animation-duration:31s; animation-delay:-21s;">🌙</span>
+</div>
+<div class="emoji-particles" aria-hidden="true">
+  <span style="left:6%; animation-duration:18s; animation-delay:-2s;">✦</span>
+  <span style="left:14%; animation-duration:24s; animation-delay:-10s;">🍂</span>
+  <span style="left:23%; animation-duration:20s; animation-delay:-5s;">💔</span>
+  <span style="left:31%; animation-duration:27s; animation-delay:-14s;">🥀</span>
+  <span style="left:42%; animation-duration:22s; animation-delay:-8s;">🍁</span>
+  <span style="left:53%; animation-duration:29s; animation-delay:-18s;">🚌</span>
+  <span style="left:64%; animation-duration:21s; animation-delay:-4s;">✧</span>
+  <span style="left:72%; animation-duration:26s; animation-delay:-12s;">🌙</span>
+  <span style="left:81%; animation-duration:19s; animation-delay:-7s;">🖤</span>
+  <span style="left:91%; animation-duration:25s; animation-delay:-16s;">🍃</span>
+</div>
+<div id="site-return-notice" class="site-return-notice">Site geri geldi, birazdan duzeliyor...</div>
+<div id="jumpscare-flash" aria-hidden="true"><img class="jumpscare-img" src="jumpscare.png" alt=""></div>
+<audio id="jumpscare-audio" preload="auto" src="ear.mp3"></audio>
+<audio id="poyraz-letter-audio" preload="auto" src="poyraz-karalamasi.mp3"></audio>
+<div class="particles">
+  <span style="left:10%;animation-duration:10s;"></span>
+  <span style="left:25%;animation-duration:14s;"></span>
+  <span style="left:40%;animation-duration:12s;"></span>
+  <span style="left:55%;animation-duration:16s;"></span>
+  <span style="left:70%;animation-duration:11s;"></span>
+  <span style="left:85%;animation-duration:15s;"></span>
+</div>
+
+<div id="cover">
+  <div class="cover-backdrop" aria-hidden="true"></div>
+  <div class="cover-sparkles" aria-hidden="true">
+    <span>✦</span><span>✧</span><span>🍂</span><span>🥀</span><span>✦</span><span>🌙</span>
+  </div>
+  <div class="cover-stage">
+    <div class="cover-book">
+      <div class="cover-pages"></div>
+      <div class="cover-spine"></div>
+      <div class="cover-seal">✦</div>
+      <div class="cover-title">ŞENOL<br>DEMİRAL'IN<br>GÜNLÜĞÜ</div>
+      <div class="cover-subtitle">kayıp sayfalar</div>
+      <div class="cover-seal bottom">✦</div>
+    </div>
+    <div class="cover-hint">— açmak için tıkla —</div>
+  </div>
+</div>
+
+<div id="progress-bar"></div>
+
+<div class="ambient-emojis" aria-hidden="true">
+  <span style="left:5%; animation-duration:34s; animation-delay:-4s;">💔</span>
+  <span style="left:13%; animation-duration:28s; animation-delay:-12s;">✦</span>
+  <span style="left:22%; animation-duration:37s; animation-delay:-20s;">🖤</span>
+  <span style="left:34%; animation-duration:31s; animation-delay:-7s;">📖</span>
+  <span style="left:46%; animation-duration:40s; animation-delay:-26s;">🥀</span>
+  <span style="left:58%; animation-duration:30s; animation-delay:-15s;">🚌</span>
+  <span style="left:69%; animation-duration:36s; animation-delay:-9s;">🌙</span>
+  <span style="left:80%; animation-duration:33s; animation-delay:-23s;">✧</span>
+  <span style="left:91%; animation-duration:39s; animation-delay:-18s;">💧</span>
+</div>
+<div class="weather-fx">
+  <span style="left:10%;animation-duration:14s;">✦</span>
+  <span style="left:20%;animation-duration:20s;">•</span>
+  <span style="left:35%;animation-duration:17s;">✦</span>
+  <span style="left:50%;animation-duration:22s;">•</span>
+  <span style="left:70%;animation-duration:15s;">✦</span>
+  <span style="left:85%;animation-duration:19s;">•</span>
+</div>
+
+<audio id="ambient-audio" loop>
+  <source id="ambient-source" src="summer-birds.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="typewriter-audio">
+  <source src="typewriter.mp3" type="audio/mpeg">
+</audio>
+
+<div id="haziran-overlay"></div>
+<div id="heartbreak-overlay"></div>
+<div id="fade-white"></div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="sound-btn" title="Ses">🔇</button>
+<input type="range" id="volume-slider" min="0" max="100" value="40">
+  <button class="ctrl-btn" id="theme-btn" title="Tema">🌙</button>
+  <button class="ctrl-btn" id="bm-open-btn" title="Yer imleri">🔖</button>
+</div>
+
+<div id="bm-overlay"></div>
+<div id="bm-panel">
+  <button id="bm-close">✕</button>
+  <h3>🔖 Yer İmleri</h3>
+  <div id="bm-list"><div class="bm-empty">Henüz yer imi yok.<br>Girişlerdeki 🔖 ile işaretle.</div></div>
+</div>
+
+<div id="timeline">
+  <div class="tl-dot" data-id="agustos" data-label="Ağu '25"></div>
+  <div class="tl-dot" data-id="eylul" data-label="Eyl '25"></div>
+  <div class="tl-dot" data-id="ekim" data-label="Eki '25"></div>
+  <div class="tl-dot" data-id="kasim" data-label="Kas '25"></div>
+  <div class="tl-dot" data-id="aralik" data-label="Ara '25"></div>
+  <div class="tl-dot" data-id="ocak" data-label="Oca '26"></div>
+  <div class="tl-dot" data-id="subat" data-label="Şub '26"></div>
+  <div class="tl-dot" data-id="mart" data-label="Mar '26"></div>
+  <div class="tl-dot" data-id="nisan" data-label="Nis '26"></div>
+  <div class="tl-dot" data-id="mayis" data-label="May '26"></div>
+  <div class="tl-dot" data-id="haziran" data-label="Haz '26"></div>
+</div>
+
+<header>
+  <div class="header-ornament">✦ ✦ ✦</div>
+  <h1>ŞENOL DEMİRAL'IN GÜNLÜĞÜ</h1>
+  <div class="header-divider"><span></span><i>✦</i><span></span></div>
+  <p><em>Arkamda bıraktığım şeyi otobüs hareket edince anladım...</em></p>
+  <div class="reading-time" id="reading-timer-wrap">⏱ &nbsp;Okunurken geçen süre: <strong id="total-reading-time">00:00</strong></div>
+</header>
+
+<nav class="month-nav">
+  <div class="month-nav-inner">
+    <a href="#agustos" data-month="agustos">Ağustos '25</a>
+    <a href="#eylul" data-month="eylul">Eylül '25</a>
+    <a href="#ekim" data-month="ekim">Ekim '25</a>
+    <a href="#kasim" data-month="kasim">Kasım '25</a>
+    <a href="#aralik" data-month="aralik">Aralık '25</a>
+    <a href="#ocak" data-month="ocak">Ocak '26</a>
+    <a href="#subat" data-month="subat">Şubat '26</a>
+    <a href="#mart" data-month="mart">Mart '26</a>
+    <a href="#nisan" data-month="nisan">Nisan '26</a>
+    <a href="#mayis" data-month="mayis">Mayıs '26</a>
+    <a href="#haziran" data-month="haziran">Haziran '26</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<div class="author-box reveal">
+  <img src="senol.jpg" alt="Şenol Demiral" class="profile-img">
+  <h3>Şenol Demiral</h3>
+  <p>Köyden şehre uzanan bir yolculuk, koridorlarda çarpan bir kalp ve geride kalan koca bir poyraz fırtınası. Bu sayfada sadece yaşanmışlıklar var.</p>
+</div>
+
+<div class="season-transition reveal" data-season-mark="summer">☀️ &nbsp; &nbsp; ☀️ &nbsp; &nbsp; ☀️</div>
+
+<div class="month-section" id="agustos" data-season-context="summer">
+<div class="month-title">Ağustos 2025</div>
+
+<div class="diary-entry reveal" data-entry-id="ag1" data-words="95">
+  <span class="entry-mood" title="Gergin">😶</span>
+  <button class="bookmark-btn" title="Yer imi ekle">🔖</button>
+  <div class="entry-date">12 Ağustos 2025 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content">
+    
+<div class="intro-overlay">
+
+  <div class="vhs-noise"></div>
+
+  <div class="secret-stamp">GİZLİ DOSYA</div>
+
+  <h1 class="diary-title">Şenol Demiral'ın Günlüğü</h1>
+
+  <div class="intro-warning">“Bazı sayfalar açılmamalıydı...”</div>
+
+  <div class="intro-teaser">
+    “Keşke o koridora hiç girmeseydim.”
+  </div>
+
+  <div class="locked-diary">🔒 Kilitli Günlük</div>
+
+<div class="buttons">
+
+<button onclick="window.location.href='video.html'" class="videoBtn">
+🎥 Gizli Kaset
+</button>
+
+</div>
+</div>
+
+    <p id="intro-text" class="hidden-typewriter">Bugün yeni okulun ilk günüydü. Köyden gelip şehir okuluna alışmak zaten zorken bir de herkes birbirini tanıyor gibiydi. En arkaya sessizce oturdum. Sonra kapı açıldı.
+<span class="poyraz-name">Poyraz</span> Artun diye biri geldi.
+Uzun boylu, sert bakışlı, saçları dağınık. Öğretmen boş yere oturmasını söyledi. Gelip yanıma çöktü.
+"Adın ne?"
+"Şenol…"
+"Korkma la yemeyiz seni."
+O an sinir oldum biraz ama kötü biri gibi değildi.</p>
+  </div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+
+<div class="diary-entry reveal" data-entry-id="ag2" data-words="65">
+  <span class="entry-mood" title="Heyecanlı">🫀</span>
+  <button class="bookmark-btn" title="Yer imi ekle">🔖</button>
+  <div class="entry-date">16 Ağustos 2025 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content">
+    <p>Bugün beden dersinde rezil oldum. Futbolda top bana geldiği anda ayağım kaydı düştüm. Herkes güldü.
+Ben yerden kalkmaya çalışırken biri bağırdı: "Lan düzgün oynayın biraz."
+<span class="poyraz-name">Poyraz</span>'dı.
+Sonra elini uzattı bana.
+"İyi misin?"
+Elini tutarken elim titredi resmen.</p>
+  </div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+
+<div class="post-img-wrap reveal"><img src="senol.jpg" alt="Şenol" class="post-img"></div>
+
+<div class="diary-entry reveal" data-entry-id="ag3" data-words="80">
+  <span class="entry-mood" title="Mutlu">🌸</span>
+  <button class="bookmark-btn" title="Yer imi ekle">🔖</button>
+  <div class="entry-date">28 Ağustos 2025 <span class="weather-icon">🌤️</span></div>
+  <div class="entry-content">
+    <p>Bugün ilk kez beraber eve döndük. Servis geç kalınca okulun önünde oturduk.
+<span class="poyraz-name">Poyraz</span> çekirdek aldı bakkaldan.
+"Şehir sıkıyo beni," dedi.
+"Neden?"
+"Dağ daha sessiz."
+Ben istemsizce güldüm. "Sen de sessizsin zaten."
+"İyi mi kötü mü?"
+"İyi."
+O an nedense içim ısındı.</p>
+  </div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="season-transition reveal" data-season-mark="autumn">🍂 &nbsp; &nbsp; 🍁 &nbsp; &nbsp; 🍂</div>
+
+<div class="month-section" id="eylul" data-season-context="autumn">
+<div class="month-title">Eylül 2025</div>
+<div class="diary-entry reveal" data-entry-id="ey1" data-words="75">
+  <span class="entry-mood">🌸</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">3 Eylül 2025 <span class="weather-icon">🌤️</span></div>
+  <div class="entry-content"><p>Artık herkes bizi beraber görüyor. Teneffüste kantinde, çıkışta, hatta bazen derslerde bile.
+Bugün biri bana: "<span class="poyraz-name">Poyraz</span>'ın gölgesi olmuşsun," dedi. Utandım direkt.
+Ama <span class="poyraz-name">Poyraz</span> duyunca çocuğa dönüp: "Rahatsız mı oldun?" dedi. Çocuk sustu.
+Benim için ilk kez biri böyle davranıyordu.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ey2" data-words="90">
+  <span class="entry-mood">😳</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">11 Eylül 2025 <span class="weather-icon">☁️</span></div>
+  <div class="entry-content"><p>Bugün matematik hocası beni tahtaya kaldırdı. Yapamadım soruyu. Elim ayağım karıştı. Sınıf hafif gülmeye başladı. <span class="poyraz-name">Poyraz</span> arkadan: "Hocam çocuk heyecanlandı biraz," dedi.
+Ders çıkışı da bana tost aldı.
+"Takma kafana."
+"Salak gibi oldum."
+"Herkes olur. Sen çok düşünüyorsun."
+Sanırım doğru söylüyor.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ey3" data-words="100">
+  <span class="entry-mood">😊</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">25 Eylül 2025 <span class="weather-icon">🌤️</span></div>
+  <div class="entry-content"><p>Bugün ilk kez <span class="poyraz-name">Poyraz</span>'ın evine gittim. Dağın yamacında eski bir evdi. Bahçede odunlar falan vardı. Babası sert bakışlı bir adamdı.
+<span class="poyraz-name">Poyraz</span> bana odasını gösterdi. Duvarlarda motor posterleri vardı.
+"Çay içer misin?" dedi. "Olur."
+Çayı yapmayı bile beceremedi. Mutfakta yarım saat uğraştık.
+Hayatımda ilk kez biriyle bu kadar rahat hissettim.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="month-section" id="ekim" data-season-context="autumn">
+<div class="month-title">Ekim 2025</div>
+<div class="diary-entry reveal" data-entry-id="ek1" data-words="80">
+  <span class="entry-mood">😳</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">4 Ekim 2025 <span class="weather-icon">🌧️</span></div>
+  <div class="entry-content"><p>Bugün okul çıkışı kavga çıktı. Üst sınıftan biri omzuma vurup geçti. <span class="poyraz-name">Poyraz</span> direkt çocuğut itti.
+"Düzgün yürüsene."
+Bir anda ortam gerildi. Ben kolundan tuttum. "Boş ver."
+Bana baktı. "Senin yanında sakin durmaya çalışıyom."
+Nedense bunu duyunca yüzüm kızardı.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="post-img-wrap reveal"><img src="senol.jpg" alt="Şenol" class="post-img"></div>
+<div class="diary-entry reveal" data-entry-id="ek2" data-words="85">
+  <span class="entry-mood">🌧️</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">18 Ekim 2025 <span class="weather-icon">🌧️</span></div>
+  <div class="entry-content"><p>Yağmur vardı bugün. Servisi kaçırdım. <span class="poyraz-name">Poyraz</span> motorla geldi.
+"Bin." "Düşerim ben." "Tutunursun."
+Mecbur bindim. Motor hızlanınca refleksle ona sarıldım biraz. Gülmeye başladı.
+"Şenol korkuyo." "Sus."
+Ama içten içe hoşuma gitmişti.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ek3" data-words="75">
+  <span class="entry-mood">🫀</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">29 Ekim 2025 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content"><p>Cumhuriyet Bayramı töreni vardı bugün. Ben sırada sessiz dururken <span class="poyraz-name">Poyraz</span> yanıma eğildi.
+"Takım elbiseyle garip olmuşsun." "Kötü mü?"
+"Yok… güzel olmuşsun."
+Bir anda ne diyeceğimi şaşırdım. Tüm tören boyunca onu düşündüm.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="month-section" id="kasim" data-season-context="autumn">
+<div class="month-title">Kasım 2025</div>
+<div class="month-quote">
+“Bazı insanlar hayatına sessizce girer ama gittiklerinde bütün mevsim değişir.”
+</div>
+
+<div class="diary-entry reveal" data-entry-id="ka1" data-words="70">
+  <span class="entry-mood">🥺</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">7 Kasım 2025 <span class="weather-icon">🌫️</span></div>
+  <div class="entry-content"><p>Bugün hastaydım biraz. Derste başım dönüyordu. <span class="poyraz-name">Poyraz</span> montunu çıkartıp omzuma attı.
+"Titriyon." "İyiyim." "Değilsin."
+Sonra kantinden sıcak çay aldı bana. Kimsenin bana böyle baktığını hatırlamıyorum.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ka2" data-words="90">
+  <span class="entry-mood">😤</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">15 Kasım 2025 <span class="weather-icon">☁️</span></div>
+  <div class="entry-content"><p>Bugün ilk ciddi kavgamız oldu. Ben başka sınıftakilerle projeye kalınca sinirlendi.
+"Beni niye çağırmadın?" "Sen sıkılırsın diye düşündüm."
+"Ben senin yanında sıkılmıyom."
+Bunu dedikten sonra sustu. Ben de sustum.
+Akşam mesaj attı: "Kusura bakma." Mesajı görünce saçma şekilde mutlu oldum.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ka3" data-words="95">
+  <span class="entry-mood">🌙</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">30 Kasım 2025 <span class="weather-icon">🌙</span></div>
+  <div class="entry-content"><p>Bugün okulun çatısına çıktık gizlice. Şehir ışıkları görünüyordu. <span class="poyraz-name">Poyraz</span> sigara yakıp bana baktı.
+"Hiç aşık oldun mu?" Bir anda panikledim.
+"Bilmem." "Ben galiba oldum."
+Kalbimi duracak sandım. "Kime?"
+Bana bakıp güldü sadece. "Boş ver." O gece uyuyamadım.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="season-transition reveal" data-season-mark="winter">❄️ &nbsp; &nbsp; ❄️ &nbsp; &nbsp; ❄️</div>
+
+<div class="month-section" id="aralik" data-season-context="winter">
+<div class="month-title">Aralık 2025</div>
+<div class="diary-entry reveal" data-entry-id="ar1" data-words="65">
+  <span class="entry-mood">😄</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">8 Aralık 2025 <span class="weather-icon">❄️</span></div>
+  <div class="entry-content"><p>Bugün kar yağdı ilk kez. Bahçede herkes kartopu oynuyordu. <span class="poyraz-name">Poyraz</span> direkt yüzüme attı bir tane.
+"LAN!"
+Kaçmaya başladım ama yakaladı. Saçlarıma kar doldurdu resmen. İlk kez onun yanında çocuk gibi eğlendim.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ar2" data-words="80">
+  <span class="entry-mood">🫀</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">19 Aralık 2025 <span class="weather-icon">❄️</span></div>
+  <div class="entry-content"><p>Bugün elektrikler kesildi okulda. Sınıf karanlıkken herkes bağırıyordu. Ben cam kenarında otururken <span class="poyraz-name">Poyraz</span> yanıma geldi.
+"Korktun mu?" "Yok." "Yalan."
+Sonra telefon flaşını açıp önümde tuttu. "Şimdi iyisin."
+Küçük şeyler yapıyor ama çok etkiliyor beni.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ar3" data-words="85">
+  <span class="entry-mood">🎆</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">31 Aralık 2025 <span class="weather-icon">🎆</span></div>
+  <div class="entry-content"><p>Yeni yıl gecesi. Saat 11 gibi mesaj attı: "Dışarı gelsene."
+Montumu giyip çıktım. Mahallenin tepesine oturduk beraber. Havai fişekler görünüyordu uzaktan.
+Tam saat 12'de bana dönüp: "Bu sene seni tanıdığım için şanslıyım," dedi.
+Ne diyeceğimi bilemedim yine. Sadece gülümsedim.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="month-section" id="ocak" data-season-context="winter">
+<div class="month-title">Ocak 2026</div>
+<div class="diary-entry reveal" data-entry-id="oc1" data-words="70">
+  <span class="entry-mood">😄</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">10 Ocak 2026 <span class="weather-icon">❄️</span></div>
+  <div class="entry-content"><p>Bugün bana atkı verdi. "Köy atkısı gibi olmuş," dedim.
+"Ben örmedim zaten mal."
+Gülmeye başladık. Ama akşam eve gelince atkıyı kokladım istemsizce. Biraz odun biraz yağmur kokuyordu.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="oc2" data-words="70">
+  <span class="entry-mood">🫀</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">18 Ocak 2026 <span class="weather-icon">☁️</span></div>
+  <div class="entry-content"><p>Kütüphaneye gittik beraber. Ben ders çalışıyordum, o sıkılıyordu. Bir ara başını sıraya koyup bana baktı.
+"Sen çalışırken huzurlu oluyom." "Bu nasıl cümle?" "Bilmem."
+Kalbim yine saçma saçma atmaya başladı.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="post-img-wrap reveal"><img src="senol.jpg" alt="Şenol" class="post-img"></div>
+<div class="diary-entry reveal" data-entry-id="oc3" data-words="80">
+  <span class="entry-mood">🥺</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">29 Ocak 2026 <span class="weather-icon">❄️</span></div>
+  <div class="entry-content"><p>Bugün kar yüzünden okul erken çıktı. Yolda yürürken elim donmuştu. <span class="poyraz-name">Poyraz</span> elimi tuttu. Refleksle çekemedim bile.
+"Buz gibisin."
+Sonra uzun süre bırakmadı. O an keşke yol hiç bitmese dedim içimden.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="month-section" id="subat" data-season-context="winter">
+<div class="month-title">Şubat 2026</div>
+<div class="diary-entry reveal" data-entry-id="su1" data-words="45">
+  <span class="entry-mood">😄</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">14 Şubat 2026 <span class="weather-icon">❄️</span></div>
+  <div class="entry-content"><p>Sırama poğaça bırakmış. Peçetede şunu yazmış: "Yemeden derse girme utangaç."
+Bütün gün sırıtıp durdum.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="su2" data-words="65">
+  <span class="entry-mood">🥺</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">20 Şubat 2026 <span class="weather-icon">🌧️</span></div>
+  <div class="entry-content"><p>Bugün biri benim sesimle dalga geçti. <span class="poyraz-name">Poyraz</span> direkt çocuğun sırasına vurdu. "Bir daha konuşma."
+Sonra bana döndü: "Senin üzülmen sinirimi bozuyo."
+İlk kez biri beni bu kadar sahipleniyordu.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="su3" data-words="75">
+  <span class="entry-mood">🫀</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">28 Şubat 2026 <span class="weather-icon">❄️</span></div>
+  <div class="entry-content"><p>Bugün beraber kar altında yürüdük. Bir anda durdu.
+"Şenol." "Hı?" "Sana sarılsam saçma olur mu?"
+Beynim durdu resmen. "Bilmem…"
+Sonra sarıldı bana. Çok kısa sürdü ama bütün gece onu düşündüm.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="season-transition reveal" data-season-mark="spring">🌸 &nbsp; &nbsp; 🌿 &nbsp; &nbsp; 🌸</div>
+
+<div class="month-section" id="mart" data-season-context="spring">
+<div class="month-title">Mart 2026</div>
+<div class="diary-entry reveal" data-entry-id="ma1" data-words="60">
+  <span class="entry-mood">😏</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">6 Mart 2026 <span class="weather-icon">🌤️</span></div>
+  <div class="entry-content"><p>Bugün bütün ders boyunca bana baktığını fark ettim. Her döndüğümde gözünü kaçırıyordu. En son dayanamadım.
+"Ne bakıyon?" "Seviyom bakmayı."
+Şaka mı ciddi mi anlayamadım.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+
+<div class="fake-chat reveal">
+  <div class="chat-msg chat-left">uyudun mu</div>
+  <div class="chat-msg chat-right">yok</div>
+  <div class="chat-msg chat-left">niye hâlâ çevrimiçisin</div>
+  <div class="chat-msg chat-right">seni düşünüyom biraz</div>
+</div>
+
+<div class="diary-entry reveal" data-entry-id="ma2" data-words="55">
+  <span class="entry-mood">🌸</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">17 Mart 2026 <span class="weather-icon">🌧️</span></div>
+  <div class="entry-content"><p>Otobüste yanıma oturdu. Başını omzuma koydu. Kimse görmesin diye kıpırdamadan durdum.
+"Uyuma numarası yapıyon dimi?" dedim.
+"Belki." Gülümsedi.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ma3" data-words="65">
+  <span class="entry-mood">🥺</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">27 Mart 2026 <span class="weather-icon">🌤️</span></div>
+  <div class="entry-content"><p>Gezi dönüşü bana: "Sen gidersen okul çekilmez olur," dedi.
+"Gitmem." "Benim için mi?"
+Bir süre sustum. "Belki." Hayatımda ilk kez birine bunu söyledim.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="month-section" id="nisan" data-season-context="spring">
+<div class="month-title">Nisan 2026</div>
+<div class="diary-entry reveal" data-entry-id="ni1" data-words="55">
+  <span class="entry-mood">😤</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">4 Nisan 2026 <span class="weather-icon">🌸</span></div>
+  <div class="entry-content"><p>Bugün bana sinirlendi. Sebep çok saçmaydı. Başka biriyle fazla konuşmuşum.
+Akşam mesaj attı: "Kıskandım galiba." Mesajı görünce elim titredi.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ni2" data-words="60">
+  <span class="entry-mood">🫀</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">15 Nisan 2026 <span class="weather-icon">🌸</span></div>
+  <div class="entry-content"><p>Beraber göl kenarına gittik. Sessizdi bugün. Sonra aniden:
+"Şenol ben seni kaybetmek istemiyom." dedi. İçim düğümlendi.
+"Kaybolmam." İlk kez bu kadar net konuştum.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="ni3" data-words="45">
+  <span class="entry-mood">🌸</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">30 Nisan 2026 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content"><p>Bugün elimi tuttu herkesin içinde. Normalde utanırdım ama bırakmadım. Sanırım ben de değişiyorum artık.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+
+<div class="deleted-entry" id="deleted-memory">
+  <strong>~~ silinmiş bir günlük parçası ~~</strong>
+  <div class="deleted-hidden">
+    “Bugün bana sarıldığında eve dönmek istemedim.”
+  </div>
+</div>
+
+<div class="month-section" id="mayis" data-season-context="spring">
+<div class="month-title">Mayıs 2026</div>
+<div class="diary-entry reveal" data-entry-id="my1" data-words="50">
+  <span class="entry-mood">🌸</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">9 Mayıs 2026 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content"><p>Eski basket sahasına gittik. "İyi ki yanıma oturmuşsun ilk gün," dedim.
+"Başka yere oturmazdım zaten." Kalbim yine hızlandı.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry reveal" data-entry-id="my2" data-words="60">
+  <span class="entry-mood">🥺</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">18 Mayıs 2026 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content"><p>Bugün mezuniyet provası vardı. Herkes geleceği konuşuyordu. Ben korkuyordum biraz.
+<span class="poyraz-name">Poyraz</span> kulağıma eğildi: "Nereye gidersen git peşinden gelirim." O an gözlerim doldu.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="post-img-wrap reveal"><img src="senol.jpg" alt="Şenol" class="post-img"></div>
+<div class="diary-entry reveal" data-entry-id="my3" data-words="90">
+  <span class="entry-mood">😊</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">29 Mayıs 2026 <span class="weather-icon">🌅</span></div>
+  <div class="entry-content"><p>Bugün ilk kez ona sarılırken utanmadım. Okulun arka bahçesinde güneş batıyordu. <span class="poyraz-name">Poyraz</span> saçımı karıştırdı.
+"İlk geldiğinde konuşamıyodun bile." "Sen yüzünden açıldım biraz."
+"Biraz mı?" Gülmeye başladık. Ve sanırım ilk kez gerçekten mutlu hissettim.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="month-section" id="haziran" data-season-context="summer">
+<div class="month-title">Haziran 2026</div>
+<div class="diary-entry breaking reveal" data-entry-id="hz1" data-words="120">
+  <span class="entry-mood">😶</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">5 Haziran 2026 <span class="weather-icon">☀️</span></div>
+  <div class="entry-content"><p>Son zamanlarda içimde garip bir huzursuzluk vardı. <span class="poyraz-name">Poyraz</span> her zamanki gibiydi aslında. Sürekli yanımda, sürekli koruyan taraf. Ama ben değişmeye başlamıştım galiba.
+Bugün okul çıkışında beni siyah bir araba almaya geldi. Annemin uzaktan akrabasıymış. Şehirde büyük işleri olan biri.
+<span class="poyraz-name">Poyraz</span> arabayı görünce kaşlarını çattı. "Bu kim?" "Tanıdık işte." "Pek sevmedim tipini."
+Normalde gülerdim ama bu kez sustum. Çünkü ilk kez hayatımda başka bir hayat mümkün gibi görünmüştü.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry breaking reveal" data-entry-id="hz2" data-words="110">
+  <span class="entry-mood">😔</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">16 Haziran 2026 <span class="weather-icon">🌥️</span></div>
+  <div class="entry-content"><p>O adam beni birkaç kez daha görmeye geldi. Bana pahalı şeylerden bahsediyordu. İstanbul'dan, büyük evlerden, rahat yaşamdan… Ben köyden çıkmış biriydim sonuçta.
+<span class="poyraz-name">Poyraz</span> hâlâ eski motoruyla dolaşıyor, kavga ediyor, sigara içiyordu.
+Bir akşam bana: "Sen uzaklaştın benden," dedi. "Yok." "Var." Gözlerime baktı uzun uzun. "Eskisi gibi bakmıyon."
+İçim acıdı ama inkâr etmedim. Çünkü haklıydı.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="diary-entry breaking reveal" data-entry-id="hz3" data-words="115">
+  <span class="entry-mood">💔</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">24 Haziran 2026 <span class="weather-icon">⛅</span></div>
+  <div class="entry-content"><p>Bugün büyük kavga ettik. <span class="poyraz-name">Poyraz</span> beni o adamın arabasında görünce sinirlendi direkt.
+"Şenol napıyon sen?" "Ne var bunda?" "Bu adam sana göre değil." "Belki sana göre değildir."
+Bunu dediğim an yüzü değişti. İlk kez gerçekten kırılmış görünüyordu.
+"Ben senin yanında yetmedim mi?"
+Sesim çıkmadı. Çünkü cevabı biliyordum galiba.</p></div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+<div class="post-img-wrap reveal"><img src="senol.jpg" alt="Şenol" class="post-img"></div>
+<div class="diary-entry breaking-final reveal final-locked" id="final-entry" data-entry-id="hz4" data-words="175">
+  <button type="button" class="final-unlock" id="final-unlock"><span>Tıkla</span><small>Son sayfa açılsın</small></button>
+  <span class="entry-mood">💔</span>
+  <button class="bookmark-btn">🔖</button>
+  <div class="entry-date">30 Haziran 2026 <span class="weather-icon">🚌</span></div>
+  <div class="entry-content">
+    <p><strong>Bugün gittim.</strong>
+Sabah erkenden valizimi topladım. Annem bile şaşkındı. O adam beni şehir dışına götürecekti.
+Otogarda onu beklerken bir anda <span class="poyraz-name">Poyraz</span> geldi. Nefes nefeseydi. Belli ki koşmuştu.
+"Gitme." Sadece bunu dedi. Elimi tuttu.
+Eskiden olsa kalırdım belki. Ama o gün elimi çektim.
+"Ben yoruldum <span class="poyraz-name">Poyraz</span>."
+"Ben seni mutlu etmeye çalıştım."
+"Yetmedi."
+O an gözleri boşaldı resmen. Hayatım boyunca o bakışı unutamayacağım sanırım.
+Otobüse bindim. Cam kenarından baktım son kez. <span class="poyraz-name">Poyraz</span> hâlâ olduğu yerde duruyordu. Dağdan inen o sert çocuk… İlk kez tamamen yalnız görünüyordu.
+Ve ben… Arkamda bıraktığım şeyi otobüs hareket edince anladım.</p>
+  </div>
+  <button class="note-toggle">✏️ Not bırak</button>
+  <div class="note-area"><textarea class="note-input" placeholder="Bu anı okurken ne hissettin?..." rows="2"></textarea></div>
+</div>
+
+<div id="bus-scene">
+  <svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;margin:0 auto;display:block;opacity:.85">
+    <line x1="0" y1="155" x2="600" y2="155" stroke="#c9a84c" stroke-width="1" stroke-dasharray="4 8" opacity=".4"/>
+    <rect x="30" y="80" width="260" height="65" rx="8" fill="#8b2635" opacity=".85"/>
+    <rect x="30" y="80" width="260" height="12" rx="4" fill="#6a1a25" opacity=".9"/>
+    <rect x="48" y="95" width="36" height="24" rx="3" fill="#faf7f2" opacity=".7"/>
+    <rect x="96" y="95" width="36" height="24" rx="3" fill="#faf7f2" opacity=".7"/>
+    <rect x="144" y="95" width="36" height="24" rx="3" fill="#faf7f2" opacity=".15"/>
+    <rect x="192" y="95" width="36" height="24" rx="3" fill="#faf7f2" opacity=".15"/>
+    <rect x="240" y="95" width="36" height="24" rx="3" fill="#faf7f2" opacity=".15"/>
+    <circle cx="114" cy="107" r="7" fill="#c9a84c" opacity=".9"/>
+    <circle cx="80" cy="150" r="14" fill="#2c1a10" stroke="#5a4f45" stroke-width="2"/>
+    <circle cx="80" cy="150" r="6" fill="#5a4f45"/>
+    <circle cx="230" cy="150" r="14" fill="#2c1a10" stroke="#5a4f45" stroke-width="2"/>
+    <circle cx="230" cy="150" r="6" fill="#5a4f45"/>
+    <circle cx="440" cy="100" r="10" fill="#5a4f45"/>
+    <rect x="434" y="110" width="12" height="28" rx="4" fill="#5a4f45"/>
+    <rect x="428" y="113" width="8" height="3" rx="2" fill="#5a4f45"/>
+    <rect x="446" y="113" width="8" height="3" rx="2" fill="#5a4f45"/>
+    <rect x="454" y="112" width="10" height="3" rx="2" fill="#5a4f45" transform="rotate(-15 454 112)"/>
+    <line x1="310" y1="155" x2="600" y2="155" stroke="#5a4f45" stroke-width="1.5" opacity=".3"/>
+    <text x="300" y="175" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#9a9080" font-style="italic">...ve otobüs hareket etti.</text>
+  </svg>
+</div>
+
+<div id="poyraz-letter-wrapper">
+  <div class="letter-envelope" id="poyraz-letter">
+    <div class="letter-content">
+      "Sana gitme diyemezdim Şenol, zaten hiç diyemedim ki. Dağdan inen adamın heybesinde ne varsa hepsini döktüm önüne; bir poğaça, bir eski atkı, bir de rüzgâr işte... Yetmedi, biliyorum. Sen o parlak ışıkları, o büyük binaları hak ediyorsun. Ama unutma, o koca şehirde ne zaman yağmur yağsa ve üşürsen, arkana bakma. Çünkü o fırtına hep buralarda esecek, bıraktığın yerde."
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<!-- ===== YORUMLAR BÖLÜMÜ ===== -->
+<section id="comments-section">
+  <div class="container">
+    <div class="comments-header">
+      <h2>💬 Okuyucu Yorumları</h2>
+      <p class="comments-sub">Bu günlüğü okuyanların sesi...</p>
+    </div>
+
+    <!-- Yorum Formu -->
+    <div class="comment-form-box" id="comment-form-box">
+      <input type="text" id="comment-name" placeholder="Adın (örn. Ahmet Kaya)" maxlength="40">
+      <textarea id="comment-text" placeholder="Bu günlük hakkında ne düşünüyorsun?..." rows="3" maxlength="600"></textarea>
+      <button id="comment-submit">Yorum Gönder</button>
+    </div>
+
+    <!-- Yorum Listesi -->
+    <div id="comments-list"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <img src="senol.jpg" alt="Şenol Demiral" class="footer-img">
+    <span class="footer-text">Şenol Demiral'ın Anıları &copy; 2026</span>
+  </div>
+</footer>
+
+<button id="scroll-top" aria-label="Yukarı çık">↑</button>
+
+<!-- ===== RADYO WIDGET ===== -->
+<audio id="radio-audio" loop>
+  <source src="radio.mp3" type="audio/mpeg">
+</audio>
+<div id="radio-player" class="minimized">
+  <div id="radio-header">
+    <span id="radio-icon">📻</span>
+    <span id="radio-title">Gece Radyosu</span>
+    <button id="radio-minimize" title="Küçült/Büyüt">▾</button>
+  </div>
+  <div id="radio-body">
+    <div class="radio-cassette" aria-hidden="true"><span></span><i></i><span></span></div>
+    <div id="radio-track-name">Indila - Love Story 4:51</div>
+    <div class="radio-waveform" id="radio-waveform">
+      <span style="height:4px"></span>
+      <span style="height:4px"></span>
+      <span style="height:4px"></span>
+      <span style="height:4px"></span>
+      <span style="height:4px"></span>
+    </div>
+    <div id="radio-controls">
+      <button id="radio-play-btn">▶</button>
+      <input type="range" id="radio-volume" min="0" max="100" value="60">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+// ===== OKUMA SÜRESİ SAYACI =====
+(()=>{
+  const timerEl = document.getElementById('total-reading-time');
+  const wrapEl = document.getElementById('reading-timer-wrap');
+  if(!timerEl) return;
+
+  let startTime = null;
+  let timerInterval = null;
+  let started = false;
+
+  function formatTime(ms){
+    const totalSec = Math.floor(ms / 1000);
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function startTimer(){
+    if(started) return;
+    started = true;
+    startTime = Date.now();
+    timerInterval = setInterval(()=>{
+      const elapsed = Date.now() - startTime;
+      timerEl.textContent = formatTime(elapsed);
+    }, 1000);
+  }
+
+  // Sayfa scroll edilince sayaç başlasın
+  window.addEventListener('scroll', startTimer, {once: true, passive: true});
+  // Ya da kapak kapandığında
+  document.getElementById('cover')?.addEventListener('click', ()=>{
+    setTimeout(startTimer, 1000);
+  });
+})();
+
+// ===== COVER =====
+const cover=document.getElementById('cover');
+let coverOpened=false;
+function playCoverChime(){
+  try{
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, ctx.currentTime);
+    master.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.03);
+    master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.15);
+    master.connect(ctx.destination);
+
+    [392, 523.25, 659.25].forEach((freq, i)=>{
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.22, ctx.currentTime + i * 0.08 + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.92 + i * 0.05);
+      osc.connect(gain);
+      gain.connect(master);
+      osc.start(ctx.currentTime + i * 0.08);
+      osc.stop(ctx.currentTime + 1.2);
+    });
+  }catch(e){}
+}
+
+if(cover){
+  cover.addEventListener('click',()=>{
+    if(coverOpened) return;
+    coverOpened=true;
+    playCoverChime();
+    cover.classList.add('opening');
+    setTimeout(()=>{
+      cover.classList.add('hidden');
+      setTimeout(()=>cover.style.display='none',900);
+    }, 420);
+  });
+}
+
+// ===== THEME =====
+const themeBtn=document.getElementById('theme-btn');
+const html=document.documentElement;
+function applyTheme(t){
+  html.setAttribute('data-theme',t);
+  themeBtn.textContent=t==='dark'?'☀️':'🌙';
+  localStorage.setItem('diary-theme',t);
+}
+const saved=localStorage.getItem('diary-theme');
+if(saved){applyTheme(saved);}
+else{const h=new Date().getHours();applyTheme(h>=20||h<7?'dark':'light');}
+themeBtn.addEventListener('click',()=>applyTheme(html.getAttribute('data-theme')==='dark'?'light':'dark'));
+
+// ===== SES SİSTEMİ (SADECE MEVSİM SESLERİ) =====
+let soundOn=false;
+const soundBtn=document.getElementById('sound-btn');
+// WebAudio API kullanılmıyor - sadece ambient-audio elementi
+
+// ===== PROGRESS + SCROLL TOP =====
+const pb=document.getElementById('progress-bar'),st=document.getElementById('scroll-top');
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY,tot=document.documentElement.scrollHeight-window.innerHeight;
+  pb.style.width=(s/tot*100)+'%';
+  st.classList.toggle('show',s>400);
+  updateNav();checkHaziran();checkFinal();
+},{passive:true});
+st.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ===== DİNAMİK MEVSİM + TIMELINE REFRESH =====
+const sections=document.querySelectorAll('.month-section');
+const navLinks=document.querySelectorAll('.month-nav a');
+const tlDots=document.querySelectorAll('.tl-dot');
+
+function updateNav(){
+  let cur='';
+  sections.forEach(s=>{if(s.getBoundingClientRect().top<=180)cur=s.id;});
+  navLinks.forEach(a=>a.classList.toggle('active',a.dataset.month===cur));
+  tlDots.forEach(d=>d.classList.toggle('active',d.dataset.id===cur));
+  
+  // Mevsime göre HTML attribute değiştirme (Dinamik CSS Teması için)
+  const curSection = document.getElementById(cur);
+  if (curSection && curSection.dataset.seasonContext) {
+    const activeSeason = curSection.dataset.seasonContext;
+    html.setAttribute('data-season', activeSeason);
+  }
+}
+
+// ===== HAZIRAN OVERLAY =====
+const hOvl=document.getElementById('haziran-overlay'),hSec=document.getElementById('haziran');
+let hActive=false;
+function checkHaziran(){
+  if(!hSec)return;
+  const inView=hSec.getBoundingClientRect().top<window.innerHeight*.6;
+  if(inView&&!hActive){
+    hActive=true;hOvl.classList.add('active');
+  }
+  else if(!inView&&hActive){
+    hActive=false;hOvl.classList.remove('active');
+  }
+}
+
+// ===== FINAL ENTRY (KALP KIRILMASI + KAPANIŞ) =====
+const finalEl=document.getElementById('final-entry');
+const fadeWh=document.getElementById('fade-white');
+const busScene=document.getElementById('bus-scene');
+const poyrazLetterBox = document.getElementById('poyraz-letter-wrapper');
+const heartbreakOverlay = document.getElementById('heartbreak-overlay');
+let finalDone=false;
+
+function spawnHeartParticle(){
+  if(!heartbreakOverlay) return;
+  const p = document.createElement('div');
+  p.className = 'heartbreak-particle';
+  p.textContent = ['💔','🥀','💧','🖤','😶'][Math.floor(Math.random()*5)];
+  p.style.left = (15 + Math.random() * 70) + '%';
+  p.style.bottom = (10 + Math.random() * 20) + '%';
+  p.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+  p.style.animationDelay = (Math.random() * 0.8) + 's';
+  document.body.appendChild(p);
+  p.style.position = 'fixed';
+  p.style.zIndex = '996';
+  setTimeout(()=>p.remove(), 5000);
+}
+
+function openFinalEntry(){
+  if(!finalEl||finalDone)return;
+  finalDone=true;
+  if(typeof playCoverChime === 'function') playCoverChime();
+
+  finalEl.classList.remove('final-locked');
+  finalEl.classList.add('final-opened');
+
+  // Kalp kırılması entry efekti
+  finalEl.classList.add('heartbreak-active');
+
+  // Kırmızı vignette overlay
+  if(heartbreakOverlay){
+    heartbreakOverlay.style.opacity = '';
+    heartbreakOverlay.style.transition = 'opacity 1.5s ease';
+    heartbreakOverlay.classList.add('active');
+  }
+
+  // İlk dalga parçacıklar
+  for(let i=0; i<14; i++){
+    setTimeout(spawnHeartParticle, i * 200);
+  }
+  // İkinci dalga
+  setTimeout(()=>{
+    for(let i=0; i<8; i++) setTimeout(spawnHeartParticle, i * 350);
+  }, 3500);
+
+  setTimeout(()=>{fadeWh.classList.add('flash');setTimeout(()=>fadeWh.classList.remove('flash'),2200);},800);
+
+  setTimeout(()=>{
+    busScene.style.display='block';
+    poyrazLetterBox.classList.add('show');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      busScene.classList.add('visible');
+    }));
+  },1200);
+
+  // Overlay'i yavaşça söndür
+  setTimeout(()=>{
+    if(heartbreakOverlay){
+      heartbreakOverlay.style.transition = 'opacity 3s ease';
+      heartbreakOverlay.style.opacity = '0';
+    }
+  }, 9000);
+}
+
+function checkFinal(){
+  // Son sayfa artik otomatik degil, sadece tiklayinca aciliyor.
+}
+
+if(finalEl){
+  finalEl.addEventListener('click', (e)=>{
+    if(!finalEl.classList.contains('final-locked')) return;
+    e.preventDefault();
+    openFinalEntry();
+  });
+}
+
+// ===== POYRAZ İSMİ MOBİL TIKLAMA DESTEĞİ =====
+document.querySelectorAll('.poyraz-name').forEach(el => {
+  el.addEventListener('click', () => {
+    el.classList.add('wind-active');
+    setTimeout(() => el.classList.remove('wind-active'), 2000);
+  });
+});
+
+// ===== POYRAZ MEKTUBU TETİKLEME (EASTER EGG) =====
+const letterEnv = document.getElementById('poyraz-letter');
+const letterAudio = document.getElementById('poyraz-letter-audio');
+if(letterEnv) {
+  letterEnv.addEventListener('click', () => {
+    const willOpen = !letterEnv.classList.contains('open');
+    letterEnv.classList.toggle('open');
+
+    if(willOpen && letterAudio){
+      letterAudio.pause();
+      letterAudio.currentTime = 0;
+      letterAudio.play().catch(()=>{});
+    }
+  });
+}
+
+// ===== SCROLL REVEAL =====
+const obs=new IntersectionObserver((entries)=>{
+  const vis=entries.filter(e=>e.isIntersecting);
+  vis.forEach((e,i)=>{setTimeout(()=>e.target.classList.add('visible'),i*90);obs.unobserve(e.target);});
+},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.diary-entry,.author-box,.post-img-wrap,.season-transition').forEach(el=>obs.observe(el));
+
+// ===== NOTE TOGGLE =====
+document.querySelectorAll('.note-toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const area=btn.nextElementSibling;
+    area.classList.toggle('open');
+    btn.textContent=area.classList.contains('open')?'✏️ Kapat':'✏️ Not bırak';
+    if(area.classList.contains('open'))area.querySelector('textarea').focus();
+  });
+});
+
+// Save notes in localStorage
+document.querySelectorAll('.note-input').forEach(ta=>{
+  const id=ta.closest('.diary-entry').dataset.entryId;
+  const saved=localStorage.getItem('note-'+id);
+  if(saved){ta.value=saved;ta.closest('.note-area').classList.add('open');ta.closest('.diary-entry').querySelector('.note-toggle').textContent='✏️ Kapat';}
+  ta.addEventListener('input',()=>localStorage.setItem('note-'+id,ta.value));
+});
+
+// ===== BOOKMARKS =====
+const bmOpenBtn=document.getElementById('bm-open-btn');
+const bmPanel=document.getElementById('bm-panel');
+const bmOverlay=document.getElementById('bm-overlay');
+const bmClose=document.getElementById('bm-close');
+const bmList=document.getElementById('bm-list');
+
+function openBm(){bmPanel.classList.add('open');bmOverlay.classList.add('show');}
+function closeBm(){bmPanel.classList.remove('open');bmOverlay.classList.remove('show');}
+bmOpenBtn.addEventListener('click',()=>{renderBmList();openBm();});
+bmClose.addEventListener('click',closeBm);
+bmOverlay.addEventListener('click',closeBm);
+
+function getBookmarks(){return JSON.parse(localStorage.getItem('diary-bookmarks')||'[]');}
+function saveBookmarks(bm){localStorage.setItem('diary-bookmarks',JSON.stringify(bm));}
+
+function renderBmList(){
+  const bms=getBookmarks();
+  if(!bms.length){bmList.innerHTML='<div class="bm-empty">Henüz yer imi yok.<br>Girişlerdeki 🔖 ile işaretle.</div>';return;}
+  bmList.innerHTML='';
+  bms.forEach(id=>{
+    const el=document.querySelector('[data-entry-id="'+id+'"]');
+    if(!el)return;
+    const date=el.querySelector('.entry-date').textContent.trim().replace(/[☀️🌤️☁️🌧️❄️🎆🌸🌅⛅🌥️🌙🚌🌫️]/g,'').trim();
+    const div=document.createElement('div');div.className='bm-item';div.textContent='📖 '+date;
+    div.addEventListener('click',()=>{el.scrollIntoView({behavior:'smooth',block:'center'});closeBm();});
+    bmList.appendChild(div);
+  });
+}
+
+document.querySelectorAll('.bookmark-btn').forEach(btn=>{
+  const entry=btn.closest('.diary-entry');
+  const id=entry.dataset.entryId;
+  const bms=getBookmarks();
+  if(bms.includes(id))btn.classList.add('bookmarked');
+
+  btn.addEventListener('click',()=>{
+    const bms=getBookmarks();
+    const i=bms.indexOf(id);
+    if(i===-1){bms.push(id);btn.classList.add('bookmarked');}
+    else{bms.splice(i,1);btn.classList.remove('bookmarked');}
+    saveBookmarks(bms);
+  });
+});
+
+// ===== TIMELINE CLICK =====
+tlDots.forEach(d=>{
+  d.addEventListener('click',()=>{
+    const sec=document.getElementById(d.dataset.id);
+    if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+
+// ===== UPGRADE PACK =====
+
+
+
+// Save last read entry
+const entries = document.querySelectorAll('.diary-entry');
+
+entries.forEach(entry=>{
+  entry.addEventListener('mouseenter',()=>{
+    localStorage.setItem('last-entry', entry.dataset.entryId);
+  });
+});
+
+window.addEventListener('load',()=>{
+  const last = localStorage.getItem('last-entry');
+
+  if(last){
+    const target = document.querySelector(`[data-entry-id="${last}"]`);
+
+    if(target){
+      setTimeout(()=>{
+        target.scrollIntoView({behavior:'smooth', block:'center'});
+      },1000);
+    }
+  }
+});
+
+
+
+// ===== EXTRA FEATURES =====
+
+// Deleted entry reveal
+const deleted = document.getElementById('deleted-memory');
+
+if(deleted){
+  deleted.addEventListener('click',()=>{
+    const hidden = deleted.querySelector('.deleted-hidden');
+    hidden.style.display = hidden.style.display === 'block' ? 'none' : 'block';
+  });
+}
+
+// ===== RADYO WIDGET =====
+(()=>{
+  const radioAudio = document.getElementById('radio-audio');
+  const radioPlayer = document.getElementById('radio-player');
+  const radioHeader = document.getElementById('radio-header');
+  const radioMinBtn = document.getElementById('radio-minimize');
+  const radioPlayBtn = document.getElementById('radio-play-btn');
+  const radioVolume = document.getElementById('radio-volume');
+  const radioWaveform = document.getElementById('radio-waveform');
+  const radioIcon = document.getElementById('radio-icon');
+  const radioTrackName = document.getElementById('radio-track-name');
+
+  if(!radioAudio || !radioPlayBtn) return;
+
+  const trackTitle = 'Indila - Love Story';
+  const fallbackDuration = 291;
+  let timerInterval = null;
+
+  function formatTime(sec){
+    sec = Math.max(0, Math.floor(sec || 0));
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function getDuration(){
+    return Number.isFinite(radioAudio.duration) && radioAudio.duration > 0 ? radioAudio.duration : fallbackDuration;
+  }
+
+  function updateTrackTimer(){
+    if(!radioTrackName) return;
+    const remaining = getDuration() - radioAudio.currentTime;
+    radioTrackName.textContent = trackTitle + ' ' + formatTime(remaining);
+  }
+
+  function setRadioUi(isPlaying){
+    radioPlayBtn.textContent = isPlaying ? '❚❚' : '▶';
+    radioWaveform?.classList.toggle('playing', isPlaying);
+    radioIcon?.classList.toggle('spinning', isPlaying);
+  }
+
+  function startTimer(){
+    clearInterval(timerInterval);
+    updateTrackTimer();
+    timerInterval = setInterval(updateTrackTimer, 250);
+  }
+
+  function stopTimer(){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    updateTrackTimer();
+  }
+
+  // Minimize/maximize toggle
+  radioMinBtn?.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    radioPlayer.classList.toggle('minimized');
+    radioMinBtn.textContent = radioPlayer.classList.contains('minimized') ? '▾' : '▴';
+  });
+  radioHeader?.addEventListener('click', ()=>{
+    radioPlayer.classList.toggle('minimized');
+    if(radioMinBtn) radioMinBtn.textContent = radioPlayer.classList.contains('minimized') ? '▾' : '▴';
+  });
+  radioPlayBtn.addEventListener('click', (e)=>{ e.stopPropagation(); });
+
+  // Oynat/durdur
+  radioPlayBtn.addEventListener('click', ()=>{
+    if(radioAudio.paused){
+      radioAudio.play().then(()=>{
+        setRadioUi(true);
+        startTimer();
+      }).catch(()=>{});
+    } else {
+      radioAudio.pause();
+    }
+  });
+
+  radioAudio.addEventListener('play', ()=>{
+    setRadioUi(true);
+    startTimer();
+  });
+
+  radioAudio.addEventListener('pause', ()=>{
+    setRadioUi(false);
+    stopTimer();
+  });
+
+  radioAudio.addEventListener('ended', ()=>{
+    radioAudio.currentTime = 0;
+    setRadioUi(false);
+    stopTimer();
+  });
+
+  radioAudio.addEventListener('loadedmetadata', updateTrackTimer);
+  radioAudio.addEventListener('timeupdate', updateTrackTimer);
+
+  // Ses seviyesi
+  radioVolume?.addEventListener('input', ()=>{
+    radioAudio.volume = radioVolume.value / 100;
+  });
+  radioAudio.volume = radioVolume ? radioVolume.value / 100 : 0.6;
+  setRadioUi(false);
+  updateTrackTimer();
+})();
+
+// ===== SAYAÇ TICK ANİMASYONU =====
+(()=>{
+  const timerEl = document.getElementById('total-reading-time');
+  if(!timerEl) return;
+  setInterval(()=>{
+    timerEl.classList.add('tick');
+    setTimeout(()=>timerEl.classList.remove('tick'), 300);
+  }, 1000);
+})();
+
+</script>
+
+<script>
+// ===== TEMİZ SES SİSTEMİ =====
+window.addEventListener("load", ()=>{
+  const ambientAudio = document.getElementById("ambient-audio");
+  const ambientSource = document.getElementById("ambient-source");
+  const typewriterAudio = document.getElementById("typewriter-audio");
+  const volumeSlider = document.getElementById("volume-slider");
+  const soundBtnMain = document.getElementById("sound-btn");
+
+  if(!ambientAudio || !soundBtnMain) return;
+
+  let soundEnabled = false;
+  let currentSeason = '';
+  let pendingSeason = null;
+
+  const seasonSounds = {
+    summer: "summer-birds.mp3",
+    autumn: "autumn-rain.mp3",
+    winter: "winter-wind.mp3",
+    spring: "spring-birds.mp3"
+  };
+
+  // Sezon sesini yumuşakça değiştir (kesip bağlamadan)
+  function setSeasonSound(season){
+    if(!seasonSounds[season]) return;
+    if(currentSeason === season) return;
+    currentSeason = season;
+
+    const newSrc = seasonSounds[season];
+
+    if(!soundEnabled){
+      // Ses kapalıysa sadece src'yi güncelle, çalma
+      ambientSource.src = newSrc;
+      ambientAudio.load();
+      return;
+    }
+
+    // Ses açıksa: fade out → src değiştir → fade in
+    const startVol = ambientAudio.volume;
+    const fadeOut = setInterval(()=>{
+      if(ambientAudio.volume > 0.02){
+        ambientAudio.volume = Math.max(0, ambientAudio.volume - 0.04);
+      } else {
+        clearInterval(fadeOut);
+        ambientAudio.pause();
+        ambientSource.src = newSrc;
+        ambientAudio.load();
+        ambientAudio.volume = 0;
+        ambientAudio.play().catch(()=>{});
+        const targetVol = volumeSlider ? volumeSlider.value / 100 : 0.4;
+        const fadeIn = setInterval(()=>{
+          if(ambientAudio.volume < targetVol - 0.03){
+            ambientAudio.volume = Math.min(targetVol, ambientAudio.volume + 0.03);
+          } else {
+            ambientAudio.volume = targetVol;
+            clearInterval(fadeIn);
+          }
+        }, 40);
+      }
+    }, 40);
+  }
+
+  // Scroll ile mevsim takibi
+  window.addEventListener('scroll', ()=>{
+    document.querySelectorAll('.month-section').forEach(sec=>{
+      const rect = sec.getBoundingClientRect();
+      if(rect.top < window.innerHeight * 0.45 && rect.bottom > window.innerHeight * 0.45){
+        setSeasonSound(sec.dataset.seasonContext);
+      }
+    });
+  }, {passive: true});
+
+  // Ses aç/kapa butonu - SADECE ambient sesi etkiler
+  soundBtnMain.addEventListener("click", ()=>{
+    soundEnabled = !soundEnabled;
+    if(soundEnabled){
+      ambientAudio.play().catch(()=>{});
+      soundBtnMain.textContent = "🔊";
+    } else {
+      ambientAudio.pause();
+      soundBtnMain.textContent = "🔇";
+    }
+  });
+
+  // Ses seviyesi slider - SADECE ambient
+  if(volumeSlider){
+    volumeSlider.addEventListener("input", ()=>{
+      ambientAudio.volume = volumeSlider.value / 100;
+    });
+  }
+
+  // Başlangıç değerleri
+  ambientAudio.volume = 0.4;
+  if(typewriterAudio) typewriterAudio.volume = 0.6;
+  setSeasonSound("summer");
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+const diaryBtn = document.querySelector(".start-typewriter-btn");
+
+if(diaryBtn){
+
+  diaryBtn.addEventListener("mouseenter", ()=>{
+    diaryBtn.style.boxShadow =
+      "0 0 40px rgba(255,215,0,.25), inset 0 0 20px rgba(255,215,0,.1)";
+  });
+
+  diaryBtn.addEventListener("mouseleave", ()=>{
+    diaryBtn.style.boxShadow =
+      "0 0 20px rgba(0,0,0,.45), inset 0 0 12px rgba(255,215,0,.08)";
+  });
+
+}
+
+
+  const btn = document.querySelector(".start-typewriter-btn");
+  const text = document.getElementById("intro-text");
+  const audio = document.getElementById("typewriter-audio");
+
+  if(btn && text && audio){
+
+    btn.addEventListener("click", ()=>{
+
+
+      btn.style.opacity = "0";
+      btn.style.transform = "scale(.9)";
+
+      setTimeout(()=>{
+        btn.style.display = "none";
+      },300);
+
+      document.body.classList.add("opening");
+
+
+      text.classList.remove("playing");
+
+      void text.offsetWidth;
+
+      text.classList.add("playing");
+
+      audio.pause();
+      audio.currentTime = 0;
+
+      audio.play().catch(()=>{});
+
+      setTimeout(()=>{
+        audio.pause();
+      }, 4500);
+
+    });
+
+  }
+
+});
+</script>
+
+<script>
+// ===== YORUMLAR SİSTEMİ (localStorage ile kalıcı) =====
+(()=>{
+  const STORAGE_KEY = 'diary-comments-v2';
+  const nameInput = document.getElementById('comment-name');
+  const textInput = document.getElementById('comment-text');
+  const submitBtn = document.getElementById('comment-submit');
+  const listEl   = document.getElementById('comments-list');
+
+  if(!listEl) return;
+
+  function loadComments(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  function saveComments(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+  function timeAgo(ts){
+    const diff = Date.now() - ts;
+    const m = Math.floor(diff/60000);
+    const h = Math.floor(diff/3600000);
+    const d = Math.floor(diff/86400000);
+    if(m < 1) return 'az önce';
+    if(m < 60) return m + ' dk önce';
+    if(h < 24) return h + ' sa önce';
+    if(d < 30) return d + ' gün önce';
+    return new Date(ts).toLocaleDateString('tr-TR');
+  }
+
+  function initials(name){
+    return name.trim().split(' ').map(w=>w[0]||'').join('').substring(0,2).toUpperCase() || '?';
+  }
+
+  function avatarColor(name){
+    const colors = ['#8b2635','#c0506a','#4a6fa5','#5a8a4a','#7a5c8a','#c9a84c','#6a3d2b'];
+    let h = 0;
+    for(let i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) % colors.length;
+    return colors[Math.abs(h)];
+  }
+
+  function renderAll(){
+    const comments = loadComments();
+    const roots = comments.filter(c=>!c.parentId);
+    if(roots.length === 0){
+      listEl.innerHTML = '<div class="no-comments">Henüz yorum yok. İlk yorumu sen yap! ✍️</div>';
+      return;
+    }
+    listEl.innerHTML = '';
+    roots.sort((a,b)=>b.ts - a.ts).forEach(c => {
+      listEl.appendChild(renderCard(c, false, comments));
+    });
+  }
+
+  function renderCard(c, isReply, allComments){
+    const div = document.createElement('div');
+    div.className = 'comment-card' + (isReply ? ' reply-card' : '');
+    div.dataset.id = c.id;
+
+    const myVote = c.votes && c.votes[getVoterKey(c.id)] || null;
+    const likeCount = c.likes || 0;
+    const dislikeCount = c.dislikes || 0;
+
+    div.innerHTML = `
+      <div class="comment-top">
+        <div class="comment-avatar" style="background:${avatarColor(c.author)}">${initials(c.author)}</div>
+        <span class="comment-author">${escHtml(c.author)}</span>
+        <span class="comment-date">${timeAgo(c.ts)}</span>
+      </div>
+      <div class="comment-text">${escHtml(c.text)}</div>
+      <div class="comment-actions">
+        <button class="vote-btn like-btn ${myVote==='like'?'liked':''}" data-id="${c.id}">
+          👍 <span class="like-count">${likeCount}</span>
+        </button>
+        <button class="vote-btn dislike-btn ${myVote==='dislike'?'disliked':''}" data-id="${c.id}">
+          👎 <span class="dislike-count">${dislikeCount}</span>
+        </button>
+        ${!isReply ? `<button class="reply-toggle-btn" data-id="${c.id}">↩ Yanıtla</button>` : ''}
+      </div>
+      ${!isReply ? `
+      <div class="reply-form" id="reply-form-${c.id}">
+        <input type="text" class="reply-name-inp" placeholder="Adın..." maxlength="40">
+        <textarea class="reply-text-inp" placeholder="Yanıtın..." rows="2" maxlength="400"></textarea>
+        <button class="reply-submit-btn" data-parent="${c.id}">Gönder</button>
+      </div>` : ''}
+    `;
+
+    // Like/dislike
+    div.querySelector('.like-btn').addEventListener('click', ()=>castVote(c.id, 'like'));
+    div.querySelector('.dislike-btn').addEventListener('click', ()=>castVote(c.id, 'dislike'));
+
+    if(!isReply){
+      const replyToggle = div.querySelector('.reply-toggle-btn');
+      const replyForm   = div.querySelector(`#reply-form-${c.id}`);
+      replyToggle.addEventListener('click', ()=>{
+        replyForm.classList.toggle('open');
+      });
+      div.querySelector('.reply-submit-btn').addEventListener('click', ()=>{
+        const rName = div.querySelector('.reply-name-inp').value.trim();
+        const rText = div.querySelector('.reply-text-inp').value.trim();
+        if(!rName || !rText) return;
+        addComment(rName, rText, c.id);
+        replyForm.classList.remove('open');
+      });
+
+      // Yanıtları ekle
+      const replies = allComments.filter(r=>r.parentId === c.id).sort((a,b)=>a.ts-b.ts);
+      replies.forEach(r=>{
+        div.appendChild(renderCard(r, true, allComments));
+      });
+    }
+
+    return div;
+  }
+
+  function getVoterKey(commentId){
+    let k = localStorage.getItem('diary-voter-key');
+    if(!k){ k = Math.random().toString(36).slice(2); localStorage.setItem('diary-voter-key', k); }
+    return k;
+  }
+
+  function castVote(commentId, type){
+    const comments = loadComments();
+    const c = comments.find(x=>x.id===commentId);
+    if(!c) return;
+    if(!c.votes) c.votes = {};
+    const key = getVoterKey(commentId);
+    const prev = c.votes[key];
+
+    if(prev === type){
+      // Geri al
+      delete c.votes[key];
+      if(type==='like') c.likes = Math.max(0,(c.likes||0)-1);
+      else c.dislikes = Math.max(0,(c.dislikes||0)-1);
+    } else {
+      // Öncekini geri al
+      if(prev==='like') c.likes = Math.max(0,(c.likes||0)-1);
+      if(prev==='dislike') c.dislikes = Math.max(0,(c.dislikes||0)-1);
+      c.votes[key] = type;
+      if(type==='like') c.likes = (c.likes||0)+1;
+      else c.dislikes = (c.dislikes||0)+1;
+    }
+    saveComments(comments);
+    renderAll();
+  }
+
+  function addComment(author, text, parentId=null){
+    const comments = loadComments();
+    comments.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+      author, text, ts: Date.now(),
+      parentId: parentId || null,
+      likes: 0, dislikes: 0, votes: {}
+    });
+    saveComments(comments);
+    renderAll();
+  }
+
+  function escHtml(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  submitBtn.addEventListener('click', ()=>{
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+    if(!name){ nameInput.focus(); nameInput.style.borderColor='var(--red)'; setTimeout(()=>nameInput.style.borderColor='',1200); return; }
+    if(!text){ textInput.focus(); textInput.style.borderColor='var(--red)'; setTimeout(()=>textInput.style.borderColor='',1200); return; }
+    addComment(name, text);
+    nameInput.value = '';
+    textInput.value = '';
+    listEl.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // Enter ile gönder (textarea hariç)
+  nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); textInput.focus(); } });
+
+  renderAll();
+  // Her dakika tarihleri güncelle
+  setInterval(renderAll, 60000);
+})();
+</script>
+
+<script>
+// ===== KANKA EKLEMELERI: GERI DONUNCE DUZELME + RNG JUMPSCARE =====
+(()=>{
+  const notice = document.getElementById('site-return-notice');
+
+  function showReturnFix(){
+    document.body.classList.add('site-returning');
+    if(notice) notice.classList.add('show');
+
+    setTimeout(()=>{
+      document.body.classList.remove('site-returning');
+      if(notice) notice.classList.remove('show');
+    }, 1800);
+  }
+
+  window.addEventListener('pageshow', (event)=>{
+    if(event.persisted) showReturnFix();
+  });
+
+  const originalTitle = document.title;
+
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden){
+      document.title = 'geri dön.';
+    } else {
+      document.title = originalTitle;
+      showReturnFix();
+    }
+  });
+
+  const jump = document.getElementById('jumpscare-flash');
+  const jumpAudio = document.getElementById('jumpscare-audio');
+  if(!jump) return;
+
+  function triggerJumpscare(){
+    jump.classList.remove('show');
+    void jump.offsetWidth;
+    jump.classList.add('show');
+    if(jumpAudio){
+      jumpAudio.pause();
+      jumpAudio.currentTime = 0;
+      jumpAudio.play().catch(()=>{});
+    }
+    setTimeout(()=>jump.classList.remove('show'), 1000);
+  }
+
+  setInterval(()=>{
+    const number = Math.floor(Math.random() * 500) + 1;
+    if(number === 1) triggerJumpscare();
+  }, 1000);
+})();
+</script>
+<script>
+// ===== FAVICON CACHE KIRMA =====
+(()=>{
+    const stamp = Date.now();
+  const icons = [
+    {rel:'icon', href:'favicon.ico?v=' + stamp, type:'image/x-icon'},
+    {rel:'shortcut icon', href:'favicon.ico?v=' + stamp, type:'image/x-icon'},
+    {rel:'apple-touch-icon', href:'logo.png?v=' + stamp, type:'image/png'}
+  ];
+  icons.forEach((item)=>{
+    let link = document.querySelector(`link[rel="${item.rel}"]`);
+    if(!link){
+      link = document.createElement('link');
+      link.rel = item.rel;
+      document.head.appendChild(link);
+    }
+    link.type = item.type;
+    link.href = item.href;
+  });
+})();
+</script>
+</body>
+</html>
