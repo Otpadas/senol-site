@@ -520,39 +520,80 @@ header>p{font-style:italic;color:var(--ink-faded);font-size:1.1em;max-width:480p
 
 
 
-/* ===== ARKA PLAN PARTIKUL VE DESENLER ===== */
+/* ===== ARKA PLAN DESENLER ===== */
 .bg-patterns{
   position:fixed;
   inset:0;
   z-index:-2;
   pointer-events:none;
-  opacity:.75;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(201,168,76,.10), transparent 18%),
-    radial-gradient(circle at 86% 28%, rgba(139,38,53,.12), transparent 20%),
-    radial-gradient(circle at 42% 82%, rgba(255,255,255,.055), transparent 16%),
-    repeating-linear-gradient(45deg, rgba(201,168,76,.045) 0 1px, transparent 1px 42px),
-    repeating-linear-gradient(135deg, rgba(139,38,53,.035) 0 1px, transparent 1px 54px);
-  animation:bgDrift 22s ease-in-out infinite alternate;
+  opacity:1;
+  animation:bgDrift 28s ease-in-out infinite alternate;
 }
 
-.bg-patterns::before,
-.bg-patterns::after{
+/* AÇIK TEMA */
+[data-theme="light"] .bg-patterns,
+html:not([data-theme="dark"]) .bg-patterns {
+  background:
+    /* köşe ışık havuzları */
+    radial-gradient(ellipse 55% 40% at 0% 0%, rgba(201,168,76,.13), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 100% 100%, rgba(139,38,53,.10), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 100% 0%, rgba(255,220,160,.10), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(180,140,100,.08), transparent 55%),
+    /* ince kafes çizgiler */
+    repeating-linear-gradient(0deg,   rgba(139,38,53,.025)  0 1px, transparent 1px 80px),
+    repeating-linear-gradient(90deg,  rgba(139,38,53,.025)  0 1px, transparent 1px 80px),
+    repeating-linear-gradient(45deg,  rgba(201,168,76,.04)  0 1px, transparent 1px 56px),
+    repeating-linear-gradient(135deg, rgba(201,168,76,.03)  0 1px, transparent 1px 72px);
+}
+
+/* KOYU TEMA */
+[data-theme="dark"] .bg-patterns {
+  background:
+    radial-gradient(ellipse 60% 50% at 8%  8%,  rgba(201,168,76,.09), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 92% 92%, rgba(139,38,53,.12), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 92%  5%, rgba(100,30,40,.14),  transparent 50%),
+    radial-gradient(ellipse 45% 35% at  5% 94%, rgba(80,50,20,.10),   transparent 55%),
+    repeating-linear-gradient(0deg,   rgba(201,168,76,.04)  0 1px, transparent 1px 80px),
+    repeating-linear-gradient(90deg,  rgba(201,168,76,.04)  0 1px, transparent 1px 80px),
+    repeating-linear-gradient(45deg,  rgba(139,38,53,.055) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(135deg, rgba(139,38,53,.04)  0 1px, transparent 1px 72px);
+}
+
+/* Nokta deseni katmanı */
+.bg-patterns::before {
   content:'';
   position:absolute;
   inset:0;
   background-image:
-    radial-gradient(circle, rgba(255,255,255,.16) 0 1px, transparent 2px),
-    radial-gradient(circle, rgba(201,168,76,.12) 0 1px, transparent 2px);
-  background-size:110px 110px, 170px 170px;
-  background-position:12px 20px, 70px 90px;
-  opacity:.42;
+    radial-gradient(circle, rgba(201,168,76,.18) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(139,38,53,.12)  0 1px, transparent 2px);
+  background-size: 88px 88px, 134px 134px;
+  background-position: 18px 24px, 62px 78px;
+}
+[data-theme="light"] .bg-patterns::before,
+html:not([data-theme="dark"]) .bg-patterns::before {
+  opacity:.28;
+}
+[data-theme="dark"] .bg-patterns::before {
+  opacity:.38;
 }
 
-.bg-patterns::after{
-  opacity:.18;
-  filter:blur(.4px);
-  transform:rotate(2deg) scale(1.04);
+/* Büyük yumuşak halka deseni */
+.bg-patterns::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle 320px at 18% 28%, rgba(201,168,76,.055), transparent),
+    radial-gradient(circle 280px at 82% 68%, rgba(139,38,53,.065), transparent),
+    radial-gradient(circle 200px at 50% 50%, rgba(255,255,255,.03), transparent);
+  filter:blur(1px);
+}
+[data-theme="dark"] .bg-patterns::after {
+  background-image:
+    radial-gradient(circle 360px at 18% 28%, rgba(201,168,76,.08), transparent),
+    radial-gradient(circle 300px at 82% 68%, rgba(139,38,53,.10), transparent),
+    radial-gradient(circle 240px at 50% 50%, rgba(255,255,255,.018), transparent);
 }
 
 .emoji-particles{
@@ -590,12 +631,12 @@ header>p{font-style:italic;color:var(--ink-faded);font-size:1.1em;max-width:480p
 }
 
 @keyframes bgDrift{
-  from{background-position:0 0, 0 0, 0 0, 0 0, 0 0;}
-  to{background-position:35px -28px, -28px 22px, 18px 38px, 42px 42px, -54px 54px;}
+  from{background-position:0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;}
+  to{background-position:40px -32px, -32px 28px, 22px 42px, -18px -28px, 0 0, 0 0, 56px 56px, -72px 72px;}
 }
 
-[data-theme="light"] .bg-patterns{opacity:.55;}
-[data-theme="light"] .emoji-particles span{opacity:.24;}
+[data-theme="light"] .emoji-particles span{opacity:.22;}
+
 
 @media(max-width:700px){
   .emoji-particles span{font-size:20px;}
@@ -1995,15 +2036,17 @@ body::after{
   position: fixed;
   pointer-events: none;
   z-index: 9600;
-  font-size: 14px;
+  font-size: 15px;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.4);
-  animation: cursorFade 0.9s ease-out forwards;
+  transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  animation: cursorOrbit 1.1s ease-out forwards;
   user-select: none;
 }
-@keyframes cursorFade {
-  0%   { opacity: .9; transform: translate(-50%,-50%) scale(1); }
-  100% { opacity: 0;  transform: translate(-50%,-60%) scale(0.3); }
+@keyframes cursorOrbit {
+  0%   { opacity: .95; transform: translate(-50%,-50%) scale(1.1) rotate(0deg) translateX(0px); }
+  30%  { opacity: .8; }
+  70%  { opacity: .4; transform: translate(calc(-50% + var(--ox,22px)), calc(-50% + var(--oy,-28px))) scale(.7) rotate(var(--rot,200deg)); }
+  100% { opacity: 0;  transform: translate(calc(-50% + var(--ox2,36px)), calc(-50% + var(--oy2,-48px))) scale(.2) rotate(var(--rot2,340deg)); }
 }
 
 /* ===== POYRAZ'I YAKALA OYUNU ===== */
@@ -2284,29 +2327,47 @@ body::after{
 }
 .notif-expand-close:hover { color: var(--red-soft); }
 
-/* ===== KALP BUTONU + 🍆 YAĞMURU ===== */
+/* ===== KALP BUTONU — RADYO STILI ===== */
 #heart-corner-btn {
   position: fixed;
-  bottom: 24px;
-  right: 82px;
-  z-index: 4999;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: none;
-  font-size: 1.55em;
-  cursor: pointer;
-  opacity: .45;
-  transition: opacity .2s, transform .2s;
-  filter: drop-shadow(0 2px 8px rgba(139,38,53,.3));
+  bottom: 20px;
+  left: 248px;
+  z-index: 5001;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(201,168,76,.28);
+  background:
+    radial-gradient(circle at 70% 10%, rgba(201,168,76,.18), transparent 40%),
+    linear-gradient(145deg, rgba(34,28,22,.96), rgba(58,33,35,.96));
+  box-shadow: 0 16px 48px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.05);
+  font-size: 1.35em;
+  cursor: none;
+  opacity: 1;
+  transition: box-shadow .2s, background .2s;
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  color: #f6ead8;
 }
-#heart-corner-btn:hover { opacity: 1; transform: scale(1.18); }
-#heart-corner-btn.combo { animation: heartCombo .25s ease; }
+#heart-corner-btn:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.08), 0 0 18px rgba(192,80,106,.22);
+  background:
+    radial-gradient(circle at 70% 10%, rgba(201,168,76,.22), transparent 40%),
+    linear-gradient(145deg, rgba(44,32,26,.98), rgba(72,36,40,.98));
+}
+#heart-corner-btn:active,
+#heart-corner-btn.combo {
+  box-shadow: 0 4px 16px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.05), inset 0 2px 8px rgba(0,0,0,.22);
+  background:
+    radial-gradient(circle at 70% 10%, rgba(139,38,53,.28), transparent 40%),
+    linear-gradient(145deg, rgba(28,18,14,.98), rgba(50,26,28,.98));
+}
 @keyframes heartCombo {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.5) rotate(-8deg); }
+  0%   { transform: scale(.93); }
+  50%  { transform: scale(1.08); }
   100% { transform: scale(1); }
 }
 
@@ -2390,6 +2451,149 @@ body::after{
   line-height: 1.65;
   white-space: pre-line;
 }
+
+/* ===== 1. MOUSE İZ EFEKTİ ===== */
+.trail-dot {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+/* ===== CUSTOM CURSOR — default gizli, trail mouse gibi davranır ===== */
+*, *::before, *::after { cursor: none !important; }
+
+/* KOYU TEMA — eski altın hali */
+#cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c9a84c;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 6px rgba(201,168,76,.8), 0 0 12px rgba(201,168,76,.4);
+  mix-blend-mode: screen;
+}
+
+/* AÇIK TEMA — pembe */
+[data-theme="light"] #cursor-dot {
+  background: #d4547a;
+  box-shadow: 0 0 8px rgba(212,84,122,.9), 0 0 18px rgba(212,84,122,.45);
+  mix-blend-mode: normal;
+}
+[data-theme="light"] .trail-dot {
+  mix-blend-mode: normal !important;
+}
+
+/* İz noktaları (duplicate kaldırıldı) */
+
+
+/* ===== 4. ESKİ BİLGİSAYAR MODU ===== */
+#retro-btn {
+  font-size: .6em;
+  letter-spacing: .5px;
+  font-family: 'Courier New', monospace;
+  padding: 0 8px;
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+body.retro-mode {
+  font-family: 'Courier New', Courier, monospace !important;
+}
+body.retro-mode * {
+  font-family: 'Courier New', Courier, monospace !important;
+  border-radius: 0 !important;
+}
+body.retro-mode header h1,
+body.retro-mode .month-title,
+body.retro-mode .cover-title {
+  font-family: 'Courier New', Courier, monospace !important;
+  letter-spacing: 2px !important;
+}
+
+#crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+  display: none;
+}
+body.retro-mode #crt-overlay {
+  display: block;
+}
+#crt-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,.18) 2px,
+    rgba(0,0,0,.18) 4px
+  );
+  pointer-events: none;
+}
+#crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 55%,
+    rgba(0,0,0,.55) 100%);
+  pointer-events: none;
+}
+#crt-scanline {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(255,255,255,.04) 40%,
+    rgba(255,255,255,.06) 50%,
+    rgba(255,255,255,.04) 60%,
+    transparent 100%);
+  animation: scanlineMove 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanlineMove {
+  from { top: -10%; }
+  to   { top: 110%; }
+}
+body.retro-mode {
+  filter: saturate(.6) contrast(1.1) brightness(.95);
+}
+body.retro-mode .diary-entry,
+body.retro-mode .author-box {
+  border: 1px solid #555 !important;
+  box-shadow: 2px 2px 0 #333 !important;
+}
+body.retro-mode .month-nav a.active,
+body.retro-mode .ctrl-btn:hover {
+  background: #00aa00 !important;
+  color: #000 !important;
+}
+body.retro-mode #progress-bar {
+  background: #00aa00 !important;
+}
+body.retro-mode .entry-date {
+  color: #00aa00 !important;
+}
+body.retro-mode header::before {
+  background: linear-gradient(90deg, transparent, #00aa00, #007700, #00aa00, transparent) !important;
+}
+@keyframes senolFadeIn  { from{opacity:0} to{opacity:1} }
+@keyframes senolZoomIn  { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
 </style>
 </head>
 <body>
@@ -2553,11 +2757,15 @@ body::after{
 <div id="heartbreak-overlay"></div>
 <div id="fade-white"></div>
 
+<div id="crt-overlay"><div id="crt-scanline"></div></div>
+<div id="cursor-dot"></div>
+
 <div class="controls">
   <button class="ctrl-btn" id="sound-btn" title="Ses">🔇</button>
 <input type="range" id="volume-slider" min="0" max="100" value="40">
   <button class="ctrl-btn" id="theme-btn" title="Tema">🌙</button>
   <button class="ctrl-btn" id="bm-open-btn" title="Yer imleri">🔖</button>
+  <button class="ctrl-btn" id="retro-btn" title="1998 Modu">📺</button>
 </div>
 
 <div id="bm-overlay"></div>
@@ -2608,9 +2816,30 @@ body::after{
 <div class="container">
 
 <div class="author-box reveal">
-  <img src="senol.jpg" alt="Şenol Demiral" class="profile-img">
+  <img src="senol.jpg" alt="Şenol Demiral" class="profile-img" id="profile-img-click" style="cursor:none;">
   <h3>Şenol Demiral</h3>
   <p>Köyden şehre uzanan bir yolculuk, koridorlarda çarpan bir kalp ve geride kalan koca bir poyraz fırtınası. Bu sayfada sadece yaşanmışlıklar var.</p>
+</div>
+
+<!-- Şenol fullscreen foto overlay -->
+<div id="senol-photo-overlay" style="
+  display:none;position:fixed;inset:0;z-index:19000;
+  background:rgba(0,0,0,.92);
+  align-items:center;justify-content:center;
+  animation:senolFadeIn .3s ease;
+  cursor:none;
+">
+  <img src="senoldemiral.png" alt="Şenol" style="
+    max-width:min(92vw,560px);max-height:88vh;
+    object-fit:contain;border-radius:4px;
+    box-shadow:0 24px 80px rgba(0,0,0,.7);
+    animation:senolZoomIn .35s cubic-bezier(.2,.8,.2,1);
+  ">
+  <div style="
+    position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+    color:rgba(255,255,255,.4);font-family:'Lora',serif;font-style:italic;
+    font-size:.82em;letter-spacing:1px;pointer-events:none;
+  ">— kapatmak için tıkla —</div>
 </div>
 
 <div class="season-transition reveal" data-season-mark="summer">☀️ &nbsp; &nbsp; ☀️ &nbsp; &nbsp; ☀️</div>
@@ -4195,29 +4424,42 @@ document.getElementById('pm-heart').addEventListener('click', ()=>{
   startHeart();
 });
 
-// ── Cursor İzi — 1/250 şans ───────────────────────────────────
+// ── Cursor İzi — 1/100 şans, cursor etrafında dönerek kaybolur ─
 const CURSOR_EMOJIS = ['💔','🌬️','✦','🥀','💧','🌸','•','❤️'];
 
 document.addEventListener('mousemove', e => {
-  if(Math.floor(Math.random() * 250) !== 0) return;
+  if(Math.floor(Math.random() * 100) !== 0) return;
   const el = document.createElement('span');
   el.className = 'cursor-trail';
   el.textContent = CURSOR_EMOJIS[Math.floor(Math.random()*CURSOR_EMOJIS.length)];
-  el.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;`;
+  // Rastgele yörünge yönü
+  const angle  = Math.random() * Math.PI * 2;
+  const dist1  = 18 + Math.random() * 22;
+  const dist2  = 32 + Math.random() * 28;
+  const rot1   = (Math.random() > .5 ? 1 : -1) * (160 + Math.random() * 120);
+  const rot2   = rot1 + (Math.random() > .5 ? 1 : -1) * (80 + Math.random() * 80);
+  el.style.cssText = [
+    `left:${e.clientX}px`,
+    `top:${e.clientY}px`,
+    `--ox:${Math.cos(angle)*dist1}px`,
+    `--oy:${Math.sin(angle)*dist1}px`,
+    `--ox2:${Math.cos(angle)*dist2}px`,
+    `--oy2:${Math.sin(angle)*dist2}px`,
+    `--rot:${rot1}deg`,
+    `--rot2:${rot2}deg`,
+  ].join(';');
   document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 900);
+  setTimeout(()=>el.remove(), 1150);
 });
 
 // ── Sahte Bildirim — her 3 saniyede 1/250 şans ────────────────
 const NOTIF_MSGS = [
-  { short:'naber',         full:'naber\nbu gece buluşabilir miyiz\nbir şey var konuşmam lazım' },
-  { short:'haha',          full:'haha\nkendine iyi bak\nher neyse' },
-  { short:'gördüm',        full:'gördüm\nzaten hep böyle\nneyse tamam' },
-  { short:'...',           full:'...\n\n(görüldü)' },
-  { short:'yarın olmaz',   full:'yarın olmaz\nsonra bakarız\nbelki' },
-  { short:'iyi geceler',   full:'iyi geceler\numurumda değil deme\nbiliyorum' },
-  { short:'🌬️',           full:'🌬️\n\n(mesaj silindi)' },
-  { short:'unuttum zaten', full:'unuttum zaten\n\nkendine iyi bak şenol' },
+  { short:'naber',              full:'naber\nbu gece buluşabilir miyiz\nbir şey var konuşmam lazım lö' },
+  { short:'HAHAHHAHA',          full:'HAHAHHAHA\n31\ngördüm\noeliğini gördüm' },
+  { short:'iyi geceler',        full:'iyi geceler\ncanım\nsote' },
+  { short:'unuttum zaten',      full:'unuttum zaten\nkendine iyi bak\nsotem' },
+  { short:'…',                  full:'…\n\n(görüldü)' },
+  { short:'🌬️ (mesaj silindi)', full:'🌬️\n\n(mesaj silindi)' },
 ];
 const fakeNotif     = document.getElementById('fake-notif');
 const notifExpand   = document.getElementById('notif-expand');
@@ -4441,14 +4683,12 @@ document.addEventListener('keydown', e=>{
   if(!btn) return;
 
   const POYRAZ_MSGS = [
-    'naber\nbu gece buluşabilir miyiz\nbir şey var konuşmam lazım',
-    'haha\nkendine iyi bak\nher neyse',
-    'gördüm\nzaten hep böyle\nneyse tamam',
-    '...\n\n(görüldü)',
-    'yarın olmaz\nsonra bakarız\nbelki',
-    'iyi geceler\numurumda değil deme\nbiliyorum',
+    'naber\nbu gece buluşabilir miyiz\nbir şey var konuşmam lazım lö',
+    'HAHAHHAHA\n31\ngördüm\noeliğini gördüm',
+    'iyi geceler\ncanım\nsote',
+    'unuttum zaten\nkendine iyi bak\nsotem',
+    '…\n\n(görüldü)',
     '🌬️\n\n(mesaj silindi)',
-    'unuttum zaten\n\nkendine iyi bak şenol',
   ];
 
   let pressCount  = 0;
@@ -4526,4 +4766,142 @@ document.addEventListener('keydown', e=>{
 
 </script>
 </body>
-</html>
+</html><!-- 4 NEW EFFECTS INJECTED -->
+<script>
+// ===== ŞENOL FOTO OVERLAY =====
+(()=>{
+  const trigger = document.getElementById('profile-img-click');
+  const overlay = document.getElementById('senol-photo-overlay');
+  if(!trigger || !overlay) return;
+
+  trigger.addEventListener('click', () => {
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+  overlay.addEventListener('click', () => {
+    overlay.style.animation = 'senolFadeIn .2s ease reverse forwards';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      overlay.style.animation = 'senolFadeIn .3s ease';
+      document.body.style.overflow = '';
+    }, 180);
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && overlay.style.display === 'flex') overlay.click();
+  });
+})();
+
+// ===== MOUSE İZ EFEKTİ — smooth & performant =====
+(()=>{
+  const cursorDot = document.getElementById('cursor-dot');
+  const TRAIL_LEN = 14;
+  const trail = [];
+
+  function isLight() {
+    return document.documentElement.getAttribute('data-theme') !== 'dark';
+  }
+
+  function trailColor(t) {
+    if(isLight()) {
+      // Pembe → koyu kırmızı
+      const r = Math.round(212 - t * 80);
+      const g = Math.round(84  - t * 50);
+      const b = Math.round(122 - t * 60);
+      return [r, g, b];
+    } else {
+      // Altın → kırmızı (eski)
+      const r = Math.round(201 - t * 80);
+      const g = Math.round(168 - t * 140);
+      const b = Math.round(76  + t * 20);
+      return [r, g, b];
+    }
+  }
+
+  // İz noktaları yarat
+  for(let i = 0; i < TRAIL_LEN; i++){
+    const d = document.createElement('div');
+    d.className = 'trail-dot';
+    const t = i / TRAIL_LEN;
+    const size = Math.round(6 - t * 4.5);
+    const [r,g,b] = trailColor(t);
+    d.style.cssText = `width:${size}px;height:${size}px;background:rgb(${r},${g},${b});box-shadow:0 0 ${size*2}px rgba(${r},${g},${b},.5);`;
+    document.body.appendChild(d);
+    trail.push({ el: d, x: -999, y: -999, t });
+  }
+
+  // Tema değişince renkleri güncelle
+  const themeObserver = new MutationObserver(() => {
+    trail.forEach(({ el, t }) => {
+      const size = Math.round(6 - t * 4.5);
+      const [r,g,b] = trailColor(t);
+      el.style.background = `rgb(${r},${g},${b})`;
+      el.style.boxShadow = `0 0 ${size*2}px rgba(${r},${g},${b},.5)`;
+    });
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  let mx = -999, my = -999;
+  let isVisible = false;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    if(!isVisible){
+      isVisible = true;
+      cursorDot.style.opacity = '1';
+    }
+  }, {passive:true});
+
+  document.addEventListener('mouseleave', () => {
+    isVisible = false;
+    cursorDot.style.opacity = '0';
+    trail.forEach(t => t.el.style.opacity = '0');
+  });
+
+  // Smooth lerp loop
+  let prevTime = 0;
+  function loop(ts){
+    const dt = Math.min(ts - prevTime, 50); // max 50ms delta
+    prevTime = ts;
+    const speed = Math.min(1, dt / 16 * 0.18); // frame-rate bağımsız lerp
+
+    // Ana nokta: direkt
+    cursorDot.style.left = mx + 'px';
+    cursorDot.style.top  = my + 'px';
+
+    // İz: her nokta öncekini takip eder (chain lerp)
+    let lx = mx, ly = my;
+    trail.forEach((t, i) => {
+      const lag = 0.22 - i * 0.008; // baştakiler hızlı, arkadakiler yavaş
+      t.x += (lx - t.x) * lag;
+      t.y += (ly - t.y) * lag;
+      t.el.style.left = t.x + 'px';
+      t.el.style.top  = t.y + 'px';
+      const opacity = isVisible ? (1 - i / TRAIL_LEN) * 0.65 : 0;
+      t.el.style.opacity = opacity;
+      lx = t.x; ly = t.y;
+    });
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+// ===== 4. ESKİ BİLGİSAYAR MODU =====
+(()=>{
+  const btn = document.getElementById('retro-btn');
+  if(!btn) return;
+  let retro = false;
+  btn.addEventListener('click', () => {
+    retro = !retro;
+    document.body.classList.toggle('retro-mode', retro);
+    btn.textContent = retro ? '🖥️' : '📺';
+    btn.title = retro ? '1998 Modunu Kapat' : '1998 Modu';
+    if(retro) {
+      document.body.style.filter = 'saturate(.6) contrast(1.1) brightness(.95) hue-rotate(5deg)';
+      setTimeout(() => { document.body.style.filter = 'saturate(.6) contrast(1.1) brightness(.95)'; }, 120);
+    } else {
+      document.body.style.filter = '';
+    }
+  });
+})();
+</script>
