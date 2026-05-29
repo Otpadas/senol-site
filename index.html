@@ -2327,30 +2327,36 @@ body::after{
 }
 .notif-expand-close:hover { color: var(--red-soft); }
 
-/* ===== KALP BUTONU — RADYO STILI ===== */
+/* ===== KALP BUTONU — SAĞ ALT (scroll-top üstü) ===== */
 #heart-corner-btn {
   position: fixed;
-  bottom: 20px;
-  left: 248px;
+  bottom: 84px;
+  right: 30px;
+  left: auto;
   z-index: 5001;
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: 1px solid rgba(201,168,76,.28);
   background:
     radial-gradient(circle at 70% 10%, rgba(201,168,76,.18), transparent 40%),
     linear-gradient(145deg, rgba(34,28,22,.96), rgba(58,33,35,.96));
-  box-shadow: 0 16px 48px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.05);
-  font-size: 1.35em;
-  cursor: none;
-  opacity: 1;
-  transition: box-shadow .2s, background .2s;
+  box-shadow: 0 4px 20px rgba(139,38,53,.4), inset 0 0 0 1px rgba(255,255,255,.05);
+  font-size: 1.1em;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .3s, transform .3s, box-shadow .2s, background .2s;
   user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
   color: #f6ead8;
+}
+#heart-corner-btn.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 #heart-corner-btn:hover {
   box-shadow: 0 16px 48px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.08), 0 0 18px rgba(192,80,106,.22);
@@ -2419,22 +2425,22 @@ body::after{
 /* Poyraz mesajı — combo toast */
 #aubergine-msg {
   position: fixed;
-  bottom: 90px;
-  right: 20px;
+  bottom: 86px;
+  right: 84px;
   z-index: 13500;
   background: #1c1c1e;
   border-radius: 16px;
   padding: 14px 18px;
-  width: min(80vw, 300px);
+  width: min(72vw, 280px);
   box-shadow: 0 12px 40px rgba(0,0,0,.6);
-  transform: translateY(30px);
+  transform: translateX(20px);
   opacity: 0;
   pointer-events: none;
   transition: opacity .4s ease, transform .4s ease;
 }
 #aubergine-msg.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 #aubergine-msg .am-sender {
   font-size: .7em;
@@ -2647,6 +2653,231 @@ body::before {
 #heart-corner-btn.radio-slide {
   animation: heartSlideRight 0.9s cubic-bezier(.4,0,.2,1);
 }
+
+/* ===== SOL ÜST BUTONLAR ===== */
+#top-left-btns {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 5000;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.tl-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-faded);
+  cursor: pointer;
+  font-size: .85em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px var(--shadow);
+  transition: background .3s, color .3s, transform .2s;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.tl-btn:hover { background: var(--red); color: white; transform: scale(1.1); }
+
+/* ===== DVD BOUNCER ===== */
+#dvd-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 14000;
+}
+#dvd-overlay.show { display: block; }
+#dvd-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.5);
+  font-size: 1.4em;
+  cursor: pointer;
+  z-index: 1;
+  transition: color .2s;
+}
+#dvd-close:hover { color: #fff; }
+#dvd-logo {
+  position: absolute;
+  width: 160px;
+}
+#dvd-logo img {
+  width: 160px;
+  height: auto;
+  display: block;
+  /* CSS filter to colorize the black logo */
+  filter: brightness(0) saturate(100%) invert(1);
+  transition: filter 0s;
+}
+
+/* ===== CPS TEST ===== */
+#cps-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.88);
+  z-index: 14000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  backdrop-filter: blur(6px);
+}
+#cps-overlay.show { display: flex; }
+#cps-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.5);
+  font-size: 1.4em;
+  cursor: pointer;
+  transition: color .2s;
+}
+#cps-close:hover { color: #fff; }
+#cps-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5em;
+  color: #f0c85a;
+  letter-spacing: 2px;
+}
+#cps-area {
+  width: min(88vw, 480px);
+  height: 180px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.05);
+  border: 2px solid rgba(201,168,76,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .1s, border-color .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+#cps-area:active { background: rgba(201,168,76,.1); border-color: rgba(201,168,76,.7); }
+#cps-click-text {
+  font-family: 'Lora', serif;
+  font-size: 1em;
+  color: rgba(246,234,216,.7);
+  font-style: italic;
+}
+#cps-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 3em;
+  color: #f0c85a;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+#cps-bar-wrap {
+  width: min(88vw, 480px);
+  height: 8px;
+  background: rgba(255,255,255,.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+#cps-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f0c85a, #c0506a);
+  border-radius: 999px;
+  width: 0%;
+  transition: width .1s linear;
+}
+#cps-timer-text {
+  font-family: 'Lora', serif;
+  font-size: .85em;
+  color: rgba(246,234,216,.5);
+  letter-spacing: 1px;
+}
+#cps-result { display: none; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+#cps-result.show { display: flex; }
+#cps-result-text { font-family: 'Playfair Display', serif; font-size: 1.3em; color: #f0c85a; white-space: pre-line; }
+#cps-restart {
+  background: none; border: 1px solid rgba(201,168,76,.4); border-radius: 20px;
+  padding: 8px 24px; color: rgba(246,234,216,.7); cursor: pointer;
+  font-family: 'Lora', serif; font-size: .85em; transition: .2s;
+}
+#cps-restart:hover { border-color: var(--red-soft); color: #fff; }
+
+/* ===== DARK MODE UYARISI ===== */
+#dark-warn {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(.9);
+  z-index: 15000;
+  background: linear-gradient(135deg, rgba(20,14,10,.97), rgba(50,20,25,.97));
+  border: 1px solid rgba(201,168,76,.35);
+  border-radius: 20px;
+  padding: 32px 36px;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,.7);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .4s ease, transform .4s ease;
+  max-width: min(88vw, 400px);
+}
+#dark-warn.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#dark-warn .dw-icon { font-size: 2.2em; margin-bottom: 12px; display: block; }
+#dark-warn .dw-title { font-family: 'Playfair Display', serif; font-size: 1.15em; color: #f0c85a; margin-bottom: 8px; letter-spacing: 1px; }
+#dark-warn .dw-text { font-family: 'Lora', serif; font-style: italic; font-size: .88em; color: rgba(246,234,216,.75); line-height: 1.7; }
+#dark-warn .dw-bar { height: 3px; background: linear-gradient(90deg, transparent, #f0c85a, transparent); margin-top: 18px; border-radius: 2px; animation: dwBarShrink 5s linear forwards; }
+@keyframes dwBarShrink { from { opacity:1; width:100%; } to { opacity:0; width:0%; } }
+
+/* ===== INSTAGRAM REELS ===== */
+#reels-overlay {
+  display: none; position: fixed; inset: 0; background: #000; z-index: 14000;
+  align-items: center; justify-content: center;
+}
+#reels-overlay.show { display: flex; }
+#reels-close {
+  position: absolute; top: 16px; left: 20px; background: none; border: none;
+  color: rgba(255,255,255,.7); font-size: 1.4em; cursor: pointer; z-index: 2; transition: color .2s;
+}
+#reels-close:hover { color: #fff; }
+#reels-header {
+  position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+  color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: .95em; font-weight: 600; letter-spacing: .3px; z-index: 2;
+}
+#reels-container { width: min(100vw,400px); height: 100vh; position: relative; overflow: hidden; }
+.reel-item { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s; }
+.reel-item.active { transform: translateY(0); opacity: 1; z-index: 1; }
+.reel-item.above  { transform: translateY(-100%); opacity: 0; z-index: 0; }
+.reel-item.below  { transform: translateY(100%);  opacity: 0; z-index: 0; }
+.reel-video-wrap { width: 100%; height: 100%; background: #0a0a0a; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.reel-video-wrap video { width: 100%; height: 100%; object-fit: cover; }
+.reel-no-video {
+  width: 100%; height: 100%;
+  background: linear-gradient(160deg, #1a0a12, #0a0a1a);
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 14px;
+  color: rgba(255,255,255,.4); font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: .85em; font-style: italic;
+}
+.reel-no-video .reel-num { font-size: 3em; opacity: .2; font-style: normal; font-weight: 700; font-family: 'Playfair Display', serif; color: #f0c85a; }
+.reel-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 16px 36px; background: linear-gradient(to top, rgba(0,0,0,.7), transparent); z-index: 2; pointer-events: none; }
+.reel-name { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .82em; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.reel-caption { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .75em; color: rgba(255,255,255,.75); font-style: italic; }
+#reels-nav { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 3; }
+.reel-nav-btn { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 1.1em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; backdrop-filter: blur(4px); }
+.reel-nav-btn:hover { background: rgba(255,255,255,.28); }
+.reel-nav-btn:disabled { opacity: .3; cursor: default; }
+#reels-dots { position: absolute; right: 70px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px; z-index: 3; }
+.reel-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.3); transition: background .2s, transform .2s; }
+.reel-dot.active { background: #fff; transform: scale(1.5); }
 </style>
 </head>
 <body>
@@ -2826,6 +3057,61 @@ body::before {
   <button id="bm-close">✕</button>
   <h3>🔖 Yer İmleri</h3>
   <div id="bm-list"><div class="bm-empty">Henüz yer imi yok.<br>Girişlerdeki 🔖 ile işaretle.</div></div>
+</div>
+
+<!-- ===== SOL ÜST BUTONLAR ===== -->
+<div id="top-left-btns">
+  <button class="tl-btn" id="dvd-btn" title="DVD">📀</button>
+  <button class="tl-btn" id="cps-btn" title="CPS Testi" style="font-size:.68em;letter-spacing:.3px;width:auto;padding:0 10px;border-radius:20px;">CPS</button>
+  <button class="tl-btn" id="ig-btn" title="Instagram Reels" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+  </button>
+</div>
+
+<!-- ===== DVD OVERLAY ===== -->
+<div id="dvd-overlay">
+  <button id="dvd-close">✕</button>
+  <div id="dvd-logo">
+    <img src="DVD_video_logo.png" alt="DVD" id="dvd-img">
+  </div>
+</div>
+
+<!-- ===== CPS TEST OVERLAY ===== -->
+<div id="cps-overlay">
+  <button id="cps-close">✕</button>
+  <div id="cps-title">⚡ CPS Testi</div>
+  <div id="cps-main">
+    <div id="cps-area">
+      <div id="cps-number">0.0</div>
+      <div id="cps-click-text">10 saniye boyunca tıkla!</div>
+    </div>
+    <div id="cps-bar-wrap"><div id="cps-bar"></div></div>
+    <div id="cps-timer-text">Tıkla ve başla</div>
+  </div>
+  <div id="cps-result">
+    <div id="cps-result-text"></div>
+    <button id="cps-restart">Tekrar</button>
+  </div>
+</div>
+
+<!-- ===== DARK MODE UYARISI ===== -->
+<div id="dark-warn">
+  <span class="dw-icon">👁️</span>
+  <div class="dw-title">Gözünü Seviyorsan...</div>
+  <div class="dw-text">Bu kadar beyaz tema pek sağlıklı değil.<br>Koyu moda geçmeni öneririm, kanka 🌙</div>
+  <div class="dw-bar" id="dw-bar"></div>
+</div>
+
+<!-- ===== INSTAGRAM REELS OVERLAY ===== -->
+<div id="reels-overlay">
+  <button id="reels-close">✕</button>
+  <div id="reels-header">Reels</div>
+  <div id="reels-container"></div>
+  <div id="reels-nav">
+    <button class="reel-nav-btn" id="reel-prev">▲</button>
+    <button class="reel-nav-btn" id="reel-next">▼</button>
+  </div>
+  <div id="reels-dots"></div>
 </div>
 
 <div id="timeline">
@@ -4324,6 +4610,28 @@ if(diaryBtn){
   renderAll();
   // Her dakika tarihleri güncelle
   setInterval(renderAll, 60000);
+
+  // ===== SİGORTACI JOJUK PREset YORUMU =====
+  (function injectJojuk(){
+    const JOJUK_KEY = 'jojuk-injected-v1';
+    if(localStorage.getItem(JOJUK_KEY)) return;
+    const comments = loadComments();
+    // İlk yorum olsun diye diğerlerinden eski bir timestamp
+    const jojukTs = Date.now() - 1000 * 60 * 60 * 24 * 3; // 3 gün önce
+    comments.push({
+      id: 'jojuk001',
+      author: 'Sigortacı Jojuk',
+      text: 'ilk yorum',
+      ts: jojukTs,
+      parentId: null,
+      likes: 1,
+      dislikes: 10,
+      votes: {}
+    });
+    saveComments(comments);
+    localStorage.setItem(JOJUK_KEY, '1');
+    renderAll();
+  })();
 })();
 </script>
 
@@ -4984,6 +5292,290 @@ document.addEventListener('keydown', e=>{
       const styleTag = document.getElementById('retro-cursor-style');
       if(styleTag) styleTag.remove();
     }
+  });
+})();
+</script>
+
+<script>
+// ===== DVD BOUNCER =====
+(()=>{
+  const btn = document.getElementById('dvd-btn');
+  const overlay = document.getElementById('dvd-overlay');
+  const closeBtn = document.getElementById('dvd-close');
+  const logoEl = document.getElementById('dvd-logo');
+  const imgEl = document.getElementById('dvd-img');
+  if(!btn || !overlay || !logoEl || !imgEl) return;
+
+  // Siyah renk hariç tüm renkler - CSS filter ile renklendirme
+  // Renk listesi: her biri hue-rotate + saturate kombinasyonu
+  const COLORS = [
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(0deg)',    // kırmızı
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(40deg)',   // turuncu
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(80deg)',   // sarı
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(120deg)',  // yeşil
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(180deg)',  // cyan
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(220deg)',  // mavi
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(270deg)',  // mor
+    'brightness(0) saturate(100%) invert(1) sepia(1) saturate(5) hue-rotate(310deg)',  // pembe
+  ];
+  let colorIdx = 0;
+  let x = 80, y = 80;
+  let vx = 2.4, vy = 2.0;
+  let animId = null;
+  let running = false;
+
+  function setColor(c){ imgEl.style.filter = c; }
+
+  function tick(){
+    if(!running) return;
+    const W = window.innerWidth, H = window.innerHeight;
+    const lw = logoEl.offsetWidth || 160;
+    const lh = logoEl.offsetHeight || 80;
+    x += vx; y += vy;
+    let bounced = false;
+    if(x <= 0){ x = 0; vx = Math.abs(vx); bounced = true; }
+    if(x + lw >= W){ x = W - lw; vx = -Math.abs(vx); bounced = true; }
+    if(y <= 0){ y = 0; vy = Math.abs(vy); bounced = true; }
+    if(y + lh >= H){ y = H - lh; vy = -Math.abs(vy); bounced = true; }
+    if(bounced){
+      colorIdx = (colorIdx + 1) % COLORS.length;
+      setColor(COLORS[colorIdx]);
+    }
+    logoEl.style.left = x + 'px';
+    logoEl.style.top  = y + 'px';
+    animId = requestAnimationFrame(tick);
+  }
+
+  btn.addEventListener('click', ()=>{
+    overlay.classList.add('show');
+    x = Math.random() * (window.innerWidth - 200) + 40;
+    y = Math.random() * (window.innerHeight - 120) + 40;
+    vx = (Math.random() > .5 ? 1 : -1) * (2 + Math.random());
+    vy = (Math.random() > .5 ? 1 : -1) * (1.6 + Math.random());
+    setColor(COLORS[colorIdx]);
+    running = true;
+    animId = requestAnimationFrame(tick);
+  });
+
+  function closeDvd(){
+    overlay.classList.remove('show');
+    running = false;
+    cancelAnimationFrame(animId);
+  }
+  closeBtn.addEventListener('click', closeDvd);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDvd(); });
+})();
+
+// ===== CPS TEST =====
+(()=>{
+  const btn = document.getElementById('cps-btn');
+  const overlay = document.getElementById('cps-overlay');
+  const closeBtn = document.getElementById('cps-close');
+  const area = document.getElementById('cps-area');
+  const numberEl = document.getElementById('cps-number');
+  const timerText = document.getElementById('cps-timer-text');
+  const clickText = document.getElementById('cps-click-text');
+  const bar = document.getElementById('cps-bar');
+  const resultDiv = document.getElementById('cps-result');
+  const resultText = document.getElementById('cps-result-text');
+  const restartBtn = document.getElementById('cps-restart');
+  const mainDiv = document.getElementById('cps-main');
+  if(!btn || !overlay) return;
+
+  const DURATION = 10;
+  let clicks = 0, startTime = null, timerInterval = null, running = false;
+
+  function getRating(cps){
+    if(cps >= 12) return '🔥 Efsane!\n' + cps.toFixed(1) + ' CPS';
+    if(cps >= 8)  return '⚡ Çok hızlı!\n' + cps.toFixed(1) + ' CPS';
+    if(cps >= 5)  return '👍 İyi!\n' + cps.toFixed(1) + ' CPS';
+    if(cps >= 3)  return '🐢 Biraz yavaş...\n' + cps.toFixed(1) + ' CPS';
+    return '😴 Uyku mu?\n' + cps.toFixed(1) + ' CPS';
+  }
+
+  function reset(){
+    clicks = 0; startTime = null; running = false;
+    clearInterval(timerInterval);
+    numberEl.textContent = '0.0';
+    bar.style.width = '0%';
+    timerText.textContent = 'Tıkla ve başla';
+    clickText.textContent = '10 saniye boyunca tıkla!';
+    resultDiv.classList.remove('show');
+    if(mainDiv) mainDiv.style.display = '';
+    if(area) area.style.pointerEvents = '';
+  }
+
+  area.addEventListener('click', ()=>{
+    if(!running){
+      running = true; startTime = Date.now(); clicks = 1;
+      timerInterval = setInterval(()=>{
+        const elapsed = (Date.now() - startTime) / 1000;
+        const remaining = DURATION - elapsed;
+        if(remaining <= 0){
+          clearInterval(timerInterval); running = false;
+          if(area) area.style.pointerEvents = 'none';
+          const cps = clicks / DURATION;
+          numberEl.textContent = cps.toFixed(1);
+          bar.style.width = Math.min(100, cps/15*100) + '%';
+          timerText.textContent = 'Bitti!';
+          setTimeout(()=>{
+            if(mainDiv) mainDiv.style.display = 'none';
+            resultText.textContent = getRating(cps) + '\n' + clicks + ' toplam tıklama';
+            resultDiv.classList.add('show');
+          }, 400);
+          return;
+        }
+        const cps = clicks / elapsed;
+        numberEl.textContent = cps.toFixed(1);
+        bar.style.width = Math.min(100, cps/15*100) + '%';
+        timerText.textContent = remaining.toFixed(1) + 's kaldı';
+      }, 50);
+    } else { clicks++; }
+  });
+
+  restartBtn.addEventListener('click', reset);
+  btn.addEventListener('click', ()=>{ overlay.classList.add('show'); reset(); });
+  closeBtn.addEventListener('click', ()=>{ overlay.classList.remove('show'); reset(); });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape' && overlay.classList.contains('show')){ overlay.classList.remove('show'); reset(); }
+  });
+})();
+
+// ===== SCROLL TOP + KALP BUTONU SYNC =====
+(()=>{
+  const st = document.getElementById('scroll-top');
+  const hb = document.getElementById('heart-corner-btn');
+  if(!st || !hb) return;
+  // Kalp butonu da scroll ile göster
+  window.addEventListener('scroll', ()=>{
+    hb.classList.toggle('show', window.scrollY > 400);
+  }, {passive: true});
+})();
+
+// ===== DARK MODE UYARISI (30sn sonra, açık temada) =====
+(()=>{
+  const warn = document.getElementById('dark-warn');
+  if(!warn) return;
+  if(sessionStorage.getItem('darkWarnShown')) return;
+  setTimeout(()=>{
+    if(document.documentElement.getAttribute('data-theme') === 'light'){
+      warn.style.display = 'block';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>warn.classList.add('show')));
+      const bar = document.getElementById('dw-bar');
+      if(bar){ bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; }
+      setTimeout(()=>{
+        warn.classList.remove('show');
+        setTimeout(()=>{ warn.style.display='none'; }, 500);
+      }, 5000);
+      sessionStorage.setItem('darkWarnShown','1');
+    }
+  }, 30000);
+})();
+
+// ===== INSTAGRAM REELS =====
+(()=>{
+  const igBtn = document.getElementById('ig-btn');
+  const overlay = document.getElementById('reels-overlay');
+  const closeBtn = document.getElementById('reels-close');
+  const container = document.getElementById('reels-container');
+  const prevBtn = document.getElementById('reel-prev');
+  const nextBtn = document.getElementById('reel-next');
+  const dotsEl = document.getElementById('reels-dots');
+  if(!igBtn || !overlay) return;
+
+  const TOTAL = 13;
+  const captions = [
+    'Bir yaz akşamı... ☀️','Unutulmayan anlar 🍂','Kalbim hep burada 💔',
+    'Dağlardan inen rüzgar 🌬️','O gün otobüste 🚌','Sessiz koridorlar 📖',
+    'Karın altında yürümek ❄️','Çayı bile yapamadı 😄','Son bakış... 🥀',
+    'Yeni başlangıçlar ✦','Motor sesleri 🏍️','Gece ışıkları 🌙','Poyraz fırtınası 🌊',
+  ];
+
+  let current = 0, items = [];
+
+  function buildReels(){
+    container.innerHTML = ''; dotsEl.innerHTML = ''; items = [];
+    for(let i=0; i<TOTAL; i++){
+      const item = document.createElement('div');
+      item.className = 'reel-item ' + (i===0?'active':'below');
+      const wrap = document.createElement('div');
+      wrap.className = 'reel-video-wrap';
+
+      const video = document.createElement('video');
+      video.src = 'reels' + (i+1) + '.mp4';
+      video.loop = true; video.muted = true; video.playsInline = true;
+      video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+
+      const placeholder = document.createElement('div');
+      placeholder.className = 'reel-no-video';
+      placeholder.innerHTML = `<span class="reel-num">${i+1}</span><span>reels${i+1}.mp4</span>`;
+      video.addEventListener('error', ()=>{ video.style.display='none'; wrap.appendChild(placeholder); });
+
+      wrap.appendChild(video);
+      const info = document.createElement('div');
+      info.className = 'reel-info';
+      info.innerHTML = `<div class="reel-name">@piyanist_poyri_baba</div><div class="reel-caption">${captions[i]}</div>`;
+      item.appendChild(wrap); item.appendChild(info);
+      container.appendChild(item);
+      items.push({el:item, video});
+
+      const dot = document.createElement('div');
+      dot.className = 'reel-dot' + (i===0?' active':'');
+      dotsEl.appendChild(dot);
+    }
+    updateReelNav();
+  }
+
+  function goTo(idx){
+    if(idx<0||idx>=TOTAL) return;
+    const prev = current;
+    items[prev].video.pause();
+    items[prev].el.className = 'reel-item ' + (idx>prev?'above':'below');
+    current = idx;
+    items[current].el.className = 'reel-item active';
+    items[current].video.play().catch(()=>{});
+    dotsEl.querySelectorAll('.reel-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+    updateReelNav();
+  }
+
+  function updateReelNav(){
+    if(prevBtn) prevBtn.disabled = current===0;
+    if(nextBtn) nextBtn.disabled = current===TOTAL-1;
+  }
+
+  prevBtn?.addEventListener('click', ()=>goTo(current-1));
+  nextBtn?.addEventListener('click', ()=>goTo(current+1));
+
+  let touchStartY = null;
+  container.addEventListener('touchstart', e=>{ touchStartY=e.touches[0].clientY; },{passive:true});
+  container.addEventListener('touchend', e=>{
+    if(touchStartY===null) return;
+    const dy = touchStartY - e.changedTouches[0].clientY;
+    if(Math.abs(dy)>40){ dy>0?goTo(current+1):goTo(current-1); }
+    touchStartY = null;
+  });
+
+  let wheelCooldown = false;
+  container.addEventListener('wheel', e=>{
+    if(wheelCooldown) return;
+    wheelCooldown = true;
+    e.deltaY>0?goTo(current+1):goTo(current-1);
+    setTimeout(()=>{ wheelCooldown=false; }, 600);
+  },{passive:true});
+
+  igBtn.addEventListener('click', ()=>{
+    overlay.classList.add('show'); buildReels();
+    setTimeout(()=>{ items[0].video.play().catch(()=>{}); }, 100);
+  });
+  closeBtn.addEventListener('click', ()=>{
+    overlay.classList.remove('show');
+    items.forEach(it=>it.video.pause());
+  });
+  document.addEventListener('keydown', e=>{
+    if(!overlay.classList.contains('show')) return;
+    if(e.key==='Escape'){ overlay.classList.remove('show'); items.forEach(it=>it.video.pause()); }
+    if(e.key==='ArrowUp') goTo(current-1);
+    if(e.key==='ArrowDown') goTo(current+1);
   });
 })();
 </script>
