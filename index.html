@@ -2519,6 +2519,29 @@ body.retro-mode .cover-title {
   letter-spacing: 2px !important;
 }
 
+/* 1998 MODU: Radio ve kalp butonu hep görünsün */
+body.retro-mode #radio-player,
+body.retro-mode #heart-corner-btn {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+body.retro-mode #heart-corner-btn {
+  display: flex !important;
+}
+
+/* 1998 MODU: Custom mouse gizle, mouse.png göster */
+body.retro-mode #cursor-dot,
+body.retro-mode .trail-dot {
+  display: none !important;
+}
+body.retro-mode {
+  cursor: url('mouse.png') 0 0, auto !important;
+}
+body.retro-mode * {
+  cursor: url('mouse.png') 0 0, auto !important;
+}
+
 #crt-overlay {
   position: fixed;
   inset: 0;
@@ -2594,6 +2617,36 @@ body.retro-mode header::before {
 }
 @keyframes senolFadeIn  { from{opacity:0} to{opacity:1} }
 @keyframes senolZoomIn  { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
+
+/* ===== ARKA PLAN DESEN ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.032;
+  background-image:
+    repeating-linear-gradient(45deg, var(--ink) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 28px),
+    radial-gradient(circle at 25% 25%, var(--red) 0, transparent 42%),
+    radial-gradient(circle at 75% 75%, var(--gold) 0, transparent 38%);
+  background-size: 56px 56px, 56px 56px, 400px 400px, 500px 500px;
+}
+[data-theme="dark"] body::before {
+  opacity: 0.04;
+}
+
+/* ===== KALP SLİDE ANİMASYONU (RADYO AÇILINCA) ===== */
+@keyframes heartSlideRight {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(22px); }
+  65%  { transform: translateX(22px); }
+  100% { transform: translateX(0); }
+}
+#heart-corner-btn.radio-slide {
+  animation: heartSlideRight 0.9s cubic-bezier(.4,0,.2,1);
+}
 </style>
 </head>
 <body>
@@ -2688,9 +2741,7 @@ body.retro-mode header::before {
 
 <!-- Poyraz Fotoğraf Easter Egg -->
 <div id="poyraz-photo-overlay">
-  <img src="poyraz.png" alt="Poyraz" id="poyraz-photo-img">
-  <div class="photo-caption">... poyraz.</div>
-  <div id="poyraz-game-menu" style="position:absolute;bottom:9vh;left:50%;transform:translateX(-50%);display:flex;gap:14px;z-index:2;">
+  <div id="poyraz-game-menu" style="position:absolute;top:18px;left:50%;transform:translateX(-50%);display:flex;gap:14px;z-index:2;">
     <button id="pm-catch" style="background:rgba(139,38,53,.72);border:1px solid rgba(201,168,76,.4);border-radius:14px;padding:12px 20px;color:#f6ead8;cursor:pointer;font-family:'Lora',serif;font-size:.82em;display:flex;flex-direction:column;align-items:center;gap:6px;transition:.2s;">
       <span style="font-size:1.5em;">🎯</span>Poyraz'ı Yakala
     </button>
@@ -2698,6 +2749,8 @@ body.retro-mode header::before {
       <span style="font-size:1.5em;">💔</span>Kalp Kırma
     </button>
   </div>
+  <img src="poyraz.png" alt="Poyraz" id="poyraz-photo-img">
+  <div class="photo-caption">... poyraz.</div>
 </div>
 
 <!-- ===== POYRAZ'I YAKALA ===== -->
@@ -3391,8 +3444,10 @@ Ve ben… Arkamda bıraktığım şeyi otobüs hareket edince anladım.</p>
 
 <footer>
   <div class="footer-inner">
-    <img src="senol.jpg" alt="Şenol Demiral" class="footer-img">
-    <span class="footer-text">Şenol Demiral'ın Anıları &copy; 2026</span>
+    <a href="https://www.instagram.com/piyanist_poyri_baba/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;">
+      <img src="senol.jpg" alt="Şenol Demiral" class="footer-img" style="transition:transform .25s,box-shadow .25s;">
+      <span class="footer-text">Şenol Demiral'ın Anıları &copy; 2026</span>
+    </a>
   </div>
 </footer>
 
@@ -3852,10 +3907,30 @@ if(deleted){
     e.stopPropagation();
     radioPlayer.classList.toggle('minimized');
     radioMinBtn.textContent = radioPlayer.classList.contains('minimized') ? '▾' : '▴';
+    // Kalp slide efekti
+    if(!radioPlayer.classList.contains('minimized')) {
+      const heartBtn = document.getElementById('heart-corner-btn');
+      if(heartBtn) {
+        heartBtn.classList.remove('radio-slide');
+        void heartBtn.offsetWidth;
+        heartBtn.classList.add('radio-slide');
+        heartBtn.addEventListener('animationend', () => heartBtn.classList.remove('radio-slide'), {once:true});
+      }
+    }
   });
   radioHeader?.addEventListener('click', ()=>{
     radioPlayer.classList.toggle('minimized');
     if(radioMinBtn) radioMinBtn.textContent = radioPlayer.classList.contains('minimized') ? '▾' : '▴';
+    // Kalp slide efekti
+    if(!radioPlayer.classList.contains('minimized')) {
+      const heartBtn = document.getElementById('heart-corner-btn');
+      if(heartBtn) {
+        heartBtn.classList.remove('radio-slide');
+        void heartBtn.offsetWidth;
+        heartBtn.classList.add('radio-slide');
+        heartBtn.addEventListener('animationend', () => heartBtn.classList.remove('radio-slide'), {once:true});
+      }
+    }
   });
   radioPlayBtn.addEventListener('click', (e)=>{ e.stopPropagation(); });
 
@@ -4899,8 +4974,15 @@ document.addEventListener('keydown', e=>{
     if(retro) {
       document.body.style.filter = 'saturate(.6) contrast(1.1) brightness(.95) hue-rotate(5deg)';
       setTimeout(() => { document.body.style.filter = 'saturate(.6) contrast(1.1) brightness(.95)'; }, 120);
+      // Normal cursor kapat, mouse.png koy
+      const styleTag = document.getElementById('retro-cursor-style') || document.createElement('style');
+      styleTag.id = 'retro-cursor-style';
+      styleTag.textContent = '*, *::before, *::after { cursor: url("mouse.png") 0 0, auto !important; } #cursor-dot, .trail-dot { display: none !important; }';
+      document.head.appendChild(styleTag);
     } else {
       document.body.style.filter = '';
+      const styleTag = document.getElementById('retro-cursor-style');
+      if(styleTag) styleTag.remove();
     }
   });
 })();
